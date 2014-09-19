@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd">
+ 
+	<!--======================== property configure本配置文件负责加载变量信息必须在在spring配置文件的最前面加载（第一个加载） ======================== -->
+	<!--载入properties配置文件，以${key}的方式引用 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:sysconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+ 
+	<!--========================   dataconfigure   ==========================-->
+	<!--配置连接池（jdbc方式） -->
+	<!-- 注入数据源 -->
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- Connection Pooling Info -->
+		<property name="initialSize" value="20" />
+		<property name="maxActive" value="100" />
+		<property name="maxIdle" value="30" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>
+	
+	<!-- <beanid="dataSource"
+class="org.apache.commons.dbcp.BasicDataSource"
+destroy-method="close">
+<propertyname="driverClassName">
+<value>${mvcdb.mysql.driver}</value>
+</property>
+<propertyname="url">
+<value>${mvcdb.mysql.url}</value>
+</property>
+<propertyname="username">
+<value>${mvcdb.mysql.user}</value>
+</property>
+<propertyname="password">
+<value>${mvcdb.mysql.password}</value>
+</property>
+<propertyname="initialSize">
+<value>${mvcdb.mysql.initialSize}</value>
+</property>
+<propertyname="maxActive">
+<value>${mvcdb.mysql.maxActive}</value>
+</property>
+		<property name="minIdle">
+<value>${mvcdb.mysql.maxActive}</value>
+</property>
+<propertyname="maxIdle">
+<value>${mvcdb.mysql.maxActive}</value>
+</property>
+<propertyname="maxWait">
+<value>${mvcdb.mysql.maxWait}</value>
+</property>
+<propertyname="testOnBorrow">
+<value>${mvcdb.mysql.testOnBorrow}</value>
+</property>
+					 <propertyname="testWhileIdle">
+<value>${mvcdb.mysql.testWhileIdle}</value>
+</property>
+					 <propertyname="validationQuery">
+<value>${mvcdb.mysql.validationQuery}</value>
+</property>
+</bean> -->
+ 
+ 
+	<!--配置hibernate 上下文 -->
+	<bean id="sf" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+        <property name="entityInterceptor">   
+            <ref bean="modelInterceptor"/>  
+        </property>  
+		<!--包级扫描 hibernate实体类 -->
+		<property name="configLocations">
+			  <list>
+			  <value>classpath*:hibernate.cfg.xml</value>  
+			  </list>
+</property>
+
+ 
+ <!--
+		<property name="annotatedClasses">
+			<list>
+				<value>org.yingqu.desktop.model.Department</value>
+				<value>org.yingqu.desktop.model.Dictionary</value>
+				<value>org.yingqu.desktop.model.DictionaryItem</value>
+				<value>org.yingqu.desktop.model.EndUser</value>
+				<value>org.yingqu.desktop.model.Menu</value>
+				<value>org.yingqu.desktop.model.Role</value>
+				<value>org.yingqu.desktop.model.SysIcon</value>
+				<value>org.yingqu.desktop.model.Menu</value>
+				<value>org.yingqu.desktop.model.Permission</value>
+			</list>
+		</property>
+		-->
+ 
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.max_fetch_depth">2</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">50</prop>
+				<prop key="hibernate.use_outer_join">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.format_sql">false</prop>
+		</props>
+		</property>
+	</bean>
+   
+	<!-- 配置jdbc事务 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sf">
+		</property>
+	</bean>
+ 
+  
+	<tx:advice id="txAdvice"  transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="formUpdate" propagation="REQUIRED" />
+			 <tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="merge*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="put*" propagation="REQUIRED" />
+			<tx:method name="use*" propagation="REQUIRED"/>
+		    <tx:method name="Audit*" propagation="REQUIRED"/>
+		    <tx:method name="doUpdate*" propagation="REQUIRED"/>
+		    <tx:method name="executeBatchHql" propagation="REQUIRED" />
+		    <tx:method name="executeSql*" propagation="REQUIRED" />
+			<!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到-->
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+		
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config expose-proxy="true">
+		<!-- 只对业务逻辑层实施事务 -->
+		<aop:pointcut id="txPointcut" 
+		expression="(execution(public * org.yingqu.desktop.ebo.*.*(..))) || (execution(public * org.yingqu.framework.ebo.*.*(..))) || (execution(public * org.yingqu.baoli.ebo.*.*(..)))  " />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+	</aop:config>
+ 
+ 
+ 
+ 
+	<!--配置启用事务的动态代理 
+<bean id="baseTransactionProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
+<property name="transactionManager">
+<ref bean="transactionManager" />
+</property>
+<property name="proxyTargetClass" value="true"/>
+<property name="transactionAttributes">
+<props>
+<prop key="insert*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="active*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="end*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="lock*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="unLock*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="modify*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="delete*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="remove*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="del*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="set*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="exchage*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="sort*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="do*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="undo*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="transact*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="edit*">PROPAGATION_REQUIRED,-Exception</prop>
+<prop key="create*">PROPAGATION_REQUIRED,-Exception</prop>
+</props>
+</property>
+</bean>
+-->
+
+
+
+
+
+
+
+
+
+
+</beans>

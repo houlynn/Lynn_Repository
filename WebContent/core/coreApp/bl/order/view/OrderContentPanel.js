@@ -1,0 +1,57 @@
+Ext.define("core.bl.order.view.OrderContentPanel",{
+	extend:"core.app.base.BasePanel",
+	alias:"widget.bl.orderContentPanel",
+	funCode:"orderContent_main",
+	funData:{
+	        action:"/bl/order", //请求Action
+	        whereSql:"",//表格查询条件
+	        orderSql:"operatingTime",//表格排序条件
+	        pkName:"ordid",
+	        modelName:"org.yingqu.baoli.model.OrderContent",//实体全路径
+	        tableName:"OrderContent",//表名
+	        children:[{//子功能的配置
+	        	funCode:"orderItem_main"	        	
+	        }],
+	},
+		items:[{
+		xtype:"basecenterpanel",
+				items:[{
+					xtype:"basequerypanel",
+					region:"north",
+					items:[
+			  {
+				xtype:"basequeryfield",
+				queryType:"textfield",
+				fieldLabel:"购买用户",
+				name:"userid",
+				config:{
+				}
+			},
+			  {
+				xtype:"basequeryfield",
+				queryType:"datetimefield",
+				fieldLabel:"下单时间",
+				name:"ordertime",
+				config:{
+					dateType : 'datetime'
+				}
+			},
+			  {
+				xtype:"basequeryfield",
+				queryType:"basecombobox",
+				fieldLabel:"支付状态",
+				name:"ispay",
+				config:{
+					ddCode:"ISPAY"
+				}
+			},
+			]
+			},{
+			xtype:"bl.orderContentGrid",
+			region:"center"
+		}]
+	},{
+	xtype:"bl.orderContentForm",
+		hidden:true
+	}]
+});
