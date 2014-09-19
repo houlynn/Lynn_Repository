@@ -24,7 +24,7 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 	
 	
 	/**
-	 * 用户收藏接口
+	 * 1 用户收藏接口
 	 * @param request
 	 * @param response
 	 * @param model
@@ -37,42 +37,40 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 		String ctype=model.getCtype();
 		try{
 		if(StringUtil.isEmpty(userid)){
-			resultModel.setOk(0);
-			resultModel.setMsg("传入用户标示不能为空!");
+			setEmptyCode(resultModel, "传入用户标示不能为空!");
 		}else if(StringUtil.isEmpty(cid)){
-			resultModel.setOk(0);
-			resultModel.setMsg("传入收藏ID不能为空!");
+			setEmptyCode(resultModel, "传入收藏ID不能为空!");
 			
 		}else if(StringUtil.isEmpty(ctype)){
-			resultModel.setOk(0);
-			resultModel.setMsg("传入出入收藏类型不能为空!");
+			setEmptyCode(resultModel, "传入出入收藏类型不能为空!");
 		}else {
+			UserCollection uc=(UserCollection) ebi.findById(UserCollection.class, cid);
+			if(uc==null){
+				setNoFecCode(resultModel, "传入收藏ID无效!");
+			}
 			ebi.save(model);
 		}}catch(Exception e){
 			e.printStackTrace();
-			resultModel.setCode(500);
-			resultModel.setMsg("收藏失败！");
-			resultModel.setOk(0);
+			setServerErrCode(resultModel, "服务端错误！收藏室失败!");
 			error(resultModel.getMsg(), e);
 		}
 		  toWritePhone(response,resultModel);
 	}
 	
 	/**
-	 * 删除收藏
+	 * 2删除收藏
 	 * @param request
 	 * @param response
 	 * @param model
 	 */
-	@RequestMapping("/phoneRemove")
+	@RequestMapping("/removeCollec")
 	public void phoneRemovee(HttpServletRequest request,
 			HttpServletResponse response,  UserCollection  model
 		) {
 		ResultModel resultModel=this.initResultModel();
 		String cid=model.getCid();
 	 if(StringUtil.isEmpty(cid)){
-			resultModel.setOk(0);
-			resultModel.setMsg("传入收藏ID不能为空!");
+		   setEmptyCode(resultModel, "传入收藏ID不能为空!");
 		}else {
 			super.phoneRemove(request, response, model);
 		}
