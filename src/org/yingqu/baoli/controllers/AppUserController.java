@@ -46,7 +46,7 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 		super(AppUser.class);
 	}
 	
-	public void test(){}
+	
 
 	@Override
 	public AppUser getModel(HttpServletRequest request, AppUser model) {
