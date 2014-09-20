@@ -3,7 +3,7 @@ package org.yingqu.framework.model.vo;
 public class ResultModel {
 	
 	/**
-	 * 请求状态
+	 * 返回代码
 	 */
 	private int code;
 	/**
@@ -14,11 +14,6 @@ public class ResultModel {
 	 * 提示信息
 	 */
 	private String msg;
-	
-	/**
-	 * 是否通过
-	 */
-	private int ok=1;
 	
 	public Object getObj() {
 		return obj;
@@ -37,12 +32,6 @@ public class ResultModel {
 	}
 	public void setCode(int code) {
 		this.code = code;
-	}
-	public int getOk() {
-		return ok;
-	}
-	public void setOk(int ok) {
-		this.ok = ok;
 	}
 	
 

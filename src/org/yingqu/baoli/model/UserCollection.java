@@ -21,9 +21,9 @@ public class UserCollection extends BaseEntity {
 	private String cid;
 	
 	/***
-	 * 1 收藏类型 001周边商铺
+	 * 1 收藏类型   001周边商铺
 	 * 2       002 商品
-	 * 3       003
+	 * 3       003帖子类型
 	 */
 	@FieldInfo(name = "分类名称", visible=true)
 	private String  ctype;

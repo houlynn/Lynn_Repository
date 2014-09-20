@@ -22,9 +22,9 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 	}
 	
 	
-	
+/////////////////////////////////////////////////////////////APP方法//////////////////////////////////////////////////////////
 	/**
-	 * 1 用户收藏接口
+	 * 14 用户收藏接口
 	 * @param request
 	 * @param response
 	 * @param model
@@ -58,7 +58,7 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 	}
 	
 	/**
-	 * 2删除收藏
+	 * 15删除收藏
 	 * @param request
 	 * @param response
 	 * @param model

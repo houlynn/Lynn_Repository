@@ -55,6 +55,8 @@ public class Merchant extends BaseEntity {
 	private String applytime;
 	private String xponit;
 	private String yponit;
+	private String icon;
+	
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
@@ -158,6 +160,12 @@ public class Merchant extends BaseEntity {
 	}
 	public void setYponit(String yponit) {
 		this.yponit = yponit;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	@Transient
 	@Override

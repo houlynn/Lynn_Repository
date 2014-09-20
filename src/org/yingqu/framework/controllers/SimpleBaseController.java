@@ -421,9 +421,7 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 			resultModel.setObj(m);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			resultModel.setOk(0);
-			resultModel.setCode(500);
-			resultModel.setMsg("插入失败!");
+			setServerErrCode(resultModel, "插入失败!");
 			error("APP调用插入失败！", e);
 			e.printStackTrace();
 		}
@@ -448,9 +446,7 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 			resultModel.setObj(m);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			resultModel.setOk(0);
-			resultModel.setCode(500);
-			resultModel.setMsg("更新失败!");
+			setServerErrCode(resultModel, "更新失败!");
 			error("APP请求更改方法失败！", e);
 			e.printStackTrace();
 		}
@@ -475,9 +471,7 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 				resultModel.setObj(m);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				resultModel.setOk(0);
-				resultModel.setCode(500);
-				resultModel.setMsg("更新失败!");
+				 setServerErrCode(resultModel, "更新失败!");
 				error("APP请求更改方法失败！", e);
 				e.printStackTrace();
 			}
@@ -500,9 +494,7 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 		     ebi.delete(model);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			resultModel.setOk(0);
-			resultModel.setCode(500);
-			resultModel.setMsg("删除失败!");
+			setServerErrCode(resultModel, "删除失败!");
 			e.printStackTrace();
 			error("APP请求删除方法失败！", e);
 		}
@@ -519,7 +511,6 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 	 * @param limitStr
 	 * @param response
 	 */
-	@RequestMapping("/phoneList")
 	public void phoneList(
 			@RequestParam(value="whereSql",required=false,defaultValue="") String whereSql,
 	    	@RequestParam(value="parentSql",required=false,defaultValue="") String parentSql,
@@ -530,8 +521,6 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 	    	HttpServletResponse response){
 		info(AppUtils.getCurrentTime()+": 调用了phoneList 方法");
 		PageResult resultModel=new PageResult();
-		resultModel.setCode(200);
-		resultModel.setOk(1);
 		    try {
 				StringBuffer hql = new StringBuffer("from " + clazz.getSimpleName()
 						+ " where 1=1");
@@ -553,12 +542,9 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 				hql.append(orderSql);
 				List<?> lists = ebi.queryByHql(hql.toString(), start, limit);
 				resultModel.setObj(lists);
-				resultModel.setMsg("加载成功!");
 			} catch (Exception e) {
 				e.printStackTrace();
-				resultModel.setCode(500);
-				resultModel.setMsg("读取数据失败!");
-				resultModel.setOk(0);
+			    setServerErrCode(resultModel,"加载数据失败!");
 				error("默认读取方法出错，错误信息：" + e.getMessage());
 			}
 		    toWritePhone(response,resultModel);
@@ -566,8 +552,7 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 	
 	protected ResultModel initResultModel() {
 		ResultModel resModel = new ResultModel();
-		resModel.setCode(200);
-		resModel.setOk(1);
+		resModel.setCode(000);
 		resModel.setMsg("ok");
 		return resModel;
 	}
@@ -581,6 +566,52 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 		String jsonSql=jsonBuilder.toJson(resModel);
 		toWrite(response, jsonSql);
 	}
+	
+	
+	
+	/**
+	 * 设置1001 参数不许为空
+	 * @param resultModel
+	 * @param param
+	 */
+	public void setEmptyCode(ResultModel resultModel,String msg){
+		resultModel.setCode(1001);
+		resultModel.setMsg(msg);
+	}
+	
+	/**
+	 * 1002
+	 * @param resultModel
+	 * @param param
+	 */
+	public void setNoFecCode(ResultModel resultModel,String msg){
+		resultModel.setCode(1002);
+		resultModel.setMsg(msg);
+	}
+	
+	
+	/**
+	 * 1003
+	 * @param resultModel
+	 * @param param
+	 */
+	public void setServerFecCode(ResultModel resultModel,String msg){
+		resultModel.setCode(1003);
+		resultModel.setMsg(msg);
+	}
+	
+	/**
+	 * 1100
+	 * @param resultModel
+	 * @param param
+	 */
+	public void setServerErrCode(ResultModel resultModel,String msg){
+		resultModel.setCode(1100);
+		resultModel.setMsg(msg);
+	}
+	
+	
+	
 	
 	
 	
