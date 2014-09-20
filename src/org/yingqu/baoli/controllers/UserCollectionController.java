@@ -25,6 +25,14 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 /////////////////////////////////////////////////////////////APP方法//////////////////////////////////////////////////////////
 	/**
 	 * 14 用户收藏接口
+	 * ctype参数有以下几种类型
+	 *  001 周边类型
+	 *  002 商品类型
+	 *  003 帖子类型
+	 *  cid 来源以下主键
+	 *  Merchant 主键
+	 *  Goods 主键
+	 *  帖子 的主键
 	 * @param request
 	 * @param response
 	 * @param model
@@ -58,7 +66,7 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 	}
 	
 	/**
-	 * 15删除收藏
+	 * 15删除收藏 传入cid
 	 * @param request
 	 * @param response
 	 * @param model

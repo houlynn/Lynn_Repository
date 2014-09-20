@@ -6,6 +6,7 @@ import org.yingqu.baoli.model.Feedback;
 import org.yingqu.framework.controllers.SimpleBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.vo.ResultModel;
+import org.yingqu.framework.utils.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/bl/fbd")
@@ -32,7 +33,7 @@ public class FeedbackController extends SimpleBaseController<Feedback> {
 	////////////////////////////////////////////////APP方法/////////////////////////////////////
 	
 	/**
-	 * 17意见反馈
+	 * 17 评价接口  （ 意见反馈）
 	 * 
 	 */
 	@RequestMapping("/userFeedb")
@@ -40,9 +41,14 @@ public class FeedbackController extends SimpleBaseController<Feedback> {
 			HttpServletResponse response) {
 		    ResultModel resultModel= this.initResultModel();
 		    try{
-		    	model.setFbtime(AppUtils.getCurrentTime());
-		    	ebi.save(model);
-		    	
+		         String userid= model.getUserid();
+		         if(StringUtil.isEmpty(userid)){
+		        	 setEmptyCode(resultModel, "传入的用户标示不能为空!");
+		         }else{
+				    	model.setFbtime(AppUtils.getCurDate());
+				    	ebi.save(model);
+		         }
+		  
 		    }catch(Exception e){
 		    	setServerErrCode(resultModel, "服务端错误反馈失败!");
 		    	error(resultModel.getMsg(),e);
