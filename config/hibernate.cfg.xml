@@ -27,6 +27,8 @@
 		<mapping class="org.yingqu.desktop.model.Menu" />
 		<mapping class="org.yingqu.desktop.model.SysIcon" />
 		<mapping class="org.yingqu.desktop.model.OperateLog" />
+		<mapping class="org.yingqu.baoli.model.Interact" />
+		<mapping class="org.yingqu.baoli.model.Photograph" />
 
 		<mapping class="org.yingqu.baoli.model.Advertisement" />
 		<mapping class="org.yingqu.baoli.model.AppUser" />
