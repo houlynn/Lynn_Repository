@@ -536,9 +536,10 @@ public void checkUser(AppUser user,HttpServletRequest request, HttpServletRespon
 	
 /**
  * 13加载用户收藏接口
- * @param userid 传入用户主键
+ * @param userid 传入用户标示
  * @param response
  */
+	@RequestMapping("/loadeCollect")
 	public void loadeCollect(
 			String userid, HttpServletResponse response
 			){
