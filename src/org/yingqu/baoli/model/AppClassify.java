@@ -15,6 +15,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.yingqu.framework.annotation.Dictionary;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.annotation.SearchProperty;
 import org.yingqu.framework.constant.ExtFieldType;
@@ -36,6 +37,8 @@ public class AppClassify extends BaseEntity {
 	private String classify;
 	@FieldInfo(name = "图片链接地址",visible=true)
 	private String imgurl;
+	@Dictionary("ROUNDTYPE")
+	private String typeCode;
 	private Set<AppClassifyItem> items=new HashSet<AppClassifyItem>();
 	@Id
 	@GeneratedValue(generator = "systemUUID")
@@ -59,6 +62,13 @@ public class AppClassify extends BaseEntity {
 	}
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
+	}
+	
+	public String getTypeCode() {
+		return typeCode;
+	}
+	public void setTypeCode(String typeCode) {
+		this.typeCode = typeCode;
 	}
 	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="ac",cascade={CascadeType.REMOVE})

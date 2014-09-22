@@ -81,10 +81,13 @@ public class ModelUtil {
 		String pkName="";
 		for(Field f:fields){
 			FieldInfo fieldInfo=f.getAnnotation(FieldInfo.class);
-			if(fieldInfo.type().getName().equals("ID")){
-				pkName=f.getName();
-				break;
+			if(fieldInfo!=null){
+				if(fieldInfo.type().getName().equals("ID")){
+					pkName=f.getName();
+					break;
+				}
 			}
+		
 		}
 		return pkName;
 	}

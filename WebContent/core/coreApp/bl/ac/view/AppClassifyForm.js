@@ -16,6 +16,15 @@ Ext.define("core.bl.ac.view.AppClassifyForm", {
 		allowBlank : true,
 		xtype : "textfield"
 	}, {
+		fieldLabel : "图片链接地址",
+		name : "typeCode",
+		allowBlank : true,
+		xtype : "basecombobox",
+		ddCode : "ROUNDTYPE"
+
+	},
+
+	{
 		xtype : "tabpanel",
 		columnWidth : 1,
 		menuAlign : "center",

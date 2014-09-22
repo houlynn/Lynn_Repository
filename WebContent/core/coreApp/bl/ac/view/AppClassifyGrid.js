@@ -38,6 +38,17 @@ Ext.define("core.bl.ac.view.AppClassifyGrid", {
 		 renderer:function(value,data,record){
 				return "<a href='"+value+"' target='_blank'>附件下载</a>";
 			}
+},{
+
+	text:"区分类型",
+	dataIndex:"typeCode",
+	width : 200,
+	columnType:"basecombobox",
+	ddCode:"ROUNDTYPE",
+	field:{
+		xtype:"basecombobox",
+		ddCode:"ROUNDTYPE"
+	}
 }
 	
 	 ],

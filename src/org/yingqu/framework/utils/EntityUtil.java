@@ -60,10 +60,13 @@ public class EntityUtil implements LogerManager  {
 		Method method=null;
 		try {
 			       method=ownerClass.getMethod(methodName, argsClass);
+			      
+			       System.out.println("打印方法名:"+methodName+": 方法"+method);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO Auto-generated catch block
-			System.out.println("获取类函数失败");
+			System.out.println("68 :获取类函数失败");
 		}
 		Object obj=null;
 		try {
@@ -71,7 +74,7 @@ public class EntityUtil implements LogerManager  {
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO Auto-generated catch block
-			System.out.println("执行"+ownerClass.getName()+"类中的"+method.getName()+"函数失败");
+			//System.out.println("执行"+ownerClass.getName()+"类中的"+method.getName()+"函数失败");
 		}
 		return obj;
 	}
@@ -84,7 +87,9 @@ public class EntityUtil implements LogerManager  {
 	 */
 	public static void invokeSetMethod(Object model,String keyName,Object[] args){
 		String setMethodName="set"+keyName.substring(0,1).toUpperCase()+keyName.substring(1);
+		System.out.println("调用"+ setMethodName);
 		invokeMethod(model, setMethodName, args);
+		System.out.println("调用set方法");
 	}
 	/**
 	 * 执行属性的get方法
@@ -94,8 +99,9 @@ public class EntityUtil implements LogerManager  {
 	 */
 	public static Object getPropertyValue(Object model, String proName){
 		String getMethodName="get"+proName.substring(0,1).toUpperCase()+proName.substring(1);
-		System.out.println(getMethodName+"get");
+		System.out.println("99调用方法："+ getMethodName);
 		Object obj=invokeMethod(model, getMethodName, null);
+		System.out.println("110调用方法："+ getMethodName+"调用成功!");
 		return obj;
 	}
 	public static Object copyNewField(Object obj,Object entity){
