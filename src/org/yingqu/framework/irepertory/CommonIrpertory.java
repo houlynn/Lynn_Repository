@@ -73,5 +73,10 @@ public interface CommonIrpertory {
 	 * @throws Exception
 	 */
 	public abstract List<?> queryByHql(String hql) throws Exception;
+	
+	/**
+	 * 添加一个实体
+	 */
+	public <T extends Model> T save(T entity) throws Exception ;
 
 }

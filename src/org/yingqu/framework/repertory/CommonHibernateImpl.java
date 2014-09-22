@@ -130,6 +130,15 @@ public List<?> queryByHql(String hql)  throws Exception{
 		// TODO Auto-generated method stub
 		return sf.getCurrentSession().createQuery(hql).list();
 	}
-	
+   
+   /* (non-Javadoc)
+    * @see org.yingqu.framework.repertory.CommonIrpertory#queryByHql(java.lang.String)
+    */
+   @Override
+public <T extends Model> T save(T entity) throws Exception {
+		// TODO Auto-generated method stub
+		sf.getCurrentSession().save(entity);
+		return entity;
+	}
 	
 }
