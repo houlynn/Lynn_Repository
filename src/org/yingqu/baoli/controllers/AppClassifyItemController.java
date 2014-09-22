@@ -37,7 +37,6 @@ public class AppClassifyItemController extends SimpleBaseController<AppClassifyI
 		String foreignKey=request.getParameter("foreignKey");
 		foreignKey=foreignKey==null?"":foreignKey;
 		if(StringUtil.isNotEmpty(foreignKey)){
-			System.out.println(foreignKey);
 			AppClassify ac=new AppClassify();
 			ac.setCid(foreignKey);
 			model.setAc(ac);
