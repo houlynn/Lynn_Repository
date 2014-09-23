@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdvertisementController extends SimpleBaseController<Advertisement> {
 
 	
+	
+	
 	protected AdvertisementController() {
 		super(Advertisement.class);
 	}
