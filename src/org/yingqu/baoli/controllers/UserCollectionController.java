@@ -82,6 +82,7 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 		}else {
 			super.phoneRemove(request, response, model);
 		}
+	 toWritePhone(response,resultModel);
 	}
 	
 

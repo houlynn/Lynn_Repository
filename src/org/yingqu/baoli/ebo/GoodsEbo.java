@@ -18,7 +18,7 @@ protected GoodsEbo()  {
 	}
 
 @Override
-public void saveOrder(OrderContent content) throws Exception {
+public OrderContent saveOrder(OrderContent content) throws Exception {
 	// TODO Auto-generated method stub
 	 Set<OrderItem> items=content.getItems();
 	  repertory.save(content);
@@ -31,5 +31,6 @@ public void saveOrder(OrderContent content) throws Exception {
 		 repertory.save(item);
 		  debug("保存了订单明细");
 	 }
+	 return content;
 }
 }

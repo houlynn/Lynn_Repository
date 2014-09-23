@@ -318,7 +318,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 						   }
 						   content.setItems(orderitem);
 						   content.setIspay("0");
-						   OrderContent oc= (OrderContent) gdebi.save(content);
+						   OrderContent oc= (OrderContent) gdebi.saveOrder(content);
 						   String oderid=oc.getOrdid();
 						   if(StringUtil.isEmpty(oderid)){
 							   throw new Exception();

@@ -38,7 +38,7 @@ public class OrderItem extends BaseEntity {
 	@FieldInfo(name = "价格", visible = true, nullAble = false,type=ExtFieldType.FLOAT)
 	private float price;
 	@FieldInfo(name = "购买数量", visible = true, nullAble = false,type=ExtFieldType.INTEGER)
-	private int count;
+	private Integer count;
 	@FieldInfo(name = "金额", visible = true, nullAble = false,type=ExtFieldType.FLOAT)
 	private float acount;
 	private OrderContent orderContent;
@@ -70,11 +70,12 @@ public class OrderItem extends BaseEntity {
 		this.price = price;
 	}
 
-	public int getCount() {
+
+	public Integer getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 

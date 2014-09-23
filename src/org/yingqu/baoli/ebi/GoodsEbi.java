@@ -5,5 +5,5 @@ import org.yingqu.framework.ebi.SimpleEbi;
 
 public interface GoodsEbi extends SimpleEbi<Goods>  {
 
-	public void saveOrder(OrderContent content) throws Exception;
+	public OrderContent saveOrder(OrderContent content) throws Exception;
 }

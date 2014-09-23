@@ -47,14 +47,6 @@ Ext.define("core.bl.order.view.OrderItemGrid", {
 		text:"购买数量",
 		dataIndex:"count",
 		width : 120,
-		 columnType:"numberfield",
-		field:{
-			 xtype:"numberfield",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'购买数量必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
 	}
 , {
 		text:"金额",
