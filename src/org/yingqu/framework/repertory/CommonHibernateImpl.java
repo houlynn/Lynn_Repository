@@ -13,6 +13,7 @@ import org.yingqu.framework.log.AppLoggerFactory;
 import org.yingqu.framework.model.Model;
 import org.yingqu.framework.utils.EntityUtil;
 import org.yingqu.framework.utils.ModelUtil;
+import org.yingqu.framework.utils.StringUtil;
 
 @Repository
 public class CommonHibernateImpl implements CommonIrpertory {
@@ -140,5 +141,21 @@ public <T extends Model> T save(T entity) throws Exception {
 		sf.getCurrentSession().save(entity);
 		return entity;
 	}
+   /* (non-Javadoc)
+    * @see org.yingqu.framework.repertory.CommonIrpertory#queryByHql(java.lang.String)
+    */
+@Override
+public Integer getCount(String hql) throws Exception {
+	// TODO Auto-generated method stub
+	Integer c = 0;
+	Query query = sf.getCurrentSession().createQuery(hql);
+	Object count = query.uniqueResult();
+	if(null != count && StringUtil.isInteger(count.toString())) {
+		c = Integer.parseInt(count.toString());
+	}else{
+		c=0;
+	}
+	return c;
+}
 	
 }

@@ -85,6 +85,7 @@ public class OrderContent extends BaseEntity {
 		this.remarks = remarks;
 	}
 
+
 	public float getAcount() {
 		return acount;
 	}
@@ -92,7 +93,7 @@ public class OrderContent extends BaseEntity {
 	public void setAcount(float acount) {
 		this.acount = acount;
 	}
-	
+
 	public String getIspay() {
 		return ispay;
 	}

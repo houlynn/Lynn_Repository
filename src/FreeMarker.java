@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.management.relation.Role;
@@ -15,6 +16,7 @@ import org.yingqu.desktop.model.Permission;
 import org.yingqu.desktop.model.SysIcon;
 import org.yingqu.desktop.model.view.VDeptUser;
 import org.yingqu.framework.model.BaseEntity;
+import org.yingqu.framework.utils.JsonBuilder;
 
 import freemarker.core.Configurable;
 import freemarker.template.Configuration;
@@ -146,13 +148,16 @@ public class FreeMarker {
 	
 	public static void main(String[] args) {
 
-	FreeMarker freeMarker=new FreeMarker();
+/*	FreeMarker freeMarker=new FreeMarker();
 	freeMarker.clazz=OperateLog.class;
 	freeMarker.printControllerTemp();
 	freeMarker.printEbiTemp();
 	freeMarker.printEboTemp();
 	freeMarker.printIRepertoryTemp();
-	freeMarker.printRepertoryTemp();
+	freeMarker.printRepertoryTemp();*/
+	//	String str="[{"gid":"402881e4485d2a6601485d2bafd70000","count":1},{"gid":"402881e748629b670148629c1cb40000","count":2}]";
+	//	List<Map> list=JsonBuilder.getInstance().fromJsonArray(str);
+		//list.forEach(item->System.out.println(item.get("count")));
 	
 		
 	}

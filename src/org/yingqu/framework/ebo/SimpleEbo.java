@@ -7,6 +7,7 @@ import org.yingqu.framework.constant.NodeType;
 import org.yingqu.framework.ebi.SimpleEbi;
 import org.yingqu.framework.irepertory.ISimpleRepertory;
 import org.yingqu.framework.log.AppLoggerFactory;
+import org.yingqu.framework.log.LogerManager;
 import org.yingqu.framework.model.BaseEntity;
 import org.yingqu.framework.model.vo.JSONTreeNode;
 import org.yingqu.framework.model.vo.PModel;
@@ -14,7 +15,7 @@ import org.yingqu.framework.utils.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public  abstract class  SimpleEbo<M extends BaseEntity> implements SimpleEbi<M>{
+public  abstract class  SimpleEbo<M extends BaseEntity> implements SimpleEbi<M>,LogerManager {
 	
 	private static Logger logger;
 	

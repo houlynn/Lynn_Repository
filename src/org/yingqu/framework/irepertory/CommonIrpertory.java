@@ -78,5 +78,16 @@ public interface CommonIrpertory {
 	 * 添加一个实体
 	 */
 	public <T extends Model> T save(T entity) throws Exception ;
+	
+	
+	
+	/**
+	 * 获取count
+	 * @param hql
+	 * @return
+	 * @throws Exception
+	 */
+		public Integer getCount(String hql)  throws Exception ;
+		
 
 }

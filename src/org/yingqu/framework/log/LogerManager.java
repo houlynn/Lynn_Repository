@@ -1,6 +1,7 @@
 package org.yingqu.framework.log;
 
 import org.apache.log4j.Logger;
+import org.yingqu.framework.model.vo.ResultModel;
 /**
  * 
 * @author 作者 yingqu: 
@@ -31,6 +32,12 @@ public interface LogerManager {
 		Logger log = AppLoggerFactory.getyingquLogger(this.getClass());
 		if (AppLoggerFactory.ERROR) {
 			log.error(msg,e);
+		}
+	}
+	public default void error(ResultModel resultModel, Throwable e) {
+		Logger log = AppLoggerFactory.getyingquLogger(this.getClass());
+		if (AppLoggerFactory.ERROR) {
+			log.error(resultModel.getMsg(),e);
 		}
 	}
 }

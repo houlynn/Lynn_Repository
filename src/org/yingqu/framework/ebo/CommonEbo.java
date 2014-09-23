@@ -1,6 +1,7 @@
 package org.yingqu.framework.ebo;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yingqu.framework.ebi.CommonEbi;
@@ -70,6 +71,11 @@ public class CommonEbo implements CommonEbi {
 	public <T extends Model> T save(T entity) throws Exception {
 		// TODO Auto-generated method stub
 		return ci.save(entity);
+	}
+	@Override
+	public Integer getCount(String hql) throws Exception {
+		// TODO Auto-generated method stub
+		return ci.getCount(hql);
 	}
 
 }

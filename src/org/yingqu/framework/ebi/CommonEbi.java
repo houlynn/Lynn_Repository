@@ -2,7 +2,9 @@ package org.yingqu.framework.ebi;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.yingqu.framework.model.Model;
+import org.yingqu.framework.utils.StringUtil;
 
 public interface CommonEbi {
 
@@ -74,5 +76,14 @@ public interface CommonEbi {
 	 * 添加一个实体
 	 */
 	public <T extends Model> T save(T entity) throws Exception ;
+	
+/**
+ * 获取count
+ * @param hql
+ * @return
+ * @throws Exception
+ */
+	public Integer getCount(String hql)  throws Exception ;
+	
 
 }
