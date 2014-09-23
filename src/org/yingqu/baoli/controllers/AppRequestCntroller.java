@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.set.CompositeSet.SetMutator;
+import org.apache.tomcat.util.digester.SetRootRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +29,14 @@ import org.yingqu.baoli.model.OrderItem;
 import org.yingqu.baoli.model.UserAdress;
 import org.yingqu.baoli.model.po.GoodsPo;
 import org.yingqu.baoli.model.po.OderPro;
+import org.yingqu.baoli.model.po.OrderPro;
+import org.yingqu.baoli.model.po.OrderProAdrees;
 import org.yingqu.baoli.model.po.RoundPo;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.constant.ExtFieldType;
 import org.yingqu.framework.controllers.AppBaseController;
 import org.yingqu.framework.controllers.AppBaseController.PrepareResult;
+import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.log.LogerManager;
 import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
@@ -245,7 +249,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	}
 
 	/**
-	 * 23 006订单接口
+	 * 23 006订单接口 
 	 * @param userid 用户标示
 	 * @param orderDetail 参考实体中属性
 	 * @param udid 地址标示必填
@@ -317,11 +321,14 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 							   }
 						   }
 						   content.setItems(orderitem);
+                           content.setOrdertime(AppUtils.getCurrentTime());						   
 						   content.setIspay("0");
 						   OrderContent oc= (OrderContent) gdebi.saveOrder(content);
 						   String oderid=oc.getOrdid();
 						   if(StringUtil.isEmpty(oderid)){
 							   throw new Exception();
+						   }else{
+							   resultModel.setObj(oderid);
 						   }
 					   }
 					 
@@ -340,4 +347,74 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		   }
 		   toWritePhone(response, resultModel);
 	}
+	
+	/**
+	 * 24 更新订单支付状态接口
+	 *userid 用户标示 
+	 * orderid订单标示
+	 * payType  001  银行卡支付   002 支付宝支付
+	 * 支付成功 返回 OrderProAdrees 详细见属性
+	 * 	订单状态 1待付款000  2支付成功 001  3 交易 成功 002   4交易关闭003
+	 */
+	@RequestMapping("/007")
+	public void appRequest007(@RequestParam(value = "userid", required = false, defaultValue = "") String userid,
+			@RequestParam(value = "orderid", required = false, defaultValue = "") String orderid,
+			@RequestParam(value = "payType", required = false, defaultValue = "") String payType,
+			HttpServletRequest request,
+			HttpServletResponse response ){
+		   ResultModel resultModel=initResultModel();
+		    try {
+				boolean flag = true;
+				AppUser user = null;
+				OrderContent order=null;
+				if (StringUtil.isEmpty(userid)) {
+					setEmptyCode(resultModel, "传入的用户标示不能为空!");
+					flag = false;
+				}else{
+					user=ebi.findByOId(AppUser.class, userid);
+					if (user == null) {
+						setNoFecCode(resultModel, "传入用户标示无效");
+						flag = false;
+					}
+				}
+				if (StringUtil.isEmpty(orderid)) {
+					setEmptyCode(resultModel, "传入订单标示不能为空!");
+					flag = false;
+				}else{
+					order = ebi.findByOId(OrderContent.class, orderid);
+					if (order == null) {
+						setNoFecCode(resultModel, "传入订单标示无效");
+						flag = false;
+					}
+				}
+				if (StringUtil.isEmpty(payType)) {
+					setEmptyCode(resultModel, "传入订支付类型不能为空!");
+					flag = false;
+				}
+				
+				if (flag) {
+					order.setIspay("1");
+					order.setPayType(payType);
+					order= ebi.update(order);
+					OrderProAdrees view=new OrderProAdrees();
+					view.setIspay(order.getIspay());
+					view.setOrdertime(order.getOrdertime());
+					view.setItems(order.getItems());
+					view.setAdress(ebi.findByOId(UserAdress.class, order.getAdressid()));
+					resultModel.setObj(view);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				setServerErrCode(resultModel);
+				error(resultModel,e);
+			}
+		    toWritePhone(response, resultModel);
+		
+	}
+	
+	/**
+	 *25 神请商品接口
+	 */
+	
+	
 }

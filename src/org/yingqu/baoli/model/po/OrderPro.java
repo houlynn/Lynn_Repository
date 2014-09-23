@@ -33,8 +33,9 @@ public class OrderPro extends PModel {
 	 */
 	private float  acount;
 	
+	
 	/**
-	 * 订单状态  1 交易 成功！ 2待付款 3  交易关闭
+	 * 订单状态 1待付款000  2支付成功 001  3 交易 成功 002   4交易关闭003
 	 */
 	private String ispay;
 	

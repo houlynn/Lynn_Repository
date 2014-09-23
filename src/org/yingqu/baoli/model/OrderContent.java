@@ -45,6 +45,9 @@ public class OrderContent extends BaseEntity {
 	private String remarks;
 	@FieldInfo(name = "金额", visible = true, nullAble = false)
 	private float acount;
+	
+	private String payType;
+	
 	@Dictionary
 	@SearchProperty(index=1,value="ISPAY")
 	@FieldInfo(name = "支付状态", visible = true, nullAble = false)
@@ -108,6 +111,14 @@ public class OrderContent extends BaseEntity {
 
 	public void setAdressid(String adressid) {
 		this.adressid = adressid;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
 	}
 
 	@Transient
