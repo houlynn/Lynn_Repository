@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="sessionfactory">
+		<!-- 开启二级缓存 -->
+		<property name="hibernate.cache.use_second_level_cache">false</property>
+		<!-- 启动"查询缓存"如果想缓存使用findall()、list()、Iterator()、createCriteria()、createQuery()等方法获得的数据结果集,必须配置此项 -->
+		<property name="hibernate.cache.use_query_cache">false</property>
+		<!--设置二级缓存插件EHCache的Provider类 -->
+		<property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+		<!--二级缓存区域名的前缀 <property name="hibernate.cache.region_prefix">test</property> 
+			高速缓存提供程序 -->
+		<property name="cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</property>
+		<!-- Hibernate4以后都封装到org.hibernate.cache.ehcache.EhCacheRegionFactory 指定缓存配置文件位置 -->
+		<property name="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</property>
+		<!--强制Hibernate以更人性化的格式将数据存入二级缓存 -->
+		<property name="hibernate.cache.use_structured_entries">true</property>
+		<!--Hibernate将收集有助于性能调节的统计数据 -->
+		<property name="hibernate.generate_statistics">true</property>
+		<mapping class="org.yingqu.desktop.model.Dictionary" />
+		<mapping class="org.yingqu.desktop.model.DictionaryItem" />
+		<mapping class="org.yingqu.desktop.model.EndUser" />
+		<mapping class="org.yingqu.desktop.model.Department" />
+		<mapping class="org.yingqu.desktop.model.Permission" />
+		<mapping class="org.yingqu.desktop.model.Role" />
+		<mapping class="org.yingqu.desktop.model.Menu" />
+		<mapping class="org.yingqu.desktop.model.SysIcon" />
+		<mapping class="org.yingqu.desktop.model.OperateLog" />
+		<mapping class="org.yingqu.baoli.model.Interact" />
+		<mapping class="org.yingqu.baoli.model.Photograph" />
+
+		<mapping class="org.yingqu.baoli.model.Advertisement" />
+		<mapping class="org.yingqu.baoli.model.AppUser" />
+		<mapping class="org.yingqu.baoli.model.AppVersion" />
+		<mapping class="org.yingqu.baoli.model.Feedback" />
+		<mapping class="org.yingqu.baoli.model.Goods" />
+	    <mapping class="org.yingqu.baoli.model.GoodImage" />
+		<mapping class="org.yingqu.baoli.model.LoginLog" />
+
+		<mapping class="org.yingqu.baoli.model.Merchant" />
+		<mapping class="org.yingqu.baoli.model.OrderContent" />
+		<mapping class="org.yingqu.baoli.model.OrderItem" />
+		
+			<mapping class="org.yingqu.baoli.model.PayKey" />
+		<mapping class="org.yingqu.baoli.model.PostType" />
+		<mapping class="org.yingqu.baoli.model.PostText" />
+		<mapping class="org.yingqu.baoli.model.DeptImageUrl" />
+	    <mapping class="org.yingqu.baoli.model.AvvertiseImageUrl" />
+	    
+	       <mapping class="org.yingqu.baoli.model.AppClassify" />
+	        <mapping class="org.yingqu.baoli.model.AppClassifyItem" />
+	        <mapping class="org.yingqu.baoli.model.UserAdress" />
+	         <mapping class="org.yingqu.baoli.model.VirtualIcon" />
+	            <mapping class="org.yingqu.baoli.model.AppNews" />
+	              <mapping class="org.yingqu.baoli.model.UserCollection" />
+	    
+	    
+
+
+
+	</session-factory>
+</hibernate-configuration>

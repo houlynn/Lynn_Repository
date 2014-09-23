@@ -1,0 +1,15 @@
+E:\Res\baoli_app>git pull origin houlynn_branch
+
+
+E:\Res\baoli_app>git commit -am 'nothing'
+
+
+
+E:\Res\baoli_app>git checkout houlynn_branch
+
+
+
+E:\Res\baoli_app>git push origin xing_branch
+
+
+
