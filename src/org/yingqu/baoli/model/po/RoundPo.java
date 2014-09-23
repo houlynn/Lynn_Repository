@@ -23,6 +23,11 @@ public class RoundPo {
 	private String img;
 	
 	/**
+	 * 类型代码
+	 */
+	private String code;
+	
+	/**
 	 *子类别
 	 */
 	private Set<RoundPo> child=new HashSet<RoundPo>();
@@ -44,6 +49,12 @@ public class RoundPo {
 	}
 	public void setChild(Set<RoundPo> child) {
 		this.child = child;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

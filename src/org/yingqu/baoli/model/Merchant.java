@@ -33,6 +33,7 @@ public class Merchant extends BaseEntity {
 	private String homePhone;
 	@FieldInfo(name = "营业时间", visible = true, nullAble = false,mobileField=true)
 	private String businesstime;
+	@FieldInfo(name = "服务类型", visible = true, nullAble = false,mobileField=true)
 	private String btype;
 	@FieldInfo(name = "服务描述", visible = true, nullAble = false,mobileField=true)
 	private String remarks;
@@ -53,6 +54,8 @@ public class Merchant extends BaseEntity {
 	private String audittiem;
 	@FieldInfo(name = "申请时间", visible = true,type=ExtFieldType.DATE)
 	private String applytime;
+	@FieldInfo(name = "地址", visible = true,type=ExtFieldType.DATE)
+	private String adress;
 	private String xponit;
 	private String yponit;
 	private String icon;
