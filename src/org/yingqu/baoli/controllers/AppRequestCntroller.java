@@ -11,14 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.set.CompositeSet.SetMutator;
-import org.apache.tomcat.util.digester.SetRootRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.yingqu.baoli.ebi.GoodsEbi;
-import org.yingqu.baoli.ebo.GoodsEbo;
 import org.yingqu.baoli.model.AppClassify;
 import org.yingqu.baoli.model.AppClassifyItem;
 import org.yingqu.baoli.model.AppUser;
@@ -27,24 +24,16 @@ import org.yingqu.baoli.model.Goods;
 import org.yingqu.baoli.model.OrderContent;
 import org.yingqu.baoli.model.OrderItem;
 import org.yingqu.baoli.model.UserAdress;
+import org.yingqu.baoli.model.po.GoodsDetail;
 import org.yingqu.baoli.model.po.GoodsPo;
 import org.yingqu.baoli.model.po.OderPro;
-import org.yingqu.baoli.model.po.OrderPro;
 import org.yingqu.baoli.model.po.OrderProAdrees;
 import org.yingqu.baoli.model.po.RoundPo;
-import org.yingqu.framework.annotation.FieldInfo;
-import org.yingqu.framework.constant.ExtFieldType;
 import org.yingqu.framework.controllers.AppBaseController;
-import org.yingqu.framework.controllers.AppBaseController.PrepareResult;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.log.LogerManager;
-import org.yingqu.framework.model.Model;
-import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
-
-import com.sun.corba.se.impl.ior.WireObjectKeyTemplate;
-
 /**
  * APP接口请求处理类
  * 
@@ -214,7 +203,6 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit,
 			HttpServletResponse response) {
 		super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, Goods.class, (list,resultModel)->{
-		        List<GoodsPo> listPro=new ArrayList<GoodsPo>();
 		    	List<GoodsPo> goddspro = fillGoodsPo(list);
 		    	resultModel.setObj(goddspro);
 		});
@@ -236,6 +224,10 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 				if(goods==null){
 					setNoFecCode(resultModel, "传入的商品标示无效!");
 				}else{
+					GoodsDetail gDetail= new GoodsDetail();
+					 BeanUtils.copyProperties(gDetail, goods);
+					 List<String> imgsList=new ArrayList<String>();
+					 if(goods.getImgs())
 					resultModel.setObj(goods);
 				}
 			}
@@ -413,7 +405,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	}
 	
 	/**
-	 *25 神请商品接口
+	 *25 申请商户
 	 */
 	
 	
