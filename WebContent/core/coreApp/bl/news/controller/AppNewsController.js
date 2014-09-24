@@ -25,7 +25,12 @@ Ext.define("core.bl.news.controller.AppNewsController",{
 		                    		timeout:4000,
 		                    		async:false,
 		                    		success:function(response,opts){
-		                    
+		                    			var  obj = Ext.decode(response.responseText);
+										if(obj.success){
+											 Ext.MessageBox.alert("提示",'发布成功!');
+										}else{
+											 Ext.MessageBox.alert("提示",obj.obj);
+										}
 		                    			
 		                    		}
 	        	    		 });

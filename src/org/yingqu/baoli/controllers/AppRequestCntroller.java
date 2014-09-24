@@ -1,15 +1,29 @@
 package org.yingqu.baoli.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
+
+
+
+
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
+
+
+
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.yingqu.baoli.ebi.GoodsEbi;
 import org.yingqu.baoli.model.AppClassify;
 import org.yingqu.baoli.model.AppClassifyItem;
+import org.yingqu.baoli.model.AppNews;
 import org.yingqu.baoli.model.AppUser;
 import org.yingqu.baoli.model.GoodImage;
 import org.yingqu.baoli.model.Goods;
@@ -50,7 +65,7 @@ import org.yingqu.framework.utils.StringUtil;
  */
 @RequestMapping("/app")
 @Controller
-public class AppRequestCntroller extends AppBaseController implements LogerManager {
+public class AppRequestCntroller extends AppBaseController {
 
 	@Autowired
 	private GoodsEbi gdebi;
@@ -608,7 +623,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	 * @param response
 	 */
 	@RequestMapping("/011")
-	public void appRequest0010( 
+	public void appRequest0011( 
 			@RequestParam(value = "dtype", required = false, defaultValue = "") String dtype,
 			HttpServletRequest request,
 			HttpServletResponse response) {
@@ -638,6 +653,84 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	         }
 
 	}
+	/**
+	 * 29 012  获取社区首页今日头条
+	 */
+	@RequestMapping("/012")
+	public void appRequest0012( 
+			HttpServletRequest request,
+			HttpServletResponse response){
+		super.requestMeth(response, (resultModel)->{
+	    String today=AppUtils.getCurDate();
+		 String hql=" from AppNews where 1=1 and adddate between '"+today+"' and '"+today+"' order  by addtime desc" ;
+		 List<AppNews> listnews=  (List<AppNews>) ebi.queryByHql(hql, 0, 1);
+		 AppNews appNews=null;
+		  if(listnews!=null&listnews.size()>0){
+			  appNews=listnews.get(0);
+		  }else{
+			  hql=" from AppNews where 1=1 and adddate order  by addtime desc" ;
+			  listnews=  (List<AppNews>) ebi.queryByHql(hql, 0, 1);
+			  if(listnews==null||listnews.size()==0){
+				  resultModel.setMsg("系统没有发布任何新闻");
+			  }else{
+				  appNews=listnews.get(0);
+				  resultModel.setObj(appNews);
+			  }
+		  }
+		});
+	}
+	
+	/**
+	 * 30 013 根据日期加载 APP新闻
+	 * @param whereSql 查询条件  可选
+	 * @param parentSql  可选
+	 * @param querySql  可选
+	 * @param orderSql 排序段  order by +字段名称 可选
+	 * @param start 从几条取  可选
+	 * @param limit 每页多少条  可选
+	 * @param startdate 开始日期
+	 * @param enddate 结束日期
+	 */
+	public void appRequest0013( 
+	@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
+	@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+	@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+	@RequestParam(value = "orderSql", required = false, defaultValue = "") String orderSql,
+	@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+	@RequestParam(value = "limit", required = false, defaultValue = "0") String limit,
+	@RequestParam(value = "startdate", required = false, defaultValue ="" ) String startdate,
+	@RequestParam(value = "enddate", required = false, defaultValue = "") String enddate,
+	HttpServletResponse response) {
+		SimpleDateFormat formatter=new  SimpleDateFormat("yyyy-MM-dd");
+		Date startd=null;
+		Date endd=null;
+		try {
+		if(StringUtil.isEmpty(startdate)){
+			startd=formatter.parse(AppUtils.getCurDate());
+		}else{
+			startd = formatter.parse(start);
+		}
+		if(StringUtil.isEmpty(enddate)){
+			endd=formatter.parse(AppUtils.getCurDate());
+		}else{
+			endd = formatter.parse(enddate);
+		}
+		if(startd==null||endd==null){
+			
+		}else{
+			List<String> date=AppUtils.findDates(startd, endd);
+			whereSql+=" and adddate between '"+start+"' and '"+endd+"' order  by addtime desc"; 
+			super.load(whereSql, parentSql, querySql, orderSql, startdate, limit, response, AppNews.class,(list,resultModel)->{
+				  List<AppNews>  listnews=list;
+			} );
+		}
+		} catch (ParseException e) {
+			error("日期转换失败!");
+		}
+
+	}
+	
+	
 	private void checkAppUser(String useri, ResultModel resultModel)
 			throws Exception {
 		if(StringUtil.isEmpty(useri)){

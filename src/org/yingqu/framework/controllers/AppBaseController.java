@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import javax.persistence.Inheritance;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.yingqu.baoli.model.AppUser;
 import org.yingqu.baoli.model.Goods;
 import org.yingqu.framework.ebi.CommonEbi;
+import org.yingqu.framework.log.LogerManager;
 import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.JsonBuilder;
 import org.yingqu.framework.utils.ModelUtil;
+import org.yingqu.framework.utils.StringUtil;
 
 /**
  * APP接口基础操作类
@@ -24,7 +28,7 @@ import org.yingqu.framework.utils.ModelUtil;
  * @date 2014年9月22日
  * @version 1.0
  */
-public class AppBaseController {
+public class AppBaseController   implements LogerManager{
 
 	protected static JsonBuilder jsonBuilder;
 	static {
@@ -261,13 +265,35 @@ public class AppBaseController {
 	}
 
 	/**
-	 * 默认
+	 * 默认服务端错误
 	 */
 	public void setServerErrCode(ResultModel resultModel) {
 		resultModel.setCode(1100);
 		resultModel.setMsg("服务端错误！");
 	}
 	
+	public <T extends Model> T checkEmpty(String id,String msg,ResultModel resultModel,Class<T> clazz) throws Exception{
+	   if(StringUtil.isEmpty(id)){
+		   setEmptyCode(resultModel, msg);
+	   }else{
+		 return ebi.findByOId(clazz, id);
+	   }
+	   return null;
+	}
+	@Inheritance
+	protected interface ResultModelinterface{
+		public void doResult(ResultModel resultModel) throws Exception;
+	}
+	public void requestMeth(HttpServletResponse response, ResultModelinterface modelinterface ){
+		   ResultModel resultModel=initResultModel();
+		  try{
+			  modelinterface.doResult(resultModel);
+		  }catch(Exception e){
+			 setServerErrCode(resultModel);
+			 error(resultModel, e);
+		  }
+		  toWritePhone(response, resultModel);
+	}
 	/**
 	 * 向客户端写入数据
 	 * 

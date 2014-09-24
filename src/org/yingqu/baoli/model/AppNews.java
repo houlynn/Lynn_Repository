@@ -41,6 +41,7 @@ public class AppNews extends BaseEntity {
 	@FieldInfo(name = "发布状态", visible = true, nullAble = false)
 	private String state;
 	
+	private String adddate;
 	private String context;
 
 	@Id
@@ -100,6 +101,14 @@ public class AppNews extends BaseEntity {
 
 	public void setContext(String context) {
 		this.context = context;
+	}
+
+	public String getAdddate() {
+		return adddate;
+	}
+
+	public void setAdddate(String adddate) {
+		this.adddate = adddate;
 	}
 
 	@Transient

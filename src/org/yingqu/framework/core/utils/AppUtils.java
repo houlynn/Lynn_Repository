@@ -20,9 +20,11 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -979,6 +981,31 @@ public class AppUtils {
 
 			return rannum + str;// 当前时间
 		}
-
+	    /**
+	     * 时间段内的所有日期
+	     * @param dBegin
+	     * @param dEnd
+	     * @return
+	     */
+	    public static List<String> findDates(Date start, Date end)
+	    {
+	     List <String> lDate= new ArrayList<>();
+	  	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	     lDate.add(sdf.format(start));
+	     Calendar calBegin = Calendar.getInstance();
+	     // 使用给定的 Date 设置此 Calendar 的时间
+	     calBegin.setTime(start);
+	     Calendar calEnd = Calendar.getInstance();
+	     // 使用给定的 Date 设置此 Calendar 的时间
+	     calEnd.setTime(end);
+	     // 测试此日期是否在指定日期之后
+	     while (end.after(calBegin.getTime()))
+	     {
+	      // 根据日历的规则，为给定的日历字段添加或减去指定的时间量
+	      calBegin.add(Calendar.DAY_OF_MONTH, 1);
+	      lDate.add(sdf.format( calBegin.getTime()));
+	     }
+	     return lDate;
+	    }
 
 }
