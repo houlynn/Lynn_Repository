@@ -52,10 +52,10 @@ public class UserCollectionController extends SimpleBaseController<UserCollectio
 		}else if(StringUtil.isEmpty(ctype)){
 			setEmptyCode(resultModel, "传入出入收藏类型不能为空!");
 		}else {
-			UserCollection uc=(UserCollection) ebi.findById(UserCollection.class, cid);
+	/*		UserCollection uc=(UserCollection) ebi.findById(UserCollection.class, cid);
 			if(uc==null){
 				setNoFecCode(resultModel, "传入收藏ID无效!");
-			}
+			}*/
 			ebi.save(model);
 		}}catch(Exception e){
 			e.printStackTrace();

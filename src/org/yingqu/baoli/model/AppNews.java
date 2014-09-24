@@ -53,7 +53,7 @@ public class AppNews extends BaseEntity {
 	public void setNewid(String newid) {
 		this.newid = newid;
 	}
-
+	@Column(length = 500)
 	public String getTitle() {
 		return title;
 	}

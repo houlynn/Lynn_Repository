@@ -26,12 +26,11 @@ Ext.define("core.bl.news.view.AppNewsForm", {
    }
  ,
  {
-		fieldLabel:"缩略图",
+		fieldLabel:"上传缩略图",
 		name:"shrinkimg",
 		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'缩略图必填',
 		allowBlank : false,
-		xtype:"textfield"
+		xtype:"filefield"
    },
    {
 	   xtype: 'extkindeditor',

@@ -468,6 +468,7 @@ public void updatePwd(AppUser user,HttpServletRequest request,HttpServletRespons
 		 e.printStackTrace();
 		 setServerErrCode(resultModel, "更新密码错误!");
 	 }
+	  toWriterResult(response, resultModel);
 }
 
 /**

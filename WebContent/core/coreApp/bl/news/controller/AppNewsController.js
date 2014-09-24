@@ -4,6 +4,36 @@ Ext.define("core.bl.news.controller.AppNewsController",{
 		var self=this
 		//事件注册
 		this.control({
+			"basegrid button[ref=gridPush]":{
+				click:function(btn){
+					var baseGrid=btn.up("basegrid");
+        			var rescords=baseGrid.getSelectionModel().getSelection();
+        			 var id=null;
+        			if(rescords.length==1){							
+						var data=rescords[0].data;
+					    id=data["newid"];
+						}else{
+							  Ext.MessageBox.alert("提示","请选择要发布的新闻!");
+							  return;
+						}
+				    Ext.MessageBox.confirm("确认框", "你确定要发布这条新闻吗？", function(btn) {  
+	        	    	 if("yes"==btn){}else{
+	        	    		 Ext.Ajax.request({
+		                    		url:'/bl/news/postnews.action',
+		                    		method:'POST',
+		                    		params:{newid:newid},
+		                    		timeout:4000,
+		                    		async:false,
+		                    		success:function(response,opts){
+		                    
+		                    			
+		                    		}
+	        	    		 });
+	        	    	 }
+					
+				});
+				}
+			},
 			"basegrid button[ref=gridEdit]":{
 				click:function(btn){
 					var baseGrid=btn.up("basegrid");

@@ -2,6 +2,7 @@ package org.yingqu.baoli.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.yingqu.baoli.model.AppUser;
 import org.yingqu.baoli.model.Feedback;
 import org.yingqu.framework.controllers.SimpleBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
@@ -45,8 +46,19 @@ public class FeedbackController extends SimpleBaseController<Feedback> {
 		         if(StringUtil.isEmpty(userid)){
 		        	 setEmptyCode(resultModel, "传入的用户标示不能为空!");
 		         }else{
-				    	model.setFbtime(AppUtils.getCurDate());
-				    	ebi.save(model);
+		        	   AppUser appUser=(AppUser) ebi.findById(AppUser.class, userid);
+		        	   if(appUser==null){
+		        		   setNoFecCode(resultModel, "传入的用户标示无效");
+		        	   }else{
+		        		     if(StringUtil.isEmpty(model.getMsg())){
+		        		    	  setEmptyCode(resultModel, "评论内容不能为空!");
+		        		     }else{
+		        		    	    model.setFbtime(AppUtils.getCurDate());
+							    	ebi.save(model);   
+		        		     }
+		        		  
+		        	   }
+				    	
 		         }
 		  
 		    }catch(Exception e){

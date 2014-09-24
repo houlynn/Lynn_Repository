@@ -81,10 +81,6 @@ public class SysIconController extends SimpleBaseController<SysIcon> {
 	@RequestMapping(value="/doUpdate",method=RequestMethod.POST)
 	public void doUpdates(@Validated SysIcon model,BindingResult br,@RequestParam("icon") MultipartFile icon,  HttpServletRequest request,
 			HttpServletResponse response) {
-		System.out.println(model.getIcon());
-		System.out.println(request.getParameter("icon"));
-		System.out.println(icon.getOriginalFilename());
-		System.out.println("--------------------------");
 		this.processFieldsUpload(request, model, icon);
 		super.doUpdate(model, request, response);
 		try

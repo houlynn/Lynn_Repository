@@ -5,7 +5,8 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 			{xtype:'button',text:'添加',ref:'gridInsertF',iconCls:'table_add'},
 			{xtype:'button',text:'编辑',ref:'gridEdit',iconCls:'table_edit',disabled:true},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
+			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'},
+			{xtype:'button',text:'发布信息',ref:'gridPush',iconCls:'table_save'}
 		],
 	columns : [{
 		xtype:"rownumberer",
@@ -20,7 +21,7 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 , {
 		text:"标题",
 		dataIndex:"title",
-		width : 320,
+		width : 490,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
@@ -33,7 +34,7 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 , {
 		text:"来源",
 		dataIndex:"source",
-		width : 120,
+		width : 150,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
@@ -47,19 +48,15 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 		text:"缩略图",
 		dataIndex:"shrinkimg",
 		width : 120,
-		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'缩略图必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
+		columnType:"textfield",
+		 renderer:function(value,data,record){
+				return "<img src='"+value+"' width:30; height:30px />"; 
+		 }
 	}
 , {
 		text:"发布时间",
 		dataIndex:"addtime",
-		width : 120,
+		width : 150,
 		 columnType:"textfield",
 		field:{
 			 xtype:"datetimefield",
