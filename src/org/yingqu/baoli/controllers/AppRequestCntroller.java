@@ -65,7 +65,7 @@ public class AppRequestCntroller extends AppBaseController implements LogerManag
 	}
 
 	/**
-	 * 18.返回周边类型 无效参数 001 本地服务
+	 * 18. 001返回周边类型 无效参数 001 本地服务
 	 * 
 	 * @param request
 	 * @param response
@@ -108,7 +108,7 @@ public class AppRequestCntroller extends AppBaseController implements LogerManag
 	}
 
 	/**
-	 * 19.返回周边类型 无需参数 002生活家政
+	 * 19.002返回周边类型 无需参数 002生活家政
 	 * 
 	 * @param request
 	 * @param response
@@ -151,7 +151,7 @@ public class AppRequestCntroller extends AppBaseController implements LogerManag
 	}
 
 	/**
-	 * 20 商品顶置接口 无效参数 跟据更新时间取前3个
+	 * 20 003 商品顶置接口 无效参数 跟据更新时间取前3个
 	 */
 	@RequestMapping("/003")
 	public void appRequest003(HttpServletRequest request,
@@ -193,7 +193,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 }
 
 	/**
-	 *  21 004 获取更多商品 可分页   不传页码显示全部
+	 *  21 004  获取更多商品 可分页   不传页码显示全部
 	 * @param whereSql 查询条件
 	 * @param parentSql 准备sql
 	 * @param querySql  
@@ -217,7 +217,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		});
 	}
 	/**
-	 * 22  005商品详细
+	 * 22 005 商品详细
 	 * 商品主键  必须的
 	 */
 	@RequestMapping("/005")
@@ -477,7 +477,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	
 	
 	/**
-	 * 25更新订单支付状态接口
+	 * 25  008更新订单支付状态接口
 	 *userid 用户标示 
 	 * orderid订单标示
 	 * payType  001  银行卡支付   002 支付宝支付
@@ -540,7 +540,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		
 	}
 	/**
-	 * 26删除订单
+	 * 26  009删除订单
 	 * @param userid
 	 * @param orderid
 	 * @param request
@@ -575,14 +575,14 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	
 	
 	/**
-	 *27 申请商户  请求类型为 multipart/form-data 
+	 *27 010申请商户  请求类型为 multipart/form-data 
 	 * 传递参考 我要开店页面  找到对应的属性 
 	 *是否 上门 参考数 0,1
 	 *btype  RoundPo 服务类型代码 
 	 *其中 地址  可能包括 经度 纬度 详细地址 
 	 *
 	 */
-	@RequestMapping("/0010")
+	@RequestMapping("/010")
 	public void appRequest0010( @Validated Merchant model,BindingResult br,@RequestParam("icon") MultipartFile icon,
 			HttpServletRequest request,
 			HttpServletResponse response) {
@@ -602,12 +602,12 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	}
 
 	/**
-	 * 28 根据服务类型代码 加载商户
+	 * 28 011 根据服务类型代码 加载商户
 	 * @param dtype 类型code bixu
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/0011")
+	@RequestMapping("/011")
 	public void appRequest0010( 
 			@RequestParam(value = "dtype", required = false, defaultValue = "") String dtype,
 			HttpServletRequest request,
