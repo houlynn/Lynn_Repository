@@ -29,6 +29,10 @@
 		<mapping class="org.yingqu.desktop.model.OperateLog" />
 		<mapping class="org.yingqu.baoli.model.Interact" />
 		<mapping class="org.yingqu.baoli.model.Photograph" />
+		
+		<mapping class="org.yingqu.baoli.model.OfficialIteract" />
+		<mapping class="org.yingqu.baoli.model.OfficialPhotograph" />
+			<mapping class="org.yingqu.baoli.model.Massage" />
 
 		<mapping class="org.yingqu.baoli.model.Advertisement" />
 		<mapping class="org.yingqu.baoli.model.AppUser" />

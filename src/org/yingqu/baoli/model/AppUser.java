@@ -19,7 +19,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.yingqu.framework.annotation.Dictionary;
 import org.yingqu.framework.annotation.FieldInfo;
-import org.yingqu.framework.annotation.MobileFieldInfo;
 import org.yingqu.framework.annotation.SearchProperty;
 import org.yingqu.framework.constant.ExtFieldType;
 import org.yingqu.framework.model.BaseEntity;

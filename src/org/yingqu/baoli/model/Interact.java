@@ -18,6 +18,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.yingqu.framework.annotation.Dictionary;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.annotation.SearchProperty;
 import org.yingqu.framework.constant.ExtFieldType;
@@ -36,22 +37,32 @@ public class Interact extends BaseEntity
 	@FieldInfo(name = "主键", type = ExtFieldType.ID)
 	private String hId;
 	@SearchProperty(index=1)
-	@FieldInfo(name = "用户id", visible = true, nullAble = false)
-	private AppUser uid;
+	@FieldInfo(name="用户名", visible = true, nullAble = false)
+	private String username;
+    @Dictionary("INCTYPE")
 	@FieldInfo(name="分类", visible = true, nullAble = false)
 	private String type;
+    @SearchProperty(index=1)
 	@FieldInfo(name="标题", visible = true, nullAble = false)
 	private String title;
 	@FieldInfo(name="内容", visible = true, nullAble = false)
 	private String content;
-	@FieldInfo(name="图片集合", visible = true, nullAble = false)
-	private String photoId;
-	private Set<Photograph> photourl=new  HashSet<Photograph>();
 	@FieldInfo(name = "活动时间", visible = true, nullAble = false,type=ExtFieldType.DATE)
 	private String htime;
 	@FieldInfo(name="人数限制")
 	private int people;
-	
+	@FieldInfo(name="活动地点")
+	private int site;
+	@SearchProperty(index=1)
+	@FieldInfo(name="发布时间",nullAble = false,type=ExtFieldType.DATE)
+	private String ptime;
+	/**
+	 * 用户接受页面参数
+	 */
+	private String userid;
+	private AppUser uid;
+	private Set<Photograph> photourl=new  HashSet<Photograph>();
+
 	
 	@JsonIgnore
 	@ManyToOne(optional=true,fetch=FetchType.LAZY)
@@ -64,11 +75,6 @@ public class Interact extends BaseEntity
 	public void setUid(AppUser uid) {
 		this.uid = uid;
 	}
-
-
-	@FieldInfo(name="活动地点")
-	private int site;
-	
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
@@ -88,12 +94,12 @@ public class Interact extends BaseEntity
 	}
 
 
-	
+	@Column(nullable=false)
 	public void setType(String type) {
 		this.type = type;
 	}
 
-
+@Column(nullable=false,length=2000)
 	public String getTitle() {
 		return title;
 	}
@@ -103,56 +109,54 @@ public class Interact extends BaseEntity
 		this.title = title;
 	}
 
-
+	@Column(length=5000)
 	public String getContent() {
 		return content;
 	}
-
-
 	public void setContent(String content) {
 		this.content = content;
 	}
 
-
-
 	public String getHtime() {
 		return htime;
 	}
-
-
 	public void setHtime(String htime) {
 		this.htime = htime;
 	}
-
-
 	public int getPeople() {
 		return people;
 	}
-
-
 	public void setPeople(int people) {
 		this.people = people;
 	}
-
-
 	public int getSite() {
 		return site;
 	}
-
 
 	public void setSite(int site) {
 		this.site = site;
 	}
 	
-	
-	public String getPhotoId() {
-		return photoId;
+	public String getPtime() {
+		return ptime;
 	}
 
 
-	public void setPhotoId(String photoId) {
-		this.photoId = photoId;
+	public void setPtime(String ptime) {
+		this.ptime = ptime;
 	}
+
+
+	@Transient
+	public String getUserid() {
+		return userid;
+	}
+
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
 
 	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="it",cascade={CascadeType.REMOVE})
@@ -160,19 +164,15 @@ public class Interact extends BaseEntity
 	public Set<Photograph> getPhotourl() {
 		return photourl;
 	}
-
-
 	public void setPhotourl(Set<Photograph> photourl) {
 		this.photourl = photourl;
 	}
-
-
 	@Transient
 	@Override
 	public String getDescription() 
 	{
 		// TODO Auto-generated method stub
-		return "帖子的公共内容";
+		return "用户贴";
 	}
 
 }

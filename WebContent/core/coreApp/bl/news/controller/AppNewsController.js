@@ -8,16 +8,16 @@ Ext.define("core.bl.news.controller.AppNewsController",{
 				click:function(btn){
 					var baseGrid=btn.up("basegrid");
         			var rescords=baseGrid.getSelectionModel().getSelection();
-        			 var id=null;
+        			 var newid=null;
         			if(rescords.length==1){							
 						var data=rescords[0].data;
-					    id=data["newid"];
+						newid=data["newid"];
 						}else{
 							  Ext.MessageBox.alert("提示","请选择要发布的新闻!");
 							  return;
 						}
 				    Ext.MessageBox.confirm("确认框", "你确定要发布这条新闻吗？", function(btn) {  
-	        	    	 if("yes"==btn){}else{
+	        	    	 if("yes"==btn){
 	        	    		 Ext.Ajax.request({
 		                    		url:'/bl/news/postnews.action',
 		                    		method:'POST',
@@ -31,9 +31,11 @@ Ext.define("core.bl.news.controller.AppNewsController",{
 										}else{
 											 Ext.MessageBox.alert("提示",obj.obj);
 										}
-		                    			
 		                    		}
 	        	    		 });
+	        	    		 
+	        	    	 }else{
+	        
 	        	    	 }
 					
 				});

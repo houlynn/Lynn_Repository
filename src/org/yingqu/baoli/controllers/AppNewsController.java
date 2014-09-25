@@ -45,10 +45,11 @@ public class AppNewsController extends SimpleBaseController<AppNews> {
 	public void postNews(HttpServletRequest request,HttpServletResponse response,String newid){
 		try{
 			AppNews appNews=(AppNews) ebi.findById(clazz, newid);
-			appNews.setAdddate(AppUtils.getCurDate());
-			appNews.setAddtime(AppUtils.getCurrentTime());
+			appNews.setAddate(AppUtils.getCurDate());
+			appNews.setAdtime(AppUtils.getCurrentTime());
 			appNews.setState("1");
-			toWrite(response, jsonBuilder.returnSuccessJson("''发布成功!'"));
+			ebi.update(appNews);
+			toWrite(response, jsonBuilder.returnSuccessJson("'发布成功!'"));
 		}catch(Exception e){
 			error("发布失败!",e);
 			toWrite(response, jsonBuilder.returnFailureJson("'发布失败!'"));

@@ -151,6 +151,9 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 		    	 }else{
 		    		 setEmptyCode(resultModel,"用户账号不能为空！");
 		    	 }
+		    	 if(StringUtil.isEmpty(model.getPwd())){
+		    		 setEmptyCode(resultModel, "密码不能为空!");
+		    	 }
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

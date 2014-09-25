@@ -55,17 +55,9 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 	}
 , {
 		text:"发布时间",
-		dataIndex:"addtime",
+		dataIndex:"adtime",
 		width : 150,
 		 columnType:"textfield",
-		field:{
-			 xtype:"datetimefield",
-		      dateType:"date",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'发布时间必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
 	}
 , {
 		text:"发布状态",

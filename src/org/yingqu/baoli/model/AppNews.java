@@ -35,13 +35,13 @@ public class AppNews extends BaseEntity {
 	private String shrinkimg;
 	@SearchProperty(index = 2)
 	@FieldInfo(name = "发布时间", visible = true, nullAble = false, type = ExtFieldType.DATE)
-	private String addtime;
+	private String adtime;
 	@SearchProperty(index = 1)
 	@Dictionary(value = "ISPOST")
 	@FieldInfo(name = "发布状态", visible = true, nullAble = false)
 	private String state;
 	
-	private String adddate;
+	private String addate;
 	private String context;
 
 	@Id
@@ -63,12 +63,12 @@ public class AppNews extends BaseEntity {
 		this.title = title;
 	}
 
-	public String getAddtime() {
-		return addtime;
+	public String getAdtime() {
+		return adtime;
 	}
 
-	public void setAddtime(String addtime) {
-		this.addtime = addtime;
+	public void setAdtime(String adtime) {
+		this.adtime = adtime;
 	}
 
 	public String getSource() {
@@ -103,12 +103,12 @@ public class AppNews extends BaseEntity {
 		this.context = context;
 	}
 
-	public String getAdddate() {
-		return adddate;
+	public String getAddate() {
+		return addate;
 	}
 
-	public void setAdddate(String adddate) {
-		this.adddate = adddate;
+	public void setAddate(String addate) {
+		this.addate = addate;
 	}
 
 	@Transient

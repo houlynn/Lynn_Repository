@@ -67,12 +67,12 @@ public class AppBaseController   implements LogerManager{
 	 * @throws Exception
 	 */
 	public <T extends Model, R extends PModel> void load(
-			@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
-			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
-			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
-			@RequestParam(value = "orderSql", required = false, defaultValue = "") String orderSql,
-			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
-			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit,
+		   String whereSql,
+			 String parentSql,
+		     String querySql,
+			 String orderSql,
+			 String start,
+			 String limit,
 			HttpServletResponse response, Class<T> clazz,
 			PrepareResult<T> prepareResult) {
 		ResultModel resultModel = initResultModel();
@@ -89,6 +89,7 @@ public class AppBaseController   implements LogerManager{
 			countHql.append(parentSql);
 			Integer count = ebi.getCount(countHql.toString()).intValue();
 			hql.append(orderSql);
+			System.out.println(hql);
 			limit = limit.equals("0") ? String.valueOf(count) : limit;
 			List<T> list = (List<T>) ebi.queryByHql(hql.toString(),
 					Integer.valueOf(start), Integer.valueOf(limit));
@@ -280,6 +281,13 @@ public class AppBaseController   implements LogerManager{
 	   }
 	   return null;
 	}
+	public <T extends Model> T checkNoFec(String id,String emsg, String nmsg, ResultModel resultModel,Class<T> clazz) throws Exception{
+		  T model= this.checkEmpty(id, emsg, resultModel, clazz);
+		  if(model==null){
+			  setNoFecCode(resultModel, nmsg);
+		  }
+		  return model;
+		}
 	@Inheritance
 	protected interface ResultModelinterface{
 		public void doResult(ResultModel resultModel) throws Exception;

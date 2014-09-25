@@ -4,14 +4,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
-
 
 
 
@@ -24,13 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.yingqu.baoli.ebi.GoodsEbi;
@@ -40,16 +39,22 @@ import org.yingqu.baoli.model.AppNews;
 import org.yingqu.baoli.model.AppUser;
 import org.yingqu.baoli.model.GoodImage;
 import org.yingqu.baoli.model.Goods;
+import org.yingqu.baoli.model.Interact;
 import org.yingqu.baoli.model.Merchant;
 import org.yingqu.baoli.model.OrderContent;
 import org.yingqu.baoli.model.OrderItem;
+import org.yingqu.baoli.model.Photograph;
 import org.yingqu.baoli.model.UserAdress;
+import org.yingqu.baoli.model.VirtualIcon;
+import org.yingqu.baoli.model.po.AppNewPo;
+import org.yingqu.baoli.model.po.AppNewProd;
 import org.yingqu.baoli.model.po.GoodsDetail;
 import org.yingqu.baoli.model.po.GoodsPo;
 import org.yingqu.baoli.model.po.MerchantPo;
 import org.yingqu.baoli.model.po.OderPro;
 import org.yingqu.baoli.model.po.OrderProAdrees;
 import org.yingqu.baoli.model.po.RoundPo;
+import org.yingqu.baoli.model.po.VirtualIconPo;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.AppBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
@@ -79,6 +84,8 @@ public class AppRequestCntroller extends AppBaseController {
 		this.gdebi = gdebi;
 	}
 
+	
+	
 	/**
 	 * 18. 001返回周边类型 无效参数 001 本地服务
 	 * 
@@ -601,7 +608,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	public void appRequest0010( @Validated Merchant model,BindingResult br,@RequestParam("icon") MultipartFile icon,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-		ProcessFieldsUploadUtil.upload(model, icon,"url","baoli.upload.merchant"); 
+		ProcessFieldsUploadUtil.upload(model, icon,"icon","baoli.upload.merchant"); 
 		String  useri=model.getUserid();
 		ResultModel resultModel= this.initResultModel();
 		try{
@@ -651,6 +658,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	    			setServerErrCode(resultModel);
 	    			error(resultModel,e);
 	         }
+	         toWritePhone(response, resultModel);
 
 	}
 	/**
@@ -662,21 +670,21 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 			HttpServletResponse response){
 		super.requestMeth(response, (resultModel)->{
 	    String today=AppUtils.getCurDate();
-		 String hql=" from AppNews where 1=1 and adddate between '"+today+"' and '"+today+"' order  by addtime desc" ;
+		 String hql=" from AppNews where 1=1 and addate between '"+today+"' and '"+today+"' order  by adtime desc" ;
 		 List<AppNews> listnews=  (List<AppNews>) ebi.queryByHql(hql, 0, 1);
 		 AppNews appNews=null;
 		  if(listnews!=null&listnews.size()>0){
 			  appNews=listnews.get(0);
 		  }else{
-			  hql=" from AppNews where 1=1 and adddate order  by addtime desc" ;
+			  hql=" from AppNews where 1=1  order  by addtime desc" ;
 			  listnews=  (List<AppNews>) ebi.queryByHql(hql, 0, 1);
 			  if(listnews==null||listnews.size()==0){
 				  resultModel.setMsg("系统没有发布任何新闻");
 			  }else{
 				  appNews=listnews.get(0);
-				  resultModel.setObj(appNews);
 			  }
 		  }
+		  resultModel.setObj(appNews);
 		});
 	}
 	
@@ -691,6 +699,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	 * @param startdate 开始日期
 	 * @param enddate 结束日期
 	 */
+	@RequestMapping("/013")
 	public void appRequest0013( 
 	@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
 	@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
@@ -707,21 +716,44 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		try {
 		if(StringUtil.isEmpty(startdate)){
 			startd=formatter.parse(AppUtils.getCurDate());
+			startdate=formatter.format(startd);
 		}else{
-			startd = formatter.parse(start);
+			startd = formatter.parse(startdate);
 		}
 		if(StringUtil.isEmpty(enddate)){
 			endd=formatter.parse(AppUtils.getCurDate());
+			enddate=formatter.format(endd);
 		}else{
 			endd = formatter.parse(enddate);
 		}
 		if(startd==null||endd==null){
+			error("日期转换失败!");
 			
 		}else{
-			List<String> date=AppUtils.findDates(startd, endd);
-			whereSql+=" and adddate between '"+start+"' and '"+endd+"' order  by addtime desc"; 
-			super.load(whereSql, parentSql, querySql, orderSql, startdate, limit, response, AppNews.class,(list,resultModel)->{
+			List<String> dates=AppUtils.findDates(startd, endd);
+			whereSql+=" and addate between  '"+startdate+"' and '"+enddate+"' ";
+			System.out.println(whereSql);
+			orderSql+=" order  by adtime desc";
+			super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, AppNews.class,(list,resultModel)->{
 				  List<AppNews>  listnews=list;
+				  debug("获取到SIZE： "+list.size());
+				  /**
+				   * 按日期 作为 map key 
+				   * 返回   list 新闻 列表
+				   */
+				  List <Map<String ,List<AppNewPo>>>listNews=new   ArrayList<Map<String ,List<AppNewPo>>>();
+				
+				  if(list!=null){
+					  for(String d :dates ){
+						  List<AppNewPo> views=  listnews.parallelStream().filter(item-> d.equals(item.getAddate()))
+								  .map(item-> new AppNewPo(item.getTitle(),item.getShrinkimg()))
+								  .collect(Collectors.toList());
+						 Map<String ,List<AppNewPo>> mapnews=new HashMap<String,List<AppNewPo>>();
+						 mapnews.put(d, views);
+						 listNews.add(mapnews);
+					  }
+				  }
+				  resultModel.setObj(listNews);
 			} );
 		}
 		} catch (ParseException e) {
@@ -730,6 +762,96 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 
 	}
 	
+	/**
+	 * 
+	 * 31 014  根据 新闻 标示加载 一条新闻
+	 * @param newid 必须滴
+	 */
+	@RequestMapping("/014")
+	public void appRequest0014(
+			String  newid,
+			HttpServletRequest request,
+			HttpServletResponse response
+			){
+		
+		super.requestMeth(response, resultModel->{
+			AppNews	appNews= super.checkNoFec(newid, "新闻标示不能为空!", "新闻标示无效!", resultModel, AppNews.class);
+			AppNewProd  appNewProd=new AppNewProd();
+			appNewProd.setTitle(appNews.getTitle());
+			appNewProd.setAddate(appNews.getAddate());
+			appNewProd.setImg(appNews.getShrinkimg());
+			appNewProd.setSource(appNews.getSource());
+			resultModel.setObj(appNewProd);
+		});
+	}
+	
+	/** 
+	 * 32 加载虚拟小区 015 无需参数
+	 */
+	@RequestMapping("/015")
+	public void appRequest0014(
+			@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
+			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+			@RequestParam(value = "orderSql", required = false, defaultValue = "") String orderSql,
+			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit,
+			HttpServletRequest request,
+			HttpServletResponse response
+			){
+		     super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, VirtualIcon.class, (list,resultModel)->{
+		    	  List<VirtualIconPo> views=new ArrayList<VirtualIconPo>();
+		    	  views=list.parallelStream().map(item->{
+		    		   VirtualIconPo view=  new VirtualIconPo();
+		    		   view.setInconUrl(item.getInconUrl());
+		    		   view.setName(item.getName());
+		    		   view.setLinkUrl(item.getLinkUrl());
+		    		   return view;
+		    	  }). collect(Collectors.toList());
+		    	 resultModel.setObj(views);
+		     });
+	}
+/**
+ * 	 * 33 016 用户发帖  提交 方式 enctype="multipart/form-data"
+	 * @param userid 用户标示 必须
+	 * @param type 帖子类型 必须 
+ * @param model
+ * @param imge 图片文件
+ * @param request
+ * @param response
+ */
+	@RequestMapping(value= "/016",method=RequestMethod.POST)
+	public void appRequest016(
+			@Validated Interact model, BindingResult result, @RequestParam("imge") MultipartFile[] imges, 
+			HttpServletRequest request,
+			HttpServletResponse response
+			){
+		String  userid=model.getUserid();
+		String type=model.getType();
+		     super.requestMeth(response, resultModel->{
+                  checkAppUser(userid, resultModel);
+                  if(StringUtil.isEmpty(type)){
+                	  setEmptyCode(resultModel, "贴子类型不能为空!");
+                  }else{
+                	  Set<Photograph> imgeItems=new HashSet<>();
+                 Photograph imgeItem=null;
+                	for(MultipartFile img :imges ){
+                		if(img!=null){
+                			imgeItem=new   Photograph();
+                	  		String path= ProcessFieldsUploadUtil.processFieldsUpload(img,"baoli.upload.interact");
+                    		if(path==null){
+                    			 setServerErrCode(resultModel);
+                    		}
+                    		imgeItem.setImgurl(path);
+                    		imgeItems.add(imgeItem);
+                    		imgeItem=null;
+                		}
+                	}
+                	model.setPhotourl(imgeItems);
+                	
+                  }
+		     });
+	}
 	
 	private void checkAppUser(String useri, ResultModel resultModel)
 			throws Exception {
