@@ -61,6 +61,8 @@ public class AppUser extends BaseEntity {
 	private Integer age;
 	@FieldInfo(name = "城市", visible = true, nullAble = false,mobileField=true)
 	private String city;
+	@FieldInfo(name = "省份", visible = true, nullAble = false,mobileField=true)
+	private String province;
 	@FieldInfo(name="兴趣爱好",visible = true, nullAble = false,mobileField=true)
 	private String hoby;
 	@FieldInfo(name = "区ID", visible = true, nullAble = false)
@@ -295,6 +297,14 @@ public class AppUser extends BaseEntity {
 	}
 
 	
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
 	@Transient
 	public String getDefaultadi() {
 		return defaultadi;

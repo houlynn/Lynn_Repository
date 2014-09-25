@@ -16,8 +16,14 @@ import java.util.stream.Collectors;
 
 
 
+
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
+
 
 
 
@@ -33,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.yingqu.baoli.ebi.GoodsEbi;
+import org.yingqu.baoli.ebi.InteractEbi;
 import org.yingqu.baoli.model.AppClassify;
 import org.yingqu.baoli.model.AppClassifyItem;
 import org.yingqu.baoli.model.AppNews;
@@ -40,6 +47,7 @@ import org.yingqu.baoli.model.AppUser;
 import org.yingqu.baoli.model.GoodImage;
 import org.yingqu.baoli.model.Goods;
 import org.yingqu.baoli.model.Interact;
+import org.yingqu.baoli.model.Massage;
 import org.yingqu.baoli.model.Merchant;
 import org.yingqu.baoli.model.OrderContent;
 import org.yingqu.baoli.model.OrderItem;
@@ -50,6 +58,7 @@ import org.yingqu.baoli.model.po.AppNewPo;
 import org.yingqu.baoli.model.po.AppNewProd;
 import org.yingqu.baoli.model.po.GoodsDetail;
 import org.yingqu.baoli.model.po.GoodsPo;
+import org.yingqu.baoli.model.po.InteractListPo;
 import org.yingqu.baoli.model.po.MerchantPo;
 import org.yingqu.baoli.model.po.OderPro;
 import org.yingqu.baoli.model.po.OrderProAdrees;
@@ -83,9 +92,15 @@ public class AppRequestCntroller extends AppBaseController {
 	public void setGdebi(GoodsEbi gdebi) {
 		this.gdebi = gdebi;
 	}
+	@Autowired
+	private InteractEbi iebi;
+	public InteractEbi getIebi() {
+		return iebi;
+	}
+	public void setIebi(InteractEbi iebi) {
+		this.iebi = iebi;
+	}
 
-	
-	
 	/**
 	 * 18. 001返回周边类型 无效参数 001 本地服务
 	 * 
@@ -812,11 +827,11 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		     });
 	}
 /**
- * 	 * 33 016 用户发帖  提交 方式 enctype="multipart/form-data"
-	 * @param userid 用户标示 必须
-	 * @param type 帖子类型 必须 
+ * 33 016 用户发帖  提交 方式 enctype="multipart/form-data"
+ * @param userid 用户标示 必须
+ * @param type 帖子类型 必须 
  * @param model
- * @param imge 图片文件
+ * @param imge 图片文件u
  * @param request
  * @param response
  */
@@ -829,11 +844,12 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		String  userid=model.getUserid();
 		String type=model.getType();
 		     super.requestMeth(response, resultModel->{
-                  checkAppUser(userid, resultModel);
+                AppUser appUser=  checkAppUser(userid, resultModel);
+                if(appUser!=null){
                   if(StringUtil.isEmpty(type)){
                 	  setEmptyCode(resultModel, "贴子类型不能为空!");
                   }else{
-                	  Set<Photograph> imgeItems=new HashSet<>();
+                   Set<Photograph> imgeItems=new HashSet<>();
                  Photograph imgeItem=null;
                 	for(MultipartFile img :imges ){
                 		if(img!=null){
@@ -848,21 +864,93 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
                 		}
                 	}
                 	model.setPhotourl(imgeItems);
-                	
+                	model.setUid(appUser);
+                	iebi.saveInteract(model);
                   }
+                }
 		     });
 	}
+	/**
+	 * 34 017评论帖子
+	 * @param msg 用户标示 ，贴子ID，评论内容必须的
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value= "/017",method=RequestMethod.POST)
+	public void appRequest017(Massage msg,
+			HttpServletRequest request,
+			HttpServletResponse response
+			){
+		super.requestMeth(response, (resultModel->{
+			String userid=msg.getUserid();
+			String inid=msg.getInid();
+			String cpntext=msg.getContext();
+			boolean flag=true;
+		    AppUser appUser= checkNoFec(userid, "用户标示不能为空!","传入用户标示无效!", resultModel,AppUser.class );
+		    Interact   interact=checkNoFec(inid, "贴子标示不能为空", "传入贴子无效", resultModel,Interact.class);
+		    if(appUser==null){
+		    	flag=false;
+		    }else if(interact==null){
+		    	flag=false;
+		    }else if(StringUtil.isEmpty(cpntext)){
+		    	flag=false;
+		    	setEmptyCode(resultModel, "评论内容不能为空");
+		    }
+			if(flag){
+				ebi.save(msg);
+				resultModel.setObj(ebi);
+			}
+		}));
+	}
 	
-	private void checkAppUser(String useri, ResultModel resultModel)
+	/**
+	 * 35 018加载用户贴类表
+	 * @param msg
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value= "/018")
+	public void appRequest018(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
+			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+			@RequestParam(value = "orderSql", required = false, defaultValue = "") String orderSql,
+			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit
+			){
+		   super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, Interact.class, (list,resultModel)->{
+			   List<InteractListPo> views=new ArrayList<>();
+			   views= list.parallelStream().map(item->{
+				   InteractListPo viewItem=new InteractListPo();
+				   viewItem.setTitle(item.getTitle());
+				   viewItem.setPostTime(item.getPtime());
+				   viewItem.setInid(item.gethId());
+				    AppUser appUser=item.getUid();
+				    viewItem.setTopUrl(appUser.getTopUrl());
+				    viewItem.setProvince(appUser.getProvince());
+				    viewItem.setCity(appUser.getCity());
+				    viewItem.setUserName(appUser.getUsername());
+				   return viewItem;
+			   }).collect(Collectors.toList());
+		   });
+
+	}
+	
+	
+	private AppUser checkAppUser(String useri, ResultModel resultModel)
 			throws Exception {
+		AppUser appUser=null;
 		if(StringUtil.isEmpty(useri)){
 			setEmptyCode(resultModel, "传入的用户标示不能为空！");
 		}else{
-			AppUser appUser=ebi.findByOId(AppUser.class, useri);
+			appUser=ebi.findByOId(AppUser.class, useri);
 			if(appUser==null){
 				setNoFecCode(resultModel, "传入的用户标示无效!");
 			}
 		}
+		return appUser;
 	}
 	
 }

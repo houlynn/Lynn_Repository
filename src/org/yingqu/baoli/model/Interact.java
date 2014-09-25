@@ -66,7 +66,7 @@ public class Interact extends BaseEntity
 	
 	@JsonIgnore
 	@ManyToOne(optional=true,fetch=FetchType.LAZY)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="userid",nullable=false)
 	public AppUser getUid() {
 		return uid;
 	}
