@@ -35,11 +35,12 @@ import org.yingqu.framework.model.BaseEntity;
 public class Interact extends BaseEntity
 {
 	@FieldInfo(name = "主键", type = ExtFieldType.ID)
-	private String hId;
+	private String interid;
 	@SearchProperty(index=1)
 	@FieldInfo(name="用户名", visible = true, nullAble = false)
 	private String username;
-    @Dictionary("INCTYPE")
+	@SearchProperty(index=1,value="INCATYPE")
+	@Dictionary("INCATYPE")
 	@FieldInfo(name="分类", visible = true, nullAble = false)
 	private String type;
     @SearchProperty(index=1)
@@ -75,22 +76,27 @@ public class Interact extends BaseEntity
 	public void setUid(AppUser uid) {
 		this.uid = uid;
 	}
-	@Id
-	@GeneratedValue(generator = "systemUUID")
-	@Column(length = 50)
-	public String gethId() {
-		return hId;
-	}
-
-
-	public void sethId(String hId) {
-		this.hId = hId;
-	}
-
 
 
 	public String getType() {
 		return type;
+	}
+	@Id
+	@GeneratedValue(generator = "systemUUID")
+	@Column(length = 50)
+	public String getInterid() {
+		return interid;
+	}
+	public void setInterid(String interid) {
+		this.interid = interid;
+	}
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 

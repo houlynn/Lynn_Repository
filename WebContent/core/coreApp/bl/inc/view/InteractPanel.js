@@ -13,16 +13,11 @@ Ext.define("core.bl.inc.view.InteractPanel",{
 	        isChildren:false,//是否子功能
 	        children:[{//子功能的配置
 	        	funCode:"interactitem_main"	        	
-	        }],
-	        //子功能信息
-	        childFun:[],
-	        parentCode:"interact_main",//主功能功能编码
-	        connectFields:[{//关联字段
-			mainFieldCode:"",//主功能字段名
-			childFieldCode:"",//子功能字段名
-			foreignKey:"foreignKey",//外键虚字段
-			isQuery:true
-			}]
+			},
+			{//子功能的配置
+	        	funCode:"officialPhotograph_main"	        	
+			}
+			]
 	},
 		items:[{
 		xtype:"basecenterpanel",
@@ -36,6 +31,15 @@ Ext.define("core.bl.inc.view.InteractPanel",{
 				fieldLabel:"用户名",
 				name:"username",
 				config:{
+				}
+			},
+			  {
+				xtype:"basequeryfield",
+				queryType:"basecombobox",
+				fieldLabel:"分类",
+				name:"type",
+				config:{
+					ddCode:"INCATYPE"
 				}
 			},
 			  {

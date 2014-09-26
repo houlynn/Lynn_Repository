@@ -2,9 +2,10 @@ Ext.define("core.bl.inc.view.OfficialIteractGrid", {
 	extend : "core.app.base.BaseGrid",
 	alias : "widget.bl.officialIteractGrid",
 	tbar:[
-			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add'},
-			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
+	  	{xtype:'button',text:'添加',ref:'gridInsertF',iconCls:'table_add'},
+		{xtype:'button',text:'编辑',ref:'gridEdit',iconCls:'table_edit',disabled:true},
+		{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
+		{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
 		],
 	columns : [{
 		xtype:"rownumberer",
@@ -34,7 +35,7 @@ Ext.define("core.bl.inc.view.OfficialIteractGrid", {
 , {
 		text:"标题",
 		dataIndex:"title",
-		width : 120,
+		width : 520,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
@@ -43,21 +44,7 @@ Ext.define("core.bl.inc.view.OfficialIteractGrid", {
 		allowBlank : false,
 		  hideTrigger : false
 		}
-	}
-, {
-		text:"内容",
-		dataIndex:"content",
-		width : 120,
-		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'内容必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
-	}
-, {
+	}, {
 		text:"发帖人",
 		dataIndex:"username",
 		width : 120,

@@ -26,6 +26,16 @@ public class AppNewsController extends SimpleBaseController<AppNews> {
 		return model;
 	}
 	
+	
+	
+	
+	@Override
+	public void getInfoById(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		super.getInfoById(request, response);
+	}
+
 	@RequestMapping(value="/doSave",method=RequestMethod.POST)
 	public void doSave(@Validated  AppNews model,BindingResult br,@RequestParam("shrinkimg") MultipartFile shrinkimg,  HttpServletRequest request,
 			HttpServletResponse response) {

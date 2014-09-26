@@ -2,9 +2,10 @@ Ext.define("core.bl.inc.view.InteractGrid", {
 	extend : "core.app.base.BaseGrid",
 	alias : "widget.bl.interactGrid",
 	tbar:[
-			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add'},
-			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
+	  	{xtype:'button',text:'添加',ref:'gridInsertF',iconCls:'table_add'},
+		{xtype:'button',text:'编辑',ref:'gridEdit',iconCls:'table_edit',disabled:true},
+		{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
+		{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
 		],
 	columns : [{
 		xtype:"rownumberer",

@@ -29,8 +29,8 @@ import org.yingqu.framework.model.BaseEntity;
 public class OfficialIteract extends BaseEntity {
 
 	@FieldInfo(name = "主键", type = ExtFieldType.ID)
-	private String hId;
-	@SearchProperty(index=1)
+	private String oinerid;
+	@SearchProperty(index=1,value="INCATYPE")
 	@Dictionary("INCATYPE")
 	@FieldInfo(name="分类", visible = true, nullAble = false)
 	private String type;
@@ -60,8 +60,12 @@ public class OfficialIteract extends BaseEntity {
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
-	public String gethId() {
-		return hId;
+	public String getOinerid() {
+		return oinerid;
+	}
+
+	public void setOinerid(String oinerid) {
+		this.oinerid = oinerid;
 	}
 	@JsonIgnore
 	@ManyToOne(optional=true,fetch=FetchType.LAZY)
@@ -69,14 +73,27 @@ public class OfficialIteract extends BaseEntity {
 	public EndUser getUid() {
 		return uid;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public String getType() {
 		return type;
 	}
 
-
-	public void sethId(String hId) {
-		this.hId = hId;
-	}
 	@Column(nullable=false)
 	public void setType(String type) {
 		this.type = type;

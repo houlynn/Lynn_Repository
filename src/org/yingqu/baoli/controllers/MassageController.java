@@ -5,7 +5,7 @@ import org.yingqu.baoli.model.Massage;
 import org.yingqu.framework.controllers.SimpleBaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-@RequestMapping("/bl/inc")
+@RequestMapping("/bl/mesg")
 @Controller
 public class MassageController extends SimpleBaseController<Massage> {
 

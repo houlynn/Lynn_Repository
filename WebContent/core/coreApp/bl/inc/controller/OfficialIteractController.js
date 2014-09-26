@@ -9,9 +9,13 @@ Ext.define("core.bl.inc.controller.OfficialIteractController",{
 	views:[
 	"core.bl.inc.view.OfficialIteractGrid",
 	"core.bl.inc.view.OfficialIteractPanel",
-	"core.bl.inc.view.OfficialIteractForm"
+	"core.bl.inc.view.OfficialIteractForm",
+	
+	"core.bl.inc.view.OfficialPhotographGrid",
+	"core.bl.inc.view.OfficialPhotographPanel",
 	],
 	stores:[
-	        "core.bl.inc.store.OfficialIteractStore"
+	        "core.bl.inc.store.OfficialIteractStore",
+	        "core.bl.inc.store.OfficialPhotographStore"
 		]
 });

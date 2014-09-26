@@ -926,7 +926,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 				   InteractListPo viewItem=new InteractListPo();
 				   viewItem.setTitle(item.getTitle());
 				   viewItem.setPostTime(item.getPtime());
-				   viewItem.setInid(item.gethId());
+				   viewItem.setInid(item.getInterid());
 				    AppUser appUser=item.getUid();
 				    viewItem.setTopUrl(appUser.getTopUrl());
 				    viewItem.setProvince(appUser.getProvince());

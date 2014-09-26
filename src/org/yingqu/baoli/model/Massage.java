@@ -24,8 +24,8 @@ public class Massage extends BaseEntity {
 	private  String backtime;
 	@FieldInfo(name = "用户id", visible = true)
 	private String userid;
-	
 	private String username;
+	
 	
 	@Id
 	@GeneratedValue(generator = "systemUUID")

@@ -9,34 +9,17 @@ Ext.define("core.bl.inc.view.OfficialPhotographPanel",{
 	        pkName:"pId",
 	        modelName:"org.yingqu.baoli.model.OfficialPhotograph",//实体全路径
 	        tableName:"OfficialPhotograph",//表名
-	        defaultObj:{enabled:"1"},//默认信息，用于表格添加的时候字段默认值
-	        isChildren:false,//是否子功能
-	        children:[{//子功能的配置
-	        	funCode:"officialPhotographitem_main"	        	
-	        }],
-	        //子功能信息
-	        childFun:[],
-	        parentCode:"officialPhotograph_main",//主功能功能编码
+	        isChildren:true,//是否子功能
+	        parentCode:"officialIteract_main",//主功能功能编码
 	        connectFields:[{//关联字段
-			mainFieldCode:"",//主功能字段名
-			childFieldCode:"",//子功能字段名
+			mainFieldCode:"hId",//主功能字段名
+			childFieldCode:"photourl",//子功能字段名
 			foreignKey:"foreignKey",//外键虚字段
 			isQuery:true
 			}]
 	},
-		items:[{
-		xtype:"basecenterpanel",
-				items:[{
-					xtype:"basequerypanel",
-					region:"north",
-					items:[
-			]
-			},{
+		items:{
 			xtype:"bl.officialPhotographGrid",
 			region:"center"
-		}]
-	},{
-	xtype:"bl.officialPhotographForm",
-		hidden:true
-	}]
+		}
 });

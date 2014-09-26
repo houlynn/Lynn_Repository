@@ -29,37 +29,42 @@
 		<mapping class="org.yingqu.desktop.model.OperateLog" />
 		<mapping class="org.yingqu.baoli.model.Interact" />
 		<mapping class="org.yingqu.baoli.model.Photograph" />
-		
+
 		<mapping class="org.yingqu.baoli.model.OfficialIteract" />
 		<mapping class="org.yingqu.baoli.model.OfficialPhotograph" />
-			<mapping class="org.yingqu.baoli.model.Massage" />
+		<mapping class="org.yingqu.baoli.model.Massage" />
 
 		<mapping class="org.yingqu.baoli.model.Advertisement" />
 		<mapping class="org.yingqu.baoli.model.AppUser" />
 		<mapping class="org.yingqu.baoli.model.AppVersion" />
 		<mapping class="org.yingqu.baoli.model.Feedback" />
 		<mapping class="org.yingqu.baoli.model.Goods" />
-	    <mapping class="org.yingqu.baoli.model.GoodImage" />
+		<mapping class="org.yingqu.baoli.model.GoodImage" />
 		<mapping class="org.yingqu.baoli.model.LoginLog" />
 
 		<mapping class="org.yingqu.baoli.model.Merchant" />
 		<mapping class="org.yingqu.baoli.model.OrderContent" />
 		<mapping class="org.yingqu.baoli.model.OrderItem" />
-		
-			<mapping class="org.yingqu.baoli.model.PayKey" />
+
+		<mapping class="org.yingqu.baoli.model.PayKey" />
 		<mapping class="org.yingqu.baoli.model.PostType" />
 		<mapping class="org.yingqu.baoli.model.PostText" />
 		<mapping class="org.yingqu.baoli.model.DeptImageUrl" />
-	    <mapping class="org.yingqu.baoli.model.AvvertiseImageUrl" />
-	    
-	       <mapping class="org.yingqu.baoli.model.AppClassify" />
-	        <mapping class="org.yingqu.baoli.model.AppClassifyItem" />
-	        <mapping class="org.yingqu.baoli.model.UserAdress" />
-	         <mapping class="org.yingqu.baoli.model.VirtualIcon" />
-	            <mapping class="org.yingqu.baoli.model.AppNews" />
-	              <mapping class="org.yingqu.baoli.model.UserCollection" />
-	    
-	    
+		<mapping class="org.yingqu.baoli.model.AvvertiseImageUrl" />
+
+		<mapping class="org.yingqu.baoli.model.AppClassify" />
+		<mapping class="org.yingqu.baoli.model.AppClassifyItem" />
+		<mapping class="org.yingqu.baoli.model.UserAdress" />
+		<mapping class="org.yingqu.baoli.model.VirtualIcon" />
+		<mapping class="org.yingqu.baoli.model.AppNews" />
+		<mapping class="org.yingqu.baoli.model.UserCollection" />
+
+		<mapping class="org.yingqu.baoli.model.Rental" />
+		<mapping class="org.yingqu.baoli.model.RentalImg" />
+		<mapping class="org.yingqu.baoli.model.SellOfer" />
+		<mapping class="org.yingqu.baoli.model.SellOferImg" />
+
+
 
 
 

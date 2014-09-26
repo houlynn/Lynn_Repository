@@ -4,7 +4,6 @@ Ext.define("core.bl.inc.view.OfficialPhotographGrid", {
 	tbar:[
 			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add'},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
 		],
 	columns : [{
 		xtype:"rownumberer",

@@ -33,31 +33,20 @@ Ext.define("core.bl.inc.view.OfficialIteractForm", {
 		emptyText :'内容必填',
 		allowBlank : false,
 		xtype:"textfield"
+   },
+   {
+		xtype : "tabpanel",
+		columnWidth : 1,
+		menuAlign : "center",
+		items : [ {
+			title : '<center height=40>上传图片</center>',
+			xtype : "bl.officialPhotographPanel",
+			height : comm.get("resolutionHeight") * 0.28
+		} ],
+		tabConfig : {// 标签配置参数
+		}
    }
- ,
- {
-		fieldLabel:"发布时间",
-		name:"ptime",
-		allowBlank : true,
-		xtype:"datetimefield"
-   }
- ,
- {
-		fieldLabel:"发帖人",
-		name:"username",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'发帖人必填',
-		allowBlank : false,
-		ddCode:"ENDUSER",
-		xtype:"basecombobox"
-   }
- ,
- {
-		fieldLabel:"发布状态",
-		name:"state",
-		allowBlank : true,
-		ddCode:"ISPOST",
-		xtype:"basecombobox"
-   }
+
+	
 	]
 });

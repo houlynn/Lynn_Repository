@@ -26,42 +26,31 @@ import org.yingqu.framework.model.BaseEntity;
 public class Photograph extends BaseEntity 
 {
 	@FieldInfo(name = "主键", type = ExtFieldType.ID)
-	private String pId;
+	private String iimgid;
     @FieldInfo(name = "图片链接地址",visible=true)
 	private String imgurl;
     private Interact it;
-    
     @JsonIgnore
     @ManyToOne(optional=false)
     @JoinColumn(name="hId")
     public Interact getIt() {
 		return it;
 	}
-
-
 	public void setIt(Interact it) {
 		this.it = it;
 	}
-
-
-	@Id
-	@GeneratedValue(generator = "systemUUID")
-	@Column(length = 50)
-	public String getpId() {
-		return pId;
-	}
-
-
-	public void setpId(String pId) {
-		this.pId = pId;
-	}
-
-
 	public String getImgurl() {
 		return imgurl;
 	}
-
-
+	@Id
+	@GeneratedValue(generator = "systemUUID")
+	@Column(length = 50)
+	public String getIimgid() {
+		return iimgid;
+	}
+	public void setIimgid(String iimgid) {
+		this.iimgid = iimgid;
+	}
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
 	}

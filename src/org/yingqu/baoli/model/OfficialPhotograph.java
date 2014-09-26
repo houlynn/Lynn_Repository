@@ -26,14 +26,14 @@ import org.yingqu.framework.model.BaseEntity;
 public class OfficialPhotograph extends BaseEntity 
 {
 	@FieldInfo(name = "主键", type = ExtFieldType.ID)
-	private String pId;
+	private String id;
     @FieldInfo(name = "图片链接地址",visible=true)
 	private String imgurl;
     private OfficialIteract it;
     
     @JsonIgnore
     @ManyToOne(optional=false)
-    @JoinColumn(name="hId")
+    @JoinColumn(name="ointerid",nullable=false)
 	public OfficialIteract getIt() {
 		return it;
 	}
@@ -43,18 +43,15 @@ public class OfficialPhotograph extends BaseEntity
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
-	public String getpId() {
-		return pId;
+	public String getId() {
+		return id;
 	}
-
-	public void setpId(String pId) {
-		this.pId = pId;
+	public void setId(String id) {
+		this.id = id;
 	}
-
 	public String getImgurl() {
 		return imgurl;
 	}
-
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
 	}

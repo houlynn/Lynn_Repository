@@ -1,6 +1,6 @@
-Ext.define("core.bl.inc.view.OfficialPhotographForm", {
+Ext.define("core.bl.incimg.view.PhotographForm", {
 	extend : "core.app.base.BaseForm",
-	alias : "widget.bl.officialPhotographForm",
+	alias : "widget.bl.photographForm",
 	items : [ {
 		fieldLabel : "主键",
 		name : "pId",

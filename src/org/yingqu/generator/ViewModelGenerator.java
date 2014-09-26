@@ -38,6 +38,10 @@ import org.yingqu.baoli.model.OrderContent;
 import org.yingqu.baoli.model.OrderItem;
 import org.yingqu.baoli.model.PayKey;
 import org.yingqu.baoli.model.Photograph;
+import org.yingqu.baoli.model.Rental;
+import org.yingqu.baoli.model.RentalImg;
+import org.yingqu.baoli.model.SellOfer;
+import org.yingqu.baoli.model.SellOferImg;
 import org.yingqu.baoli.model.UserAdress;
 import org.yingqu.baoli.model.UserCollection;
 import org.yingqu.baoli.model.VirtualIcon;
@@ -609,10 +613,14 @@ public class ViewModelGenerator implements LogerManager {
 		/*createCode(UserCollection.class,"bl","uc","org.yingqu.baoli",false);*/
 		
 		createCode(Interact.class,"bl","inc","org.yingqu.baoli",true);
-		createCode(Photograph.class,"bl","inc","org.yingqu.baoli",false);
-		createCode(OfficialIteract.class,"bl","inc","org.yingqu.baoli",true);
-		createCode(OfficialPhotograph.class,"bl","inc","org.yingqu.baoli",false);
-		createCode(Massage.class,"bl","inc","org.yingqu.baoli",false);
+		//createCode(Photograph.class,"bl","incimg","org.yingqu.baoli",false);
+		createCode(OfficialIteract.class,"bl","offinc","org.yingqu.baoli",true);
+		//createCode(OfficialPhotograph.class,"bl","offincimg","org.yingqu.baoli",false);
+		//createCode(Massage.class,"bl","mesg","org.yingqu.baoli",false);
+	/*	createCode(Rental.class,"bl","ren","org.yingqu.baoli",true);
+		createCode(RentalImg.class,"bl","renimg","org.yingqu.baoli",false);
+		createCode(SellOfer.class,"bl","sell","org.yingqu.baoli",true);
+		createCode(SellOferImg.class,"bl","sellimg","org.yingqu.baoli",false);*/
 	}
 	
 
