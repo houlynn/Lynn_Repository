@@ -3,6 +3,8 @@ package org.yingqu.baoli.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.yingqu.baoli.model.AppVersion;
 import org.yingqu.framework.controllers.SimpleBaseController;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ public class AppVersionController extends SimpleBaseController<AppVersion> {
 	@Override
 	public AppVersion getModel(HttpServletRequest request, AppVersion model) {
 		return model;
+		
 	}
 
 //////////////////////////////////////////APP方法/////////////////////////////////////////////////
