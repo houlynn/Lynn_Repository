@@ -1,9 +1,10 @@
-Ext.define("core.bl.inc.view.OfficialPhotographGrid", {
+Ext.define("core.bl.ren.view.RentalImgGrid", {
 	extend : "core.app.base.BaseGrid",
-	alias : "widget.bl.officialPhotographGrid",
+	alias : "widget.bl.rentalImgGrid",
 	tbar:[
 			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add'},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
+			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
 		],
 	columns : [{
 		xtype:"rownumberer",
@@ -12,26 +13,28 @@ Ext.define("core.bl.inc.view.OfficialPhotographGrid", {
 		align : 'center'
 	},{
 		text:"主键",
-		dataIndex:"pId",
+		dataIndex:"imgid",
 		hidden:true
 	}
 , {
-		text:"图片链接地址",
-		dataIndex:"imgurl",
+		text:"图片",
+		dataIndex:"url",
 		width : 120,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
-		allowBlank : true,
+		beforeLabelTextTpl : comm.get('required'),
+		emptyText :'图片必填',
+		allowBlank : false,
 		  hideTrigger : false
 		}
 	}
 	
 	 ],
-	store:"core.bl.inc.store.OfficialPhotographStore",
+	store:"core.bl.ren.store.RentalImgStore",
 	bbar:{
 		xtype:'pagingtoolbar',
-		store:"core.bl.inc.store.OfficialPhotographStore",
+		store:"core.bl.ren.store.RentalImgStore",
 		dock:'bottom',
 		displayInfo:true
 	}

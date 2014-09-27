@@ -4,7 +4,7 @@ Ext.define("core.bl.inc.store.PhotographStore", {
 			"org.yingqu.baoli.model.Photograph", "").modelName,
 	proxy : {
 		type : "ajax",
-		url : "/bl/inc/load.action",
+		url : "/bl/incimg/load.action",
 		actionMethods : {
 			create : "POST",
 			read : "GET",

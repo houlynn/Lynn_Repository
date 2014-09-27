@@ -4,7 +4,62 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 		var self=this
 		//事件注册
 		this.control({
+			"basegrid button[ref=gridInsertF]":{
+				click:function(btn){
+					var  offer_imgGid=Ext.getCmp("offer_imgGid");
+					offer_imgGid.getStore().removeAll();
+					
+				}
+		},
+		"baseform button[ref=formSave]":{
+			beforeclick:function(btn){
+				btn.callback=function(reusltObj){
+				}
+			}
 			
+			
+		},
+			"basegrid button[ref=gidePush]":{
+				click:function(btn){
+					var baseGrid=btn.up("basegrid");
+        			var rescords=baseGrid.getSelectionModel().getSelection();
+        			 var oinerid=null;
+        			 var title=null;
+        			if(rescords.length==1){							
+						var data=rescords[0].data;
+						oinerid=data["oinerid"];
+						title=data["title"];
+						}else{
+							  Ext.MessageBox.alert("提示","请选择要发布的帖子!");
+							  return;
+						}
+				    Ext.MessageBox.confirm("确认框", "你要对：<span style='color:red;font-weight:bold'>"+title+"</span> 进行发布吗？", function(btn) {  
+	        	    	 if("yes"==btn){
+	        	    		 Ext.Ajax.request({
+		                    		url:'/bl/offinc/push.action',
+		                    		method:'POST',
+		                    		params:{oinerid:oinerid},
+		                    		timeout:4000,
+		                    		async:false,
+		                    		success:function(response,opts){
+		                    			var  obj = Ext.decode(response.responseText);
+										if(obj.success){
+											 Ext.MessageBox.alert("提示",'发布成功!这条帖子将会在APPP端显示');
+											 baseGrid.getStore().load();
+											 
+										}else{
+											 Ext.MessageBox.alert("提示",obj.obj);
+										}
+		                    		}
+	        	    		 });
+	        	    		 
+	        	    	 }else{
+	        
+	        	    	 }
+					
+				});
+				}
+			},
 			
 			"basegrid button[ref=gridUpload]":{
 				click:function(btn){
@@ -15,10 +70,21 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 					var basePanel=baseGrid.up("basepanel[funCode="+funCode+"]");
 					//得到配置信息
 					var funData=basePanel.funData;
+					var  parentCode=funData["parentCode"];
+					console.log(parentCode);
+	                var mainForm=basePanel.up("baseform[funCode="+parentCode+"]");
+				    var formObj=mainForm.getForm();
+				    var f=formObj.findField("oinerid");
+				    var oinerid=f.getValue();
+				    if(!oinerid){
+				    	var msg='帖子并未保存，请先保存帖子再进行图片上传.';
+				    	 Ext.MessageBox.alert("提示",msg);
+				    	 return ;
+				    }
+				    
 					//处理特殊默认值
-					var insertObj={};
-					/**----------------主子功能处理开始----------------------*/
-					if(funData.isChildren){
+				  	var insertObj={foreignKey:oinerid};
+				/*	if(funData.isChildren){
 						//得到主功能的记录
 						var mainRecord=basePanel.mainRecord;
 						var parentObj={};
@@ -34,8 +100,7 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 						insertObj=Ext.apply(insertObj,parentObj);
 					}
 					var contentObj=basePanel.contentObj;
-					insertObj=Ext.apply(insertObj,contentObj);
-					console.log(insertObj);
+					insertObj=Ext.apply(insertObj,contentObj);*/
 					 var win=Ext.create("Ext.window.Window",{
 							modal : true,
 							maximizable : false,
@@ -67,6 +132,8 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 										var proxy=store.getProxy();
 										proxy.extraParams.parentSql=" and it='"+insertObj.foreignKey+"'";
 										store.load();		
+								}else{
+									 Ext.MessageBox.alert("提示",obj);
 								}}
 						});
 					 
@@ -110,8 +177,8 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 				}
 				var resObj=ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
 				var formObj=baseForm.getForm();
-				var contextField=formObj.findField("context");
-				contextField.setValue(resObj.obj.context);
+				var contextField=formObj.findField("content");
+				contextField.setValue(resObj.obj.content);
 			}
 		},
 		"basegrid":{
@@ -148,12 +215,8 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 				var formObj=baseForm.getForm();
 				var contextField=formObj.findField("content");
 				contextField.setValue(resObj.obj.content);
-				
-				
 			}
 		}
-		
-			
 		});
 	},
 	views:[

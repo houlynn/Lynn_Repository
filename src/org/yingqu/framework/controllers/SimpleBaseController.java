@@ -119,8 +119,10 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 	@RequestMapping("/doSave")
 	public void doSave(M model, HttpServletRequest request,
 			HttpServletResponse response) {
+		
 		this.getModel(request, model);
 		try {
+			
 			if (model instanceof BaseEntity) {
 				buildModelCreateInfo((BaseEntity) model, request, response);
 			} else {
@@ -130,8 +132,9 @@ public abstract class SimpleBaseController<M extends BaseEntity> implements Loge
 			}
 			// 构建创建信息
 			// 保存实体
+			
 			model = (M) ebi.save(model);
-			toWrite(response,
+		toWrite(response,
 					jsonBuilder.returnSuccessJson(jsonBuilder.toJson(model)));
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -36,25 +36,28 @@ Ext.define("core.bl.offinc.view.OfficialIteractPanel",{
 			  {
 				xtype:"basequeryfield",
 				queryType:"textfield",
-				fieldLabel:"标题",
+				fieldLabel:"标题关键字",
 				name:"title",
 				config:{
 				}
 			},
 			  {
 				xtype:"basequeryfield",
-				queryType:"textfield",
-				fieldLabel:"发帖人",
+				queryType:"basecombobox",
+				fieldLabel:"发帖人账号",
 				name:"username",
 				config:{
+					ddCode:"ENDUSER"
 				}
 			},
 			  {
 				xtype:"basequeryfield",
-				queryType:"textfield",
+				queryType:"basecombobox",
 				fieldLabel:"发布状态",
 				name:"state",
 				config:{
+					ddCode:"ISPOST"
+					
 				}
 			},
 			  {

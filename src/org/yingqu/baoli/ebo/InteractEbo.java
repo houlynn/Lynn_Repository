@@ -17,7 +17,7 @@ public void saveInteract(Interact model)throws Exception{
 	   Set<Photograph> imgs= model.getPhotourl();
 	   repertory.save(model);
 	   for(Photograph img : imgs){
-		   img.setIt(model);
+		   img.setInter(model);
 		   repertory.save(img);
 	   }
 }

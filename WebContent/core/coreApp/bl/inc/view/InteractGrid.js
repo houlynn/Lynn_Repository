@@ -20,7 +20,7 @@ Ext.define("core.bl.inc.view.InteractGrid", {
 , {
 		text:"用户名",
 		dataIndex:"username",
-		width : 120,
+		width : 180,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
@@ -48,7 +48,7 @@ Ext.define("core.bl.inc.view.InteractGrid", {
 , {
 		text:"标题",
 		dataIndex:"title",
-		width : 120,
+		width : 320,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
@@ -61,26 +61,12 @@ Ext.define("core.bl.inc.view.InteractGrid", {
 , {
 		text:"内容",
 		dataIndex:"content",
-		width : 120,
+		width : 320,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
 		beforeLabelTextTpl : comm.get('required'),
 		emptyText :'内容必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
-	}
-, {
-		text:"活动时间",
-		dataIndex:"htime",
-		width : 120,
-		 columnType:"textfield",
-		field:{
-			 xtype:"datetimefield",
-		      dateType:"date",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'活动时间必填',
 		allowBlank : false,
 		  hideTrigger : false
 		}

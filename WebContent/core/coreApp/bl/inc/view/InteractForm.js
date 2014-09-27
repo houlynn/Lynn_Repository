@@ -5,79 +5,61 @@ Ext.define("core.bl.inc.view.InteractForm", {
 		fieldLabel : "主键",
 		name : "hId",
 		hidden : true
+	}, {
+		fieldLabel : "发表用户",
+		name : "username",
+		beforeLabelTextTpl : comm.get('required'),
+		readOnly:true,
+		xtype : "textfield"
+	}, {
+		fieldLabel : "分类",
+		name : "type",
+		beforeLabelTextTpl : comm.get('required'),
+		ddCode : "INCTYPE",
+		readOnly:true,
+		xtype : "basecombobox"
+	}, {
+		fieldLabel : "标题",
+		name : "title",
+		beforeLabelTextTpl : comm.get('required'),
+		readOnly:true,
+		xtype : "textfield"
+	}, {
+		fieldLabel : "发布时间",
+		name : "ptime",
+		beforeLabelTextTpl : comm.get('required'),
+		emptyText : '发布时间必填',
+		allowBlank : false,
+		readOnly:true,
+		xtype : "datetimefield"
+	}, {
+		fieldLabel : "内容",
+		name : "content",
+		xtype : 'extkindeditor',
+		name : "content",
+		id : "inter_content2",
+		height : 300,
+		columnWidth : 1,
+
+	}, {
+		xtype : "tabpanel",
+		columnWidth : 1,
+		id : "cffer_imgpanel",
+		menuAlign : "center",
+		margin : "1 1 0 99 0",
+		split : true,
+		items : [ {
+			title : '<center height=40>发布图片</center>',
+			xtype : "bl.photographPanel",
+			height : comm.get("resolutionHeight") * 0.48
+		}, {
+			title : '<center height=40>回复内容</center>',
+			xtype : "bl.massagePanel",
+			height : comm.get("resolutionHeight") * 0.48
+		} ],
+		tabConfig : {// 标签配置参数
+		}
 	}
- ,
- {
-		fieldLabel:"用户名",
-		name:"username",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'用户名必填',
-		allowBlank : false,
-		xtype:"textfield"
-   }
- ,
- {
-		fieldLabel:"分类",
-		name:"type",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'分类必填',
-		allowBlank : false,
-		ddCode:"INCTYPE",
-		xtype:"basecombobox"
-   }
- ,
- {
-		fieldLabel:"标题",
-		name:"title",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'标题必填',
-		allowBlank : false,
-		xtype:"textfield"
-   }
- ,
- {
-		fieldLabel:"内容",
-		name:"content",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'内容必填',
-		allowBlank : false,
-		xtype:"textfield"
-   }
- ,
- {
-		fieldLabel:"活动时间",
-		name:"htime",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'活动时间必填',
-		allowBlank : false,
-		xtype:"datetimefield"
-   }
- ,
- {
-		fieldLabel:"人数限制",
-		name:"people",
-		allowBlank : true,
-		allowDecimals:false,
-		emptyText :'请输输入整数',
-		xtype:"textfield"
-   }
- ,
- {
-		fieldLabel:"活动地点",
-		name:"site",
-		allowBlank : true,
-		allowDecimals:false,
-		emptyText :'请输输入整数',
-		xtype:"textfield"
-   }
- ,
- {
-		fieldLabel:"发布时间",
-		name:"ptime",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'发布时间必填',
-		allowBlank : false,
-		xtype:"datetimefield"
-   }
+
 	]
 });

@@ -136,6 +136,19 @@ Ext.define("core.bl.gd.view.GoodsGrid", {
 		allowBlank : false,
 		  hideTrigger : false
 		}
+	},{
+		text:"广告词",
+		dataIndex:"trip",
+		width : 320,
+		 columnType:"textfield",
+		field:{
+		xtype:"textfield",
+		beforeLabelTextTpl : comm.get('required'),
+		emptyText :'商品名称必填',
+		allowBlank : false,
+		}
+		
+		
 	}
 	
 	 ],

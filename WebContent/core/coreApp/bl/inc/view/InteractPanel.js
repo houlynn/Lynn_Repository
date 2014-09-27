@@ -6,16 +6,15 @@ Ext.define("core.bl.inc.view.InteractPanel",{
 	        action:"/bl/inc", //请求Action
 	        whereSql:"",//表格查询条件
 	        orderSql:"operatingTime",//表格排序条件
-	        pkName:"hId",
+	        pkName:"interid",
 	        modelName:"org.yingqu.baoli.model.Interact",//实体全路径
 	        tableName:"Interact",//表名
-	        defaultObj:{enabled:"1"},//默认信息，用于表格添加的时候字段默认值
 	        isChildren:false,//是否子功能
 	        children:[{//子功能的配置
-	        	funCode:"interactitem_main"	        	
+	        	funCode:"massage_main"	        	
 			},
 			{//子功能的配置
-	        	funCode:"officialPhotograph_main"	        	
+	        	funCode:"photograph_main"	        	
 			}
 			]
 	},

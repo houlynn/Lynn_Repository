@@ -33,13 +33,16 @@ public class OfficialPhotographController extends SimpleBaseController<OfficialP
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		if(StringUtil.isNotEmpty(foreignKey)){
-			System.out.println(foreignKey);
           OfficialIteract iteract=new OfficialIteract();
           iteract.setOinerid(foreignKey);
           model.setIt(iteract);
+          ProcessFieldsUploadUtil.upload(model, url,"imgurl","baoli.upload.forum"); 
+  		  super.doSave(model, request, response);
+		}else{
+			toWrite(response,
+					jsonBuilder.returnFailureJson("'帖子并未保存，请先保存帖子再进行图片上传.'"));
 		}
-		ProcessFieldsUploadUtil.upload(model, url,"imgurl","baoli.upload.forum"); 
-		super.doSave(model, request, response);
+		
 	}
 
 }

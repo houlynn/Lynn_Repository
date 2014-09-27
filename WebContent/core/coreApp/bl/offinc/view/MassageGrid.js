@@ -2,9 +2,7 @@ Ext.define("core.bl.offinc.view.MassageGrid", {
 	extend : "core.app.base.BaseGrid",
 	alias : "widget.bl.massageGrid",
 	tbar:[
-			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add'},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
 		],
 	columns : [{
 		xtype:"rownumberer",
@@ -19,46 +17,20 @@ Ext.define("core.bl.offinc.view.MassageGrid", {
 , {
 		text:"回复内容",
 		dataIndex:"context",
-		width : 120,
+		width : 620,
 		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		allowBlank : true,
-		  hideTrigger : false
-		}
-	}
-, {
-		text:"帖子ID",
-		dataIndex:"inid",
-		width : 120,
-		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		allowBlank : true,
-		  hideTrigger : false
-		}
 	}
 , {
 		text:"评论时间",
 		dataIndex:"backtime",
 		width : 120,
-		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		allowBlank : true,
-		  hideTrigger : false
-		}
+		 columnType:"textfield"
 	}
 , {
-		text:"用户id",
+		text:"回复账号账号",
 		dataIndex:"userid",
 		width : 120,
-		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		allowBlank : true,
-		  hideTrigger : false
-		}
+		 columnType:"textfield"
 	}
 	
 	 ],

@@ -4,7 +4,7 @@ Ext.define("core.bl.inc.store.MassageStore", {
 			"org.yingqu.baoli.model.Massage", "").modelName,
 	proxy : {
 		type : "ajax",
-		url : "/bl/inc/load.action",
+		url : "/bl/mesg/load.action",
 		actionMethods : {
 			create : "POST",
 			read : "GET",

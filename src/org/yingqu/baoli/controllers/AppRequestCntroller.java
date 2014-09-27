@@ -215,6 +215,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 					gdp.setName(gd.getName());// 商品名称
 					gdp.setPrice(gd.getPrice());// 单价
 					gdp.setSaleCount(gd.getSaleCount());// 销售数量
+					gdp.setTrip(gd.getTrip());
 					List<String> listImage = new ArrayList<String>();// 图片集合
 					if (imgs != null && imgs.size() > 0) {
 						for (GoodImage gimg : imgs) {

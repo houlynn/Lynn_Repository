@@ -33,6 +33,21 @@ public class GoodsPo {
 	 * saleCount
 	 */
 	private float  saleCount;
+	
+	
+	/**
+	 * 广告词
+	 */
+	private String trip;
+	
+
+	public String getTrip() {
+		return trip;
+	}
+
+	public void setTrip(String trip) {
+		this.trip = trip;
+	}
 
 	public GoodsPo(List<String> imgs, String name, float price, float yprice,
 			float saleCount) {

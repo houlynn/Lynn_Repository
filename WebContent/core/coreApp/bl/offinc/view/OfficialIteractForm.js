@@ -33,8 +33,10 @@ Ext.define("core.bl.offinc.view.OfficialIteractForm", {
 	}, {
 		xtype : "tabpanel",
 		columnWidth : 1,
+		id:"cffer_imgpanel",
 		menuAlign : "center",
 		margin:"1 1 0 99 0",
+		split : true,
 		items : [ {
 			title : '<center height=40>上传图片</center>',
 			xtype : "bl.officialPhotographPanel",

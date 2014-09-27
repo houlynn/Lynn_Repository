@@ -29,31 +29,33 @@ public class Photograph extends BaseEntity
 	private String iimgid;
     @FieldInfo(name = "图片链接地址",visible=true)
 	private String imgurl;
-    private Interact it;
-    @JsonIgnore
-    @ManyToOne(optional=false)
-    @JoinColumn(name="hId")
-    public Interact getIt() {
-		return it;
-	}
-	public void setIt(Interact it) {
-		this.it = it;
-	}
-	public String getImgurl() {
-		return imgurl;
-	}
+    private Interact inter;
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
 	public String getIimgid() {
 		return iimgid;
 	}
+    
 	public void setIimgid(String iimgid) {
 		this.iimgid = iimgid;
 	}
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
 	}
+	public String getImgurl() {
+		return imgurl;
+	}
+    @JsonIgnore
+    @ManyToOne(optional=false)
+    @JoinColumn(name="iterid")
+	public Interact getInter() {
+		return inter;
+	}
+	public void setInter(Interact inter) {
+		this.inter = inter;
+	}
+
 
 	@Transient
 	@Override

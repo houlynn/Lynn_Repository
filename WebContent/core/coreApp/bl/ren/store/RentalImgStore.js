@@ -1,10 +1,10 @@
-Ext.define("core.bl.inc.store.OfficialPhotographStore", {
+Ext.define("core.bl.ren.store.RentalImgStore", {
 	extend : "Ext.data.Store",
 	model : factory.ModelFactory.getModelByName(
-			"org.yingqu.baoli.model.OfficialPhotograph", "").modelName,
+			"org.yingqu.baoli.model.RentalImg", "").modelName,
 	proxy : {
 		type : "ajax",
-		url : "/bl/inc/load.action",
+		url : "/bl/renimg/load.action",
 		actionMethods : {
 			create : "POST",
 			read : "GET",

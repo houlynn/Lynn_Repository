@@ -72,6 +72,9 @@ public class Goods extends BaseEntity {
 	private String specification; 
 	@FieldInfo(name = "发货地", visible = true, nullAble = false)
 	private String shipfrom; 
+	@FieldInfo(name = "广告词", visible = true, nullAble = false)
+	private String trip;
+	
 	private Set<GoodImage> imgs=new HashSet<GoodImage>();
 	@Id
 	@GeneratedValue(generator = "systemUUID")
@@ -210,6 +213,14 @@ public class Goods extends BaseEntity {
 	public void setShipfrom(String shipfrom) {
 		this.shipfrom = shipfrom;
 	}
+	public String getTrip() {
+		return trip;
+	}
+
+	public void setTrip(String trip) {
+		this.trip = trip;
+	}
+
 	@JsonIgnore
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="good",cascade={CascadeType.REMOVE})
 	@LazyCollection(LazyCollectionOption.TRUE)

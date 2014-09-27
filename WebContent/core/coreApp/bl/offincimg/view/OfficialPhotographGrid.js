@@ -1,8 +1,8 @@
 Ext.define("core.bl.offincimg.view.OfficialPhotographGrid", {
 	extend : "core.app.base.BaseGrid",
 	alias : "widget.bl.officialPhotographGrid",
+	id:"offer_imgGid",
 	tbar:[
-			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add'},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
 			 {xtype:'button',text:'上传商品图片',ref:'gridUpload',iconCls:'table_add'},
 		],

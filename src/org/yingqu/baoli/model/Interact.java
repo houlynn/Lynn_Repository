@@ -165,7 +165,7 @@ public class Interact extends BaseEntity
 
 
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="it",cascade={CascadeType.REMOVE})
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="inter",cascade={CascadeType.REMOVE})
 	@LazyCollection(LazyCollectionOption.TRUE)
 	public Set<Photograph> getPhotourl() {
 		return photourl;
