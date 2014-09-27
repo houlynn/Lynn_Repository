@@ -4,7 +4,7 @@ Ext.define("core.bl.offincimg.view.OfficialPhotographGrid", {
 	id:"offer_imgGid",
 	tbar:[
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			 {xtype:'button',text:'上传商品图片',ref:'gridUpload',iconCls:'table_add'},
+			 {xtype:'button',text:'上传图片',ref:'gridUpload',iconCls:'table_add'},
 		],
 	columns : [{
 		xtype:"rownumberer",

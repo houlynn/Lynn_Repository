@@ -17,26 +17,14 @@ Ext.define("core.bl.inc.view.MassageGrid", {
 , {
 		text:"回复内容",
 		dataIndex:"context",
-		width : 120,
+		width : 620,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
 		allowBlank : true,
 		  hideTrigger : false
 		}
-	}
-, {
-		text:"帖子ID",
-		dataIndex:"inid",
-		width : 120,
-		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		allowBlank : true,
-		  hideTrigger : false
-		}
-	}
-, {
+	}, {
 		text:"评论时间",
 		dataIndex:"backtime",
 		width : 120,
@@ -48,7 +36,7 @@ Ext.define("core.bl.inc.view.MassageGrid", {
 		}
 	}
 , {
-		text:"用户id",
+		text:"回复用户",
 		dataIndex:"userid",
 		width : 120,
 		 columnType:"textfield",

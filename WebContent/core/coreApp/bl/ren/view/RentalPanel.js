@@ -9,7 +9,6 @@ Ext.define("core.bl.ren.view.RentalPanel",{
 	        pkName:"rid",
 	        modelName:"org.yingqu.baoli.model.Rental",//实体全路径
 	        tableName:"Rental",//表名
-	        defaultObj:{enabled:"1"},//默认信息，用于表格添加的时候字段默认值
 	        isChildren:false,//是否子功能
 	        children:[{//子功能的配置
 	        	funCode:"rentalImg_main"	        	

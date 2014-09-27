@@ -1,2 +1,6 @@
 /jdbc.properties
-/org/
+/.gitignore
+/appServer.properties
+/ehcache.xml
+/global.app.properties
+/org

@@ -45,10 +45,14 @@ public class Rental  extends BaseEntity{
 	private String ptime;
 	@FieldInfo(name = "来源", visible = true, nullAble = false)
 	private String source;
+	private String  username;
+	
 	@Dictionary("ISPOST")
 	@SearchProperty(index=2)
 	@FieldInfo(name="发布状态")
 	private String  state;
+	
+	private String content;
 	
 	private Set<RentalImg> imgs=new HashSet<RentalImg>();
 	
@@ -97,6 +101,20 @@ public class Rental  extends BaseEntity{
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	@Column(length=3000)
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	@JsonIgnore
 	@OneToMany(mappedBy="rental",cascade={CascadeType.REMOVE},fetch=FetchType.LAZY)

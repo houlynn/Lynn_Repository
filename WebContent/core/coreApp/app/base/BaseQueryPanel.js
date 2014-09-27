@@ -10,6 +10,8 @@ bodyStyle:'border-width:1px 0 1px 0;',
 autoScroll : false,
 animCollapse : true,
 collapsible:true,
+autoScroll : true,
+collapsed :true,
 bodyPadding : '1 0 0 0',
 defaults:{
 	margin:"10 0 0 0 0",

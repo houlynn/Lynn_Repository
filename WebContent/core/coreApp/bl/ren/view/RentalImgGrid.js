@@ -1,10 +1,10 @@
 Ext.define("core.bl.ren.view.RentalImgGrid", {
 	extend : "core.app.base.BaseGrid",
 	alias : "widget.bl.rentalImgGrid",
+	id:"ren_imgGid",
 	tbar:[
-			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add'},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
+			 {xtype:'button',text:'上传图片',ref:'gridUpload',iconCls:'table_add'},
 		],
 	columns : [{
 		xtype:"rownumberer",
@@ -19,15 +19,11 @@ Ext.define("core.bl.ren.view.RentalImgGrid", {
 , {
 		text:"图片",
 		dataIndex:"url",
-		width : 120,
+		width : 620,
 		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'图片必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
+		 renderer:function(value,data,record){
+				return "<img src='"+value+"' />"; 
+		 }
 	}
 	
 	 ],

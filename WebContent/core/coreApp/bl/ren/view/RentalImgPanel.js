@@ -10,10 +10,10 @@ Ext.define("core.bl.ren.view.RentalImgPanel",{
 	        modelName:"org.yingqu.baoli.model.RentalImg",//实体全路径
 	        tableName:"RentalImg",//表名
 	        isChildren:true,//是否子功能
-	        parentCode:"rentalImg_main",//主功能功能编码
+	        parentCode:"rental_main",//主功能功能编码
 	        connectFields:[{//关联字段
 			mainFieldCode:"rid",//主功能字段名
-			childFieldCode:"",//子功能字段名
+			childFieldCode:"rental",//子功能字段名
 			foreignKey:"foreignKey",//外键虚字段
 			isQuery:true
 			}]
