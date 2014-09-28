@@ -35,7 +35,7 @@ public class AppUserPo extends PModel {
 	/**
 	 * 我的帖子
 	 */
-	private int noteCoumt;
+	private int noteCount;
 
 	/**
 	 * 我的订单
@@ -61,7 +61,7 @@ public class AppUserPo extends PModel {
 	/**
 	 * 默认收货地址
 	 */
-	private String defaultAdrs;
+	private String defaultAddressid;
 
 	/**
 	 * 职业
@@ -205,12 +205,12 @@ public class AppUserPo extends PModel {
 		this.username = username;
 	}
 
-	public int getNoteCoumt() {
-		return noteCoumt;
+	public int getNoteCount() {
+		return noteCount;
 	}
 
-	public void setNoteCoumt(int noteCoumt) {
-		this.noteCoumt = noteCoumt;
+	public void setNoteCount(int noteCount) {
+		this.noteCount = noteCount;
 	}
 
 	public int getOrderCount() {
@@ -245,12 +245,12 @@ public class AppUserPo extends PModel {
 		this.levf = levf;
 	}
 
-	public String getDefaultAdrs() {
-		return defaultAdrs;
+	public String getDefaultAddressid() {
+		return defaultAddressid;
 	}
 
-	public void setDefaultAdrs(String defaultAdrs) {
-		this.defaultAdrs = defaultAdrs;
+	public void setDefaultAddressid(String defaultAddressid) {
+		this.defaultAddressid = defaultAddressid;
 	}
 
 	public String getPwd() {

@@ -49,6 +49,18 @@ public class SellOfer extends BaseEntity {
 	@SearchProperty(index=2)
 	@FieldInfo(name="发布状态")
 	private String  state;
+	private String username;
+	
+	private String content;
+	
+	@Column(length=3000)
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 	private Set<SellOferImg> imgs= new  HashSet<SellOferImg>();
 	@Id
 	@GeneratedValue(generator = "systemUUID")
@@ -108,6 +120,15 @@ public class SellOfer extends BaseEntity {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	@JsonIgnore
 	@OneToMany(mappedBy="sell",cascade={CascadeType.REMOVE},fetch=FetchType.LAZY)
     @LazyCollection(LazyCollectionOption.TRUE)

@@ -195,7 +195,7 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 					  String addHql="from UserAdress where userid='"+userid+"' and defaulted='1'";
 					  UserAdress addAdress=(UserAdress) ebi.getEntityByHql(addHql);
 					  if(addAdress!=null){
-						  appUserPo.setDefaultAdrs(addAdress.getAddress());
+						  appUserPo.setDefaultAddressid(addAdress.getUdid());
 					  }
 					  appUserPo.setCollecCount(count);
 					resModel.setObj(appUserPo);
@@ -240,7 +240,7 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 						  String addHql="from UserAdress where userid='"+userid+"' and defaulted='1'";//加载用户默认地址
 						  UserAdress addAdress=(UserAdress) ebi.getEntityByHql(addHql);
 						  if(addAdress!=null){
-							  appUserPo.setDefaultAdrs(addAdress.getAddress());
+							  appUserPo.setDefaultAddressid(addAdress.getUdid());
 						  }
 						  resModel.setObj(appUserPo);
 				}
@@ -259,6 +259,7 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 	 * 请求类型为 multipart/form-data
 	 * @param appUser
 	 * @param response
+	 * 默认地址
 	 */
 	@RequestMapping("/updateAppUser")
 	public void updateAppUser(AppUser appUser,HttpServletResponse response, 
@@ -283,9 +284,9 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 								"baoli.upload.top");
 					}
 					user.setUsername(appUser.getUsername());//用户亲昵
-					if(StringUtil.isNotEmpty( appUser.getDefaultadi())){
+					if(StringUtil.isNotEmpty( appUser.getDefaultAddressid())){
 						 UserAdress uddres=new UserAdress();
-						 uddres.setUdid(appUser.getDefaultadi());
+						 uddres.setUdid(appUser.getDefaultAddressid());
 						 defaultAddress(uddres, request, response);
 						 debug("更新用户地址！:");
 						 

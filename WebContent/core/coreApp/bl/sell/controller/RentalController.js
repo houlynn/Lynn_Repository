@@ -1,4 +1,4 @@
-Ext.define("core.bl.ren.controller.RentalController",{
+Ext.define("core.bl.sell.controller.RentalController",{
 	extend:"Ext.app.Controller",
 	init:function(){
 		var self=this
@@ -36,7 +36,7 @@ Ext.define("core.bl.ren.controller.RentalController",{
 				    Ext.MessageBox.confirm("确认框", "你要对：<span style='color:red;font-weight:bold'>"+title+"</span> 进行发布吗？", function(btn) {  
 	        	    	 if("yes"==btn){
 	        	    		 Ext.Ajax.request({
-		                    		url:'/bl/ren/push.action',
+		                    		url:'/bl/sell/push.action',
 		                    		method:'POST',
 		                    		params:{rid:rid},
 		                    		timeout:4000,
@@ -90,11 +90,11 @@ Ext.define("core.bl.ren.controller.RentalController",{
 							width : 600,
 							height : 120,
 							items:{
-								xtype:'bl.renimgformm',
-								id:"renImageForm"
+								xtype:'bl.sellimgformm',
+								id:"seelImageForm"
 							}});
 					 win.show();
-				 var from=Ext.getCmp("renImageForm");
+				 var from=Ext.getCmp("seelImageForm");
 				var formObj=from.getForm();
 				 var btnUpload= from.down("button[ref=formUpload]");
 				 btnUpload.on("click",function(btn){
@@ -109,7 +109,7 @@ Ext.define("core.bl.ren.controller.RentalController",{
 								if(action.result.success){
 									 Ext.MessageBox.alert("提示",'上传成功!');
 										var proxy=store.getProxy();
-										proxy.extraParams.parentSql=" and rental='"+insertObj.foreignKey+"'";
+										proxy.extraParams.parentSql=" and sell='"+insertObj.foreignKey+"'";
 										store.load();		
 								}else{
 									 Ext.MessageBox.alert("提示",obj);
@@ -199,16 +199,16 @@ Ext.define("core.bl.ren.controller.RentalController",{
 		});
 	},
 	views:[
-	"core.bl.ren.view.RentalGrid",
-	"core.bl.ren.view.RentalPanel",
-	"core.bl.ren.view.RentalForm",
-	"core.bl.ren.view.RentalImgGrid",
-	"core.bl.ren.view.RentalImgPanel",
-	"core.bl.ren.view.UploadForm",
+	"core.bl.sell.view.RentalGrid",
+	"core.bl.sell.view.RentalPanel",
+	"core.bl.sell.view.RentalForm",
+	"core.bl.sell.view.RentalImgGrid",
+	"core.bl.sell.view.RentalImgPanel",
+	"core.bl.sell.view.UploadForm",
 	 "core.app.view.editor.ExtKindEditor"
 	],
 	stores:[
-	        "core.bl.ren.store.RentalStore",
-	        "core.bl.ren.store.RentalImgStore"
+	        "core.bl.sell.store.RentalStore",
+	        "core.bl.sell.store.RentalImgStore"
 		]
 });

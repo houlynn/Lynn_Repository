@@ -49,9 +49,13 @@ import org.yingqu.baoli.model.Goods;
 import org.yingqu.baoli.model.Interact;
 import org.yingqu.baoli.model.Massage;
 import org.yingqu.baoli.model.Merchant;
+import org.yingqu.baoli.model.OfficialIteract;
+import org.yingqu.baoli.model.OfficialPhotograph;
 import org.yingqu.baoli.model.OrderContent;
 import org.yingqu.baoli.model.OrderItem;
 import org.yingqu.baoli.model.Photograph;
+import org.yingqu.baoli.model.Rental;
+import org.yingqu.baoli.model.SellOfer;
 import org.yingqu.baoli.model.UserAdress;
 import org.yingqu.baoli.model.VirtualIcon;
 import org.yingqu.baoli.model.po.AppNewPo;
@@ -59,10 +63,14 @@ import org.yingqu.baoli.model.po.AppNewProd;
 import org.yingqu.baoli.model.po.GoodsDetail;
 import org.yingqu.baoli.model.po.GoodsPo;
 import org.yingqu.baoli.model.po.InteractListPo;
+import org.yingqu.baoli.model.po.InteractPo;
 import org.yingqu.baoli.model.po.MerchantPo;
+import org.yingqu.baoli.model.po.MessagePo;
 import org.yingqu.baoli.model.po.OderPro;
 import org.yingqu.baoli.model.po.OrderProAdrees;
+import org.yingqu.baoli.model.po.RentalPo;
 import org.yingqu.baoli.model.po.RoundPo;
+import org.yingqu.baoli.model.po.SellOferPo;
 import org.yingqu.baoli.model.po.VirtualIconPo;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.AppBaseController;
@@ -703,7 +711,6 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		  resultModel.setObj(appNews);
 		});
 	}
-	
 	/**
 	 * 30 013 根据日期加载 APP新闻
 	 * @param whereSql 查询条件  可选
@@ -748,7 +755,6 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		}else{
 			List<String> dates=AppUtils.findDates(startd, endd);
 			whereSql+=" and addate between  '"+startdate+"' and '"+enddate+"' ";
-			System.out.println(whereSql);
 			orderSql+=" order  by adtime desc";
 			super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, AppNews.class,(list,resultModel)->{
 				  List<AppNews>  listnews=list;
@@ -777,7 +783,6 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 		}
 
 	}
-	
 	/**
 	 * 
 	 * 31 014  根据 新闻 标示加载 一条新闻
@@ -830,9 +835,9 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 /**
  * 33 016 用户发帖  提交 方式 enctype="multipart/form-data"
  * @param userid 用户标示 必须
- * @param type 帖子类型 必须 
- * @param model
- * @param imge 图片文件u
+ * @param type 帖子类型 必须   相关项参考    数字字典    用户论坛分类 条目
+ * @param model  参考用户 发帖界面  注意活动类型帖子传入的参数, 发帖地址
+ * @param imge 图片文件u 用户上传图片的文件集合 file类型
  * @param request
  * @param response
  */
@@ -873,7 +878,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	}
 	/**
 	 * 34 017评论帖子
-	 * @param msg 用户标示 ，贴子ID，评论内容必须的
+	 * @param msg 用户标示 ，贴子ID，评论内容必须的  用户定位信息
 	 * @param request
 	 * @param response
 	 */
@@ -905,7 +910,7 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 	}
 	
 	/**
-	 * 35 018加载用户贴类表
+	 * 35 018加载用户贴列表 可分页
 	 * @param msg
 	 * @param request
 	 * @param response
@@ -925,19 +930,230 @@ private List<GoodsPo> fillGoodsPo(List<Goods> goods) {
 			   List<InteractListPo> views=new ArrayList<>();
 			   views= list.parallelStream().map(item->{
 				   InteractListPo viewItem=new InteractListPo();
-				   viewItem.setTitle(item.getTitle());
 				   viewItem.setPostTime(item.getPtime());
 				   viewItem.setInid(item.getInterid());
+				   viewItem.setPostAddress(item.getPostAddress());
+				   viewItem.setTypeCode(item.getType());
+				   viewItem.setContext(item.getContent());
+				   Set<Photograph> imgs=item.getPhotourl();
+				   if(imgs!=null&&imgs.size()>0){
+					   for(Photograph img : imgs){
+						   viewItem.getImgList().add(img.getImgurl());
+					   }
+				   }
 				    AppUser appUser=item.getUid();
 				    viewItem.setTopUrl(appUser.getTopUrl());
-				    viewItem.setProvince(appUser.getProvince());
-				    viewItem.setCity(appUser.getCity());
 				    viewItem.setUserName(appUser.getUsername());
+				    viewItem.setSefTick(appUser.getSefTick());
 				   return viewItem;
 			   }).collect(Collectors.toList());
+			   resultModel.setObj(views);
 		   });
 
 	}
+	
+	/**
+	 * 36 加载评论    interid 必须
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param whereSql
+	 * @param parentSql
+	 * @param querySql
+	 * @param orderSql
+	 * @param start
+	 * @param limit
+	 */
+	@RequestMapping(value= "/019")
+	public void appRequest019(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			String  interid,
+			@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
+			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+			@RequestParam(value = "orderSql", required = false, defaultValue = "") String orderSql,
+			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit
+			){
+		    super.requestMeth(response, (resultModel)->{
+		    	if(StringUtil.isEmpty(interid)){
+		    		setEmptyCode(resultModel, "帖子标识不能为空!");
+		    	}
+		    });
+		     whereSql+=" and  inid='"+interid+"'";
+			  orderSql+=" order  by backtime desc";
+			  super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, Massage.class, (list,resultModel)->{
+				   List<MessagePo> views=new ArrayList<>();
+				   views= list.parallelStream().map(item->{
+ 					  MessagePo view=new MessagePo();
+					   view.setCity(item.getCity());
+					   view.setProvince(item.getProvince());
+					   view.setMesg(item.getContext());
+					   view.setUserName(item.getUsername());
+					   view.setPsTime(item.getBacktime());
+					  return view;
+				  }).collect(Collectors.toList());
+                   resultModel.setObj(views); 				  
+			  });
+	}
+	
+	/**
+	 *37 加载出租信息
+	 * @param request
+	 * @param response
+	 * @param whereSql
+	 * @param parentSql
+	 * @param querySql
+	 * @param orderSql
+	 * @param start
+	 * @param limit
+	 */
+	@RequestMapping(value= "/020")
+	public void appRequest020(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "whereSql", required = false, defaultValue = " and state='1' ") String whereSql,
+			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+			@RequestParam(value = "orderSql", required = false, defaultValue = " order  by ptime desc ") String orderSql,
+			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit
+			){
+		      super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, Rental.class, (list,resultModel)->{
+		    	   List<RentalPo> views=new ArrayList<>();
+		    	   views=  list.parallelStream().map(item->{
+		    		  RentalPo  view=new RentalPo();
+		    		  try {
+						BeanUtils.copyProperties(view, item);
+						view.setPrice(view.getPrice()+"元/m2/天");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		    		  return view;}).collect(Collectors.toList());
+		    	  resultModel.setObj(views);
+		      });
+	}
+	
+	/**
+	 *38 加载出租信息
+	 * @param request
+	 * @param response
+	 * @param whereSql
+	 * @param parentSql
+	 * @param querySql
+	 * @param orderSql
+	 * @param start
+	 * @param limit
+	 */
+	@RequestMapping(value= "/021")
+	public void appRequest021(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "whereSql", required = false, defaultValue = " and state='1' ") String whereSql,
+			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+			@RequestParam(value = "orderSql", required = false, defaultValue = " order  by ptime desc ") String orderSql,
+			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit
+			){
+		      super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, SellOfer.class, (list,resultModel)->{
+		    	   List<RentalPo> views=new ArrayList<>();
+		    	   views= list.parallelStream().map(item->{
+		    		  RentalPo  view=new RentalPo();
+		    		  try {
+						BeanUtils.copyProperties(view, item);
+						if("0".equals(view.getPrice())){
+							view.setPrice("面议");
+						}else{
+							view.setPrice(view.getPrice()+"万");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		    		  return view;}).collect(Collectors.toList());
+		    	  resultModel.setObj(views);
+		      });
+	}
+	
+	/**
+	 * 39 22加载官方  帖子详细 信息    
+	 * @param   tid  帖子ID
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value= "/022")
+	public void appRequest022(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			String tid
+			){
+		   super.requestMeth(response,resultModel->{
+			   OfficialIteract iteract=   checkNoFec(tid, "帖子标识不能为空!", "帖子标识无效!", resultModel, OfficialIteract.class);
+			   if(iteract!=null){
+				   InteractPo interactPo=new InteractPo(); 
+				   interactPo.setPostTime(iteract.getPtime());
+				   interactPo.setInid(iteract.getOinerid());
+				   interactPo.setTypeCode(iteract.getType());
+				   interactPo.setContext(iteract.getContent());
+				   Set<OfficialPhotograph> imgs=iteract.getPhotourl();
+				   if(imgs!=null&&imgs.size()>0){
+					   for(OfficialPhotograph img : imgs){
+						   interactPo.getImgList().add(img.getImgurl());
+					   }
+				   }
+				   resultModel.setObj(interactPo);
+			   }
+		   } );
+	}
+	/**
+	 * 40详细 出租信息
+	 * @param request
+	 * @param response
+	 * @param tid
+	 */
+	@RequestMapping(value= "/023")
+	public void appRequest023(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			String rid
+			){
+		super.requestMeth(response, (resultModel)->{
+			Rental rental=  checkNoFec(rid, "出租识示能为空", "出租标识无效", resultModel, Rental.class);
+			if(rental!=null){
+				RentalPo view=new RentalPo();
+				BeanUtils.copyProperties(view, rental);
+				resultModel.setObj(view);
+			}
+		});
+		
+		
+	}
+	
+	
+	/**
+	 * 41 详细 出售信息
+	 * @param request
+	 * @param response
+	 * @param tid
+	 */
+	@RequestMapping(value= "/024")
+	public void appRequest024(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			String rid
+			){
+		super.requestMeth(response, (resultModel)->{
+			SellOfer sellOfer=  checkNoFec(rid, "出租标识能为空", "出租标示无效", resultModel, SellOfer.class);
+			if(sellOfer!=null){
+				SellOferPo view=new SellOferPo();
+				BeanUtils.copyProperties(view, sellOfer);
+				resultModel.setObj(view);
+			}
+		});
+	}
+		
+		
 	
 	
 	private AppUser checkAppUser(String useri, ResultModel resultModel)

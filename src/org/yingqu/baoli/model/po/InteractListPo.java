@@ -1,5 +1,7 @@
 package org.yingqu.baoli.model.po;
 
+import java.util.List;
+
 /**
  * 用户论坛条目
 * @author 作者 HouLynn: 
@@ -21,27 +23,43 @@ public class InteractListPo {
 	 */
 	private String topUrl;
 	/**
-	 * 帖子标题
-	 */
-	private String title;
-	/**
 	 * 发表时间 
 	 */
 	private String postTime;
 	/**
-	 * 类型
+	 * 类型 参考用户论坛 数字字典
 	 */
-	private String typeVale;
+	private String typeCode;
 	
 	/**
-	 * 城市
+	 * 发帖地址
+	 * 
 	 */
-	private String city;
-	/**
-	 * 省份
-	 */
-	private String province;
+	 private String  postAddress;
+	 
+	 /**
+	  * 内容
+	  */
+	 private String context;
+	 
+	 /**
+	  * 图片集合
+	  */
+	 private List<String> imgList;
+	 
+	 /**
+	  * 用户个性签名
+	  *
+	  */
+	 private String sefTick;
+	
 
+	public String getPostAddress() {
+		return postAddress;
+	}
+	public void setPostAddress(String postAddress) {
+		this.postAddress = postAddress;
+	}
 	public String getInid() {
 		return inid;
 	}
@@ -61,37 +79,37 @@ public class InteractListPo {
 		this.topUrl = topUrl;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
 	public String getPostTime() {
 		return postTime;
 	}
 	public void setPostTime(String postTime) {
 		this.postTime = postTime;
 	}
-	public String getTypeVale() {
-		return typeVale;
+	public String getTypeCode() {
+		return typeCode;
 	}
-	public void setTypeVale(String typeVale) {
-		this.typeVale = typeVale;
+	public void setTypeCode(String typeCode) {
+		this.typeCode = typeCode;
 	}
-	public String getCity() {
-		return city;
+	public String getContext() {
+		return context;
 	}
-	public void setCity(String city) {
-		this.city = city;
+	public void setContext(String context) {
+		this.context = context;
 	}
-	public String getProvince() {
-		return province;
+	public List<String> getImgList() {
+		return imgList;
 	}
-	public void setProvince(String province) {
-		this.province = province;
+	public void setImgList(List<String> imgList) {
+		this.imgList = imgList;
 	}
-	
+	public String getSefTick() {
+		return sefTick;
+	}
+	public void setSefTick(String sefTick) {
+		this.sefTick = sefTick;
+	}
+
 	
 	
 	

@@ -89,7 +89,7 @@ public class AppUser extends BaseEntity {
 	private String house; 
 	@FieldInfo(name = "用户头像", visible = true, nullAble = false,mobileField=true)
 	private String topUrl; 
-	private String defaultadi;
+	private String defaultAddressid;
 	private Set<UserAdress> adress=new HashSet<UserAdress>();
 	@Id
 	@GeneratedValue(generator = "systemUUID")
@@ -306,12 +306,12 @@ public class AppUser extends BaseEntity {
 	}
 
 	@Transient
-	public String getDefaultadi() {
-		return defaultadi;
+	public String getDefaultAddressid() {
+		return defaultAddressid;
 	}
 
-	public void setDefaultadi(String defaultadi) {
-		this.defaultadi = defaultadi;
+	public void setDefaultAddressid(String defaultAddressid) {
+		this.defaultAddressid = defaultAddressid;
 	}
 
 	@JsonIgnore

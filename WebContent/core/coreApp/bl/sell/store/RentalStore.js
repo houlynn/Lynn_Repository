@@ -1,7 +1,7 @@
-Ext.define("core.bl.sell.store.SellOferStore", {
+Ext.define("core.bl.sell.store.RentalStore", {
 	extend : "Ext.data.Store",
 	model : factory.ModelFactory.getModelByName(
-			"org.yingqu.baoli.model.SellOfer", "").modelName,
+			"org.yingqu.baoli.model.Rental", "").modelName,
 	proxy : {
 		type : "ajax",
 		url : "/bl/sell/load.action",

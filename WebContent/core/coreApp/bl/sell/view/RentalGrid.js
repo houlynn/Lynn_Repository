@@ -1,6 +1,6 @@
-Ext.define("core.bl.ren.view.RentalGrid", {
+Ext.define("core.bl.sell.view.RentalGrid", {
 	extend : "core.app.base.BaseGrid",
-	alias : "widget.bl.rentalGrid",
+	alias : "widget.bl.sellGrid",
 	tbar : [ {
 		xtype : 'button',
 		text : '添加',
@@ -54,7 +54,7 @@ Ext.define("core.bl.ren.view.RentalGrid", {
 		width : 120,
 		columnType : "numberfield",
 	   renderer : function(value, data, record) {
-	  return "<span style=' color:#BB5500; font-weight:bold'>"+value+"元/m2/天</span>";
+	  return "<span style=' color:#BB5500; font-weight:bold'>"+value+"万元</span>";
 		}
 	},
 	{
@@ -96,10 +96,10 @@ Ext.define("core.bl.ren.view.RentalGrid", {
 	}
 
 	],
-	store : "core.bl.ren.store.RentalStore",
+	store : "core.bl.sell.store.RentalStore",
 	bbar : {
 		xtype : 'pagingtoolbar',
-		store : "core.bl.ren.store.RentalStore",
+		store : "core.bl.sell.store.RentalStore",
 		dock : 'bottom',
 		displayInfo : true
 	}

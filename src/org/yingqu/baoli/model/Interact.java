@@ -57,6 +57,7 @@ public class Interact extends BaseEntity
 	@SearchProperty(index=1)
 	@FieldInfo(name="发布时间",nullAble = false,type=ExtFieldType.DATE)
 	private String ptime;
+	private String postAddress;
 	/**
 	 * 用户接受页面参数
 	 */
@@ -173,6 +174,17 @@ public class Interact extends BaseEntity
 	public void setPhotourl(Set<Photograph> photourl) {
 		this.photourl = photourl;
 	}
+	
+	public String getPostAddress() {
+		return postAddress;
+	}
+
+
+	public void setPostAddress(String postAddress) {
+		this.postAddress = postAddress;
+	}
+
+
 	@Transient
 	@Override
 	public String getDescription() 

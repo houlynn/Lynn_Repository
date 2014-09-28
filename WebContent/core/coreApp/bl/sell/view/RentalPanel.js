@@ -1,27 +1,17 @@
-Ext.define("core.bl.sell.view.SellOferPanel",{
+Ext.define("core.bl.sell.view.RentalPanel",{
 	extend:"core.app.base.BasePanel",
-	alias:"widget.bl.sellOferPanel",
-	funCode:"sellOfer_main",
+	alias:"widget.bl.sellPanel",
+	funCode:"rental_main",
 	funData:{
 	        action:"/bl/sell", //请求Action
 	        whereSql:"",//表格查询条件
 	        orderSql:"operatingTime",//表格排序条件
 	        pkName:"rid",
-	        modelName:"org.yingqu.baoli.model.SellOfer",//实体全路径
-	        tableName:"SellOfer",//表名
-	        defaultObj:{enabled:"1"},//默认信息，用于表格添加的时候字段默认值
+	        modelName:"org.yingqu.baoli.model.Rental",//实体全路径
+	        tableName:"Rental",//表名
 	        isChildren:false,//是否子功能
 	        children:[{//子功能的配置
-	        	funCode:"sellOferitem_main"	        	
-	        }],
-	        //子功能信息
-	        childFun:[],
-	        parentCode:"sellOfer_main",//主功能功能编码
-	        connectFields:[{//关联字段
-			mainFieldCode:"",//主功能字段名
-			childFieldCode:"",//子功能字段名
-			foreignKey:"foreignKey",//外键虚字段
-			isQuery:true
+	        	funCode:"rentalImg_main"	        	
 			}]
 	},
 		items:[{
@@ -48,11 +38,11 @@ Ext.define("core.bl.sell.view.SellOferPanel",{
 			},
 			]
 			},{
-			xtype:"bl.sellOferGrid",
+			xtype:"bl.sellGrid",
 			region:"center"
 		}]
 	},{
-	xtype:"bl.sellOferForm",
+	xtype:"bl.sellForm",
 		hidden:true
 	}]
 });

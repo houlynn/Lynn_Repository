@@ -1,5 +1,6 @@
 package org.yingqu.baoli.model.po;
 
+
 public class MessagePo {
 	/**
 	 * 评论用户
@@ -13,6 +14,14 @@ public class MessagePo {
 	 * 评论时间
 	 */
 	private String psTime;
+	/**
+	 * 城市
+	 */
+	private String city;
+	/**
+	 * 省份
+	 */
+	private String province;
 	public String getUserName() {
 		return userName;
 	}
@@ -30,6 +39,18 @@ public class MessagePo {
 	}
 	public void setPsTime(String psTime) {
 		this.psTime = psTime;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
 	}
 
 }

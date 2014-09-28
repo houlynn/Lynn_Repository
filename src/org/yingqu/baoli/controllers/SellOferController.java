@@ -1,10 +1,18 @@
 package org.yingqu.baoli.controllers;
-import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.yingqu.baoli.model.Rental;
 import org.yingqu.baoli.model.SellOfer;
+import org.yingqu.desktop.security.SecurityUserHolder;
 import org.yingqu.framework.controllers.SimpleBaseController;
+import org.yingqu.framework.core.utils.AppUtils;
+import org.yingqu.framework.utils.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/bl/sell")
 @Controller
 public class SellOferController extends SimpleBaseController<SellOfer> {
@@ -18,4 +26,51 @@ public class SellOferController extends SimpleBaseController<SellOfer> {
 		return model;
 	}
 
+	@RequestMapping(value="/push",method=RequestMethod.POST)
+	public void postNews(HttpServletRequest request,HttpServletResponse response,String rid){
+		try{
+			SellOfer sellOfer=(SellOfer) ebi.findById(clazz, rid);
+			sellOfer.setPtime(AppUtils.getCurrentTime());
+			sellOfer.setState("1");
+			sellOfer.setUsername(SecurityUserHolder.getCurrentUser().getUsername());
+			ebi.save(sellOfer);
+			toWrite(response, jsonBuilder.returnSuccessJson("'发布成功!'"));
+		}catch(Exception e){
+			error("发布失败!",e);
+			toWrite(response, jsonBuilder.returnFailureJson("'发布失败!'"));
+		}
+	}
+
+	@Override
+	public void doUpdate(SellOfer model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		  if(StringUtil.isEmpty(model.getPrice())){
+				 model.setPrice("0");
+			  }
+			  double dprice =Double.parseDouble(model.getPrice());
+		       BigDecimal bg = new BigDecimal(dprice/10000);
+		        double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		        model.setPrice(f1+"");
+		        model.setSource("001");
+		super.doUpdate(model, request, response);
+	}
+
+	@Override
+	public void doSave(SellOfer model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		  if(StringUtil.isEmpty(model.getPrice())){
+			 model.setPrice("0");
+		  }
+		  double dprice =Double.parseDouble(model.getPrice());
+	       BigDecimal bg = new BigDecimal(dprice/10000);
+	        double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	        model.setPrice(f1+"");
+	        model.setSource("001");
+		
+		super.doSave(model, request, response);
+	}
+	
+	
 }

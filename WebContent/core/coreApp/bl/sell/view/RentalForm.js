@@ -1,6 +1,6 @@
-Ext.define("core.bl.ren.view.RentalForm", {
+Ext.define("core.bl.sell.view.RentalForm", {
 	extend : "core.app.base.BaseForm",
-	alias : "widget.bl.rentalForm",
+	alias : "widget.bl.sellForm",
 	items : [ {
 		fieldLabel : "主键",
 		name : "rid",
@@ -48,13 +48,13 @@ Ext.define("core.bl.ren.view.RentalForm", {
 {
 		xtype : "tabpanel",
 		columnWidth : 1,
-		id : "cffer_imgpanel",
+		id : "salee_imgpanel",
 		menuAlign : "center",
 		margin : "1 1 0 99 0",
 		split : true,
 		items : [ {
 			title : '<center height=40>上传图片</center>',
-			xtype : "bl.rentalImgPanel",
+			xtype : "bl.sellImgPanel",
 			height : comm.get("resolutionHeight") * 0.48
 		} ],
 		tabConfig : {// 标签配置参数

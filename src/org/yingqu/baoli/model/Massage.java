@@ -26,6 +26,15 @@ public class Massage extends BaseEntity {
 	private String userid;
 	private String username;
 	
+	/**
+	 * 城市
+	 */
+	private String city;
+	/**
+	 * 省份
+	 */
+	private String province;
+	
 	
 	@Id
 	@GeneratedValue(generator = "systemUUID")
@@ -40,6 +49,7 @@ public class Massage extends BaseEntity {
 	}
 
 
+	@Column(length=3000,nullable=false)
 	public String getContext() {
 		return context;
 	}
@@ -88,6 +98,26 @@ public class Massage extends BaseEntity {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+	public String getProvince() {
+		return province;
+	}
+
+
+	public void setProvince(String province) {
+		this.province = province;
 	}
 
 

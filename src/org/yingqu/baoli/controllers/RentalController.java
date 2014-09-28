@@ -27,7 +27,7 @@ public class RentalController extends SimpleBaseController<Rental> {
 		try{
 			Rental rental=(Rental) ebi.findById(clazz, rid);
 			rental.setPtime(AppUtils.getCurrentTime());
-			rental.setState("1");
+			rental.setState("1");//官方
 			rental.setUsername(SecurityUserHolder.getCurrentUser().getUsername());
 			ebi.save(rental);
 			toWrite(response, jsonBuilder.returnSuccessJson("'发布成功!'"));
@@ -35,6 +35,18 @@ public class RentalController extends SimpleBaseController<Rental> {
 			error("发布失败!",e);
 			toWrite(response, jsonBuilder.returnFailureJson("'发布失败!'"));
 		}
-		
 	}
+	@Override
+	public void doSave(Rental model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		model.setSource("001");
+		model.setState("0");
+		super.doSave(model, request, response);
+	}
+	
+	
+	
+	
+	
 }
