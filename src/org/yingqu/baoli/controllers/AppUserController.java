@@ -21,16 +21,12 @@ import org.yingqu.baoli.model.po.CollectBase;
 import org.yingqu.baoli.model.po.CollectPo;
 import org.yingqu.baoli.model.po.OrderPro;
 import org.yingqu.baoli.model.po.UserAdressPo;
-import org.yingqu.desktop.model.Department;
-import org.yingqu.desktop.model.EndUser;
-import org.yingqu.desktop.security.SecurityUserHolder;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.SimpleBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
 import org.apache.commons.beanutils.BeanUtils;
-import org.codehaus.jackson.map.util.BeanUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -78,7 +74,7 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 			model.setSex("001");
 			model.setOwner("000");
 			model.setPwd("000");
-			EndUser currentUser = SecurityUserHolder.getCurrentUser();
+		/*	EndUser currentUser = SecurityUserHolder.getCurrentUser();
 			if (currentUser != null) {
 				model.setDeptid(currentUser.getDeptId());
 				model.setDeptname(currentUser.getDeptName());
@@ -86,7 +82,7 @@ public class AppUserController extends SimpleBaseController<AppUser> {
 				if (dept != null) {
 					model.setCity(dept.getCity());
 				}
-			}
+			}*/
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

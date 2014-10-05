@@ -52,8 +52,8 @@ Ext.define("core.app.controller.GridController",{
 						var resObj=self.ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
 						//表单赋值
 						insertObj=Ext.apply(insertObj,resObj.obj);
-						console.log(baseForm);
 						self.setFormValue(baseForm.getForm(),insertObj);
+						var baseForm=basePanel.down("baseform[funCode="+funCode+"]");
 						/**--------------------主子功能处理开始----------------------*/
 						if(funData.children){
 							Ext.each(funData.children,function(child){

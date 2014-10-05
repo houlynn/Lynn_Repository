@@ -1,6 +1,10 @@
 Ext.define("core.bl.offinc.view.OfficialIteractForm", {
 	extend : "core.app.base.BaseForm",
 	alias : "widget.bl.officialIteractForm",
+	tbar:[
+			{xtype:"button",text:"保存",ref:"formSave_offical",iconCls:"table_save"},
+			{xtype:"button",text:"返回",ref:"formReturn",iconCls:"return"}
+			],
 	items : [ {
 		fieldLabel : "主键",
 		name : "oinerid",
@@ -25,8 +29,8 @@ Ext.define("core.bl.offinc.view.OfficialIteractForm", {
 	}, {
 		fieldLabel : "内容",
 	    xtype: 'extkindeditor',
-		name : "content",
-		id:"html_content1",
+		name : "officialContent",
+		id:"officialIteract_kindeditor",
 		height:300,
 		columnWidth : 1,
 		

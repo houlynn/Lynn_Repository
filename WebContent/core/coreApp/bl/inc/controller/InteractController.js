@@ -4,8 +4,8 @@ Ext.define("core.bl.inc.controller.InteractController",{
 		var self=this
 		//事件注册
 		this.control({
-			
-			"basegrid":{
+		
+			"panel[xtype=bl.interactGrid]":{
 				itemdblclick:function(grid,record,item,index,e,eOpts){
 					
 					var basePanel=grid.up("basepanel");
@@ -37,12 +37,12 @@ Ext.define("core.bl.inc.controller.InteractController",{
 					}
 					var resObj=ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
 					var formObj=baseForm.getForm();
-					var contextField=formObj.findField("content");
+					var contextField=formObj.findField("interactContent");
 					contextField.setValue(resObj.obj.content);
 				}
 			},
 			
-			"basegrid button[ref=gridEdit]":{
+			"panel[xtype=bl.interactGrid] button[ref=gridEdit]":{
 				click:function(btn){
 					var baseGrid=btn.up("basegrid");
 					var funCode=baseGrid.funCode;
@@ -74,7 +74,7 @@ Ext.define("core.bl.inc.controller.InteractController",{
 					}
 					var resObj=ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
 					var formObj=baseForm.getForm();
-					var contextField=formObj.findField("content");
+					var contextField=formObj.findField("interactContent");
 					contextField.setValue(resObj.obj.content);
 				}
 			}

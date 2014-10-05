@@ -23,9 +23,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" type="text/css" href="/MyDesktop/css/desktop.css" />
   <link rel="stylesheet" type="text/css" href="/core/css/comm.css" /> 
   <link rel="stylesheet" type="text/css" href="/core/css/icon.css" /> 
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/plugin/swfupload/UploadPanel.css" /> 
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
   <script type="text/javascript" src="/extjs/ext-all-debug.js"></script>
   <script type="text/javascript" src="/extjs/ext-lang-zh_CN.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/plugin/swfupload/swfupload.js"></script>
   <script type="text/javascript" src="/extjs/examples.js"></script>
   <script type="text/javascript" src="/core/coreApp/util/overrideUtil.js"></script>
   <script type="text/javascript" src="/core/coreApp/util/comm.js"></script>

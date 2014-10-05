@@ -28,7 +28,7 @@ public class SellOferImgController extends SimpleBaseController<SellOferImg> {
 		return model;
 	}
 	@RequestMapping("/uploadField")
-	public void uploadField( @Validated SellOferImg model,BindingResult br,@RequestParam("imgurl") MultipartFile url,
+	public void uploadField( @Validated SellOferImg model,BindingResult br,@RequestParam("file") MultipartFile url,
 			@RequestParam(value="foreignKey",required=false,defaultValue="") String foreignKey,
 			HttpServletRequest request,
 			HttpServletResponse response) {

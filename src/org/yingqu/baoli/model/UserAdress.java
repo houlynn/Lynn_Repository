@@ -73,7 +73,7 @@ public class UserAdress extends BaseEntity {
 	}
 	@JsonIgnore
 	@ManyToOne(optional=true,fetch=FetchType.LAZY)
-	@JoinColumn(name="uid")
+	@JoinColumn(name="uid",nullable=false)
 	public AppUser getAppUser() {
 		return appUser;
 	}

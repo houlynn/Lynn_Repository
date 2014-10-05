@@ -1,6 +1,7 @@
 Ext.define("core.bl.sell.view.RentalForm", {
 	extend : "core.app.base.BaseForm",
 	alias : "widget.bl.sellForm",
+	//id:"contentKindEditorForm",
 	items : [ {
 		fieldLabel : "主键",
 		name : "rid",
@@ -40,8 +41,8 @@ Ext.define("core.bl.sell.view.RentalForm", {
      {
  		fieldLabel : "简介",
 	    xtype: 'extkindeditor',
-		name : "content",
-		id:"ren_comtent",
+		name : "sellContent",
+		id:"sell_comtent",
 		height:300,
 		columnWidth : 1,
      },

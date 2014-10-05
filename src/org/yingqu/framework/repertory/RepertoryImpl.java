@@ -7,12 +7,10 @@ import java.sql.Statement;
 import java.util.List;
 
 import javax.persistence.Id;
-
 import org.yingqu.framework.annotation.FetchProperty;
 import org.yingqu.framework.assist.Condition;
 import org.yingqu.framework.assist.Messenger;
 import org.yingqu.framework.assist.Page;
-import org.yingqu.framework.core.utils.TypeCaseHelper;
 import org.yingqu.framework.irepertory.Irepertory;
 import org.yingqu.framework.log.AppLoggerFactory;
 import org.yingqu.framework.model.BaseEntity;
@@ -22,28 +20,13 @@ import org.yingqu.framework.utils.EntityUtil;
 import org.yingqu.framework.utils.ModelUtil;
 import org.yingqu.framework.utils.StringUtil;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.ConvertUtilsBean;
-import org.apache.commons.beanutils.DynaBean;
-import org.apache.commons.beanutils.DynaProperty;
-import org.apache.commons.beanutils.MethodUtils;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.beanutils.PropertyUtilsBean;
-import org.apache.commons.beanutils.ResultSetDynaClass;
-import org.apache.commons.beanutils.RowSetDynaClass;
-import org.codehaus.jackson.map.util.BeanUtil;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.hibernate.jdbc.Work;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.mysql.jdbc.Connection;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BEncoderStream;
 /**
  * 
 * @author 作者 yingqu: 

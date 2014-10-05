@@ -4,22 +4,15 @@ Ext.define("core.bl.sell.controller.RentalController",{
 		var self=this
 		//事件注册
 		this.control({
-			"basegrid button[ref=gridInsertF]":{
+			
+			"panel[xtype=bl.sellGrid] button[ref=gridInsertF]":{
 				click:function(btn){
 					var  ren_imgGid=Ext.getCmp("ren_imgGid");
 					ren_imgGid.getStore().removeAll();
 					
 				}
 		},
-		"baseform button[ref=formSave]":{
-			beforeclick:function(btn){
-				btn.callback=function(reusltObj){
-				}
-			}
-			
-			
-		},
-			"basegrid button[ref=gidePush]":{
+			"panel[xtype=bl.sellGrid] button[ref=gidePush]":{
 				click:function(btn){
 					var baseGrid=btn.up("basegrid");
         			var rescords=baseGrid.getSelectionModel().getSelection();
@@ -61,7 +54,7 @@ Ext.define("core.bl.sell.controller.RentalController",{
 				}
 			},
 			
-			"basegrid button[ref=gridUpload]":{
+			"panel[xtype=bl.sellImgGrid] button[ref=gridUpload]":{
 				click:function(btn){
 					//得到组件
 					var baseGrid=btn.up("basegrid");						
@@ -81,6 +74,35 @@ Ext.define("core.bl.sell.controller.RentalController",{
 				    	 return ;
 				    }
 				  	var insertObj={foreignKey:rid};
+				  	
+				  	var win=Ext.create("Ext.window.Window",{
+						modal : true,
+						maximizable : false,
+						resizable:false,
+						frame : false,
+						layout : "fit",
+						width : 700,
+						height : 300,
+						items:{
+							xtype:'uploadpanel',
+							addFileBtnText : '选择文件...',
+							uploadBtnText : '上传',
+							removeBtnText : '移除所有',
+							cancelBtnText : '取消上传',
+							file_size_limit : 10,//MB
+							post_params:insertObj,
+							file_types:"*.jpg;*.gif;*.png;*.jpeg",
+							upload_url : funData.action+"/uploadField.action",
+							upload_complete_handler:function(file){
+								var store=baseGrid.getStore();
+								var proxy=store.getProxy();
+								proxy.extraParams.parentSql=" and sell='"+insertObj.foreignKey+"'";
+								store.load();	
+							}
+						}});
+				 win.show();
+				  	
+		/*		  	
 					 var win=Ext.create("Ext.window.Window",{
 							modal : true,
 							maximizable : false,
@@ -116,7 +138,7 @@ Ext.define("core.bl.sell.controller.RentalController",{
 								}}
 						});
 					 
-				 });
+				 });*/
 					//执行回调函数
 					if(btn.callback){
 						btn.callback();
@@ -124,7 +146,7 @@ Ext.define("core.bl.sell.controller.RentalController",{
 				}
 			},
 		
-		"basegrid button[ref=gridEdit]":{
+		"panel[xtype=bl.sellGrid] button[ref=gridEdit]":{
 			click:function(btn){
 				var baseGrid=btn.up("basegrid");
 				var funCode=baseGrid.funCode;
@@ -156,11 +178,13 @@ Ext.define("core.bl.sell.controller.RentalController",{
 				}
 				var resObj=ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
 				var formObj=baseForm.getForm();
-				var contextField=formObj.findField("content");
+				console.log("调用控件");
+				console.log(contextField);
+				var contextField=formObj.findField("sellContent");
 				contextField.setValue(resObj.obj.content);
 			}
 		},
-		"basegrid":{
+		"panel[xtype=bl.sellGrid]":{
 			itemdblclick:function(grid,record,item,index,e,eOpts){
 				
 				var basePanel=grid.up("basepanel");
@@ -192,7 +216,7 @@ Ext.define("core.bl.sell.controller.RentalController",{
 				}
 				var resObj=ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
 				var formObj=baseForm.getForm();
-				var contextField=formObj.findField("content");
+				var contextField=formObj.findField("sellContent");
 				contextField.setValue(resObj.obj.content);
 			}
 		}
@@ -205,7 +229,8 @@ Ext.define("core.bl.sell.controller.RentalController",{
 	"core.bl.sell.view.RentalImgGrid",
 	"core.bl.sell.view.RentalImgPanel",
 	"core.bl.sell.view.UploadForm",
-	 "core.app.view.editor.ExtKindEditor"
+	 "core.bl.sell.view.ExtKindEditor",
+	 "core.app.view.upload.UploadPanel"
 	],
 	stores:[
 	        "core.bl.sell.store.RentalStore",

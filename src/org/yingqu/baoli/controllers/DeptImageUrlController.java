@@ -31,11 +31,11 @@ public class DeptImageUrlController extends SimpleBaseController<DeptImageUrl> {
 			@RequestParam(value="foreignKey",required=false,defaultValue="") String foreignKey,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-		if(StringUtil.isNotEmpty(foreignKey)){
+	/*	if(StringUtil.isNotEmpty(foreignKey)){
          Department dept=new Department();
          dept.setDeptId(foreignKey);
          model.setDept(dept);
-		}
+		}*/
 		ProcessFieldsUploadUtil.upload(model, url,"url","baoli.upload.path"); 
 		super.doSave(model, request, response);
 	}

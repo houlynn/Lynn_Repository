@@ -52,7 +52,7 @@ public class Rental  extends BaseEntity{
 	@FieldInfo(name="发布状态")
 	private String  state;
 	
-	private String content;
+	private String rentalContent;
 	
 	private Set<RentalImg> imgs=new HashSet<RentalImg>();
 	
@@ -109,12 +109,12 @@ public class Rental  extends BaseEntity{
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	@Column(length=3000)
-	public String getContent() {
-		return content;
+	@Column(name="content", columnDefinition="MEDIUMTEXT")
+	public String getRentalContent() {
+		return rentalContent;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setRentalContent(String rentalContent) {
+		this.rentalContent = rentalContent;
 	}
 	@JsonIgnore
 	@OneToMany(mappedBy="rental",cascade={CascadeType.REMOVE},fetch=FetchType.LAZY)

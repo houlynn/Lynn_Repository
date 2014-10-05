@@ -1,5 +1,6 @@
 package org.yingqu.baoli.model.po;
 
+import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.model.vo.PModel;
 
 /**
@@ -89,24 +90,26 @@ public class AppUserPo extends PModel {
 	 * 兴趣爱好
 	 */
 	private String hoby;
-
+	
+	
 	/**
-	 *  登录密码
+	 * 城市
 	 */
-	private String pwd;
-	
-	
+	private String city;
+	/**
+	 * 省份
+	 */
+	private String province;
 	
 /*	*//**
-	 * 城市
-	 *//*
-	private String city;
-	*//**
 	 * 小区名称
 	 *//*
-	private String deptname;
+	private String deptname;*/
 
-*/
+	/**
+	 * 小区ID
+	 */
+	private String villageid;
 
 	public Integer getAge() {
 		return age;
@@ -253,13 +256,22 @@ public class AppUserPo extends PModel {
 		this.defaultAddressid = defaultAddressid;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getCity() {
+		return city;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setCity(String city) {
+		this.city = city;
 	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
 
 
 }

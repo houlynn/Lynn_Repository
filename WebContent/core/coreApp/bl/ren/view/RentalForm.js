@@ -40,8 +40,8 @@ Ext.define("core.bl.ren.view.RentalForm", {
      {
  		fieldLabel : "简介",
 	    xtype: 'extkindeditor',
-		name : "content",
-		id:"ren_comtent",
+		name : "rentalContent",
+		id:"rental_content",
 		height:300,
 		columnWidth : 1,
      },

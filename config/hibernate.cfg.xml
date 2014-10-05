@@ -64,6 +64,8 @@
 		<mapping class="org.yingqu.baoli.model.SellOfer" />
 		<mapping class="org.yingqu.baoli.model.SellOferImg" />
 
+		<mapping class="org.yingqu.baoli.model.Village" />
+
 
 
 

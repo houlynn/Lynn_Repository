@@ -1,6 +1,11 @@
 Ext.define("core.bl.news.view.AppNewsForm", {
 	extend : "core.app.base.BaseForm",
 	alias : "widget.bl.appNewsForm",
+	id:"news_from",
+	tbar:[
+			{xtype:"button",text:"保存",ref:"formSave_news",iconCls:"table_save"},
+			{xtype:"button",text:"返回",ref:"formReturn",iconCls:"return"}
+			],
 	items : [ {
 		fieldLabel : "主键",
 		name : "newid",
@@ -34,12 +39,11 @@ Ext.define("core.bl.news.view.AppNewsForm", {
    },
    {
 	   xtype: 'extkindeditor',
-	   name: 'context',
+	   name: 'newContent',
 	   id:"appnewsid-input",
 	  　columnWidth:1,
 	   height:800,
 	   fieldLabel: '新闻编辑',
-
    }
 	]
 });

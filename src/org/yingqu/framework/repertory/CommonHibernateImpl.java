@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.yingqu.framework.irepertory.CommonIrpertory;
 import org.yingqu.framework.log.AppLoggerFactory;
 import org.yingqu.framework.model.Model;
+import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.utils.EntityUtil;
 import org.yingqu.framework.utils.ModelUtil;
 import org.yingqu.framework.utils.StringUtil;
@@ -157,5 +158,22 @@ public Integer getCount(String hql) throws Exception {
 	}
 	return c;
 }
+
+/* (non-Javadoc)
+ * @see org.yingqu.framework.repertory.updateByPhone#queryByHql(PModel entity )
+ */
+@Override
+public Object updateByPhone(PModel entity) throws Exception {
+	// TODO Auto-generated method stub
+	String pkName=ModelUtil.getClassPkName(entity.getClazz());
+	String pkValue=(String) EntityUtil.getPropertyValue(entity,pkName);
+	//查询当前更新的实体
+	 Object model=sf.getCurrentSession().get(entity.getClazz(), pkValue);
+	 BeanUtils.copyProperties(model,entity );
+	sf.getCurrentSession().update(model);
+	return model;
+}
+
+
 	
 }

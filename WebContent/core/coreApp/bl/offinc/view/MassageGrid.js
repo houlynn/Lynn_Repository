@@ -16,7 +16,7 @@ Ext.define("core.bl.offinc.view.MassageGrid", {
 	}
 , {
 		text:"回复内容",
-		dataIndex:"context",
+		dataIndex:"msgContext",
 		width : 620,
 		 columnType:"textfield",
 	}

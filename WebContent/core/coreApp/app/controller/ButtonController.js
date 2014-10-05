@@ -334,8 +334,6 @@ Ext.define("core.app.controller.ButtonController",{
 					var act=Ext.isEmpty(pkField.getValue())?"doSave":"doUpdate";
 					var contentObj=basePanel.contentObj;
 					var params={};
-					var resultObj={};
-					var flag=true;
 					if(funData.uploadFields){
 						params.uploadFields=funData.uploadFields;
 					}
@@ -350,6 +348,7 @@ Ext.define("core.app.controller.ButtonController",{
 						//成功回调函数
 						success:function(form,action){
 							var obj=action.result.obj;
+							resultObj=action.result;
 							if(action.result.success){
 								//对象成功后处理
 								var insertObj=obj;
@@ -372,7 +371,6 @@ Ext.define("core.app.controller.ButtonController",{
 								/**----------------主子功能处理结束----------------------*/
 								//刷新表单
 								self.setFormValue(formObj,insertObj);
-								resultObj=insertObj;
 								//load表格
 								baseGrid.getStore().load();
 								if(act=="doSave"){
@@ -419,7 +417,6 @@ Ext.define("core.app.controller.ButtonController",{
 						},
 						//错误信息处理
 						failure:function(form, action){
-							flag=false;
 							//前台表单校验错误
 							if(action.failureType=="client"){
 								var errors=["前台验证失败，错误信息："];
@@ -436,7 +433,7 @@ Ext.define("core.app.controller.ButtonController",{
 					})
 					//执行回调函数
 					if(btn.callback){
-						btn.callback(resultObj);
+						btn.callback();
 					}
 				}
 			},

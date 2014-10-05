@@ -11,6 +11,7 @@ Ext.define("core.bl.news.view.AppNewsPanel",{
 	        tableName:"AppNews",//表名
 	        defaultObj:{enabled:"1"},//默认信息，用于表格添加的时候字段默认值
 	        isChildren:false,//是否子功能
+	        content:"newContent"
 	},
 		items:[{
 		xtype:"basecenterpanel",

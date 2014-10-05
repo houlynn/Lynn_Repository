@@ -9,7 +9,7 @@ import java.util.List;
 * @version 创建时间：2014年9月25日 下午9:54:40 
 * version 1.0
  */
-public class InteractPo extends InteractListPo {
+public class OfferInteractPo  {
 	
 	/**
 	 * 帖子标识
@@ -28,13 +28,16 @@ public class InteractPo extends InteractListPo {
 	 /**
 	  * 内容
 	  */
-	 private String context;
+	 private String officialContent;
 	 
 	 /**
 	  * 图片集合
 	  */
 	 private List<String> imgList=new ArrayList<String>();
 	
+	 
+	 
+	 
 	public String getInid() {
 		return inid;
 	}
@@ -54,17 +57,17 @@ public class InteractPo extends InteractListPo {
 	public void setTypeCode(String typeCode) {
 		this.typeCode = typeCode;
 	}
-	public String getContext() {
-		return context;
-	}
-	public void setContext(String context) {
-		this.context = context;
-	}
 	public List<String> getImgList() {
 		return imgList;
 	}
 	public void setImgList(List<String> imgList) {
 		this.imgList = imgList;
+	}
+	public String getOfficialContent() {
+		return officialContent;
+	}
+	public void setOfficialContent(String officialContent) {
+		this.officialContent = officialContent;
 	}
 
 	

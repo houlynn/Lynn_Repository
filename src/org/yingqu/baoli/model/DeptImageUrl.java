@@ -30,7 +30,7 @@ public class DeptImageUrl extends BaseEntity {
 	@FieldInfo(name = "链接路径", visible = true, nullAble = false)
 	private String url;
 	
-	private Department dept;
+	private Village vi;
 	
 	@Id
 	@GeneratedValue(generator = "systemUUID")
@@ -55,12 +55,12 @@ public class DeptImageUrl extends BaseEntity {
 	}
 	@JsonIgnore
     @ManyToOne(optional=false)
-    @JoinColumn(name="deptid")
-	public Department getDept() {
-		return dept;
+    @JoinColumn(name="vid")
+	public Village getVi() {
+		return vi;
 	}
-	public void setDept(Department dept) {
-		this.dept = dept;
+	public void setVi(Village vi) {
+		this.vi = vi;
 	}
 	@Transient
 	@Override
@@ -68,5 +68,6 @@ public class DeptImageUrl extends BaseEntity {
 		// TODO Auto-generated method stub
 		return "小区图片列表";
 	}
+
 
 }

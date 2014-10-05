@@ -40,7 +40,7 @@ if(!ServletFileUpload.isMultipartContent(request)){
 //检查目录
 File uploadDir = new File(savePath);
 if(!uploadDir.isDirectory()){
-	out.println(getError("上传目录不存在。"));
+	out.println(getError("上传目录不存在。"+savePath));
 	return;
 }
 //检查目录写权限

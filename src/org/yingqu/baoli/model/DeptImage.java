@@ -11,29 +11,28 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-import org.yingqu.desktop.model.Department;
 import org.yingqu.framework.model.BaseEntity;
 @Entity
 @GenericGenerator(name = "systemUUID", strategy = "uuid")
 public class DeptImage extends BaseEntity {
 
 	private String id;
-	private Department dept;
+	private Village vi;
 	private String url;
-	private String remarks;
 	@JsonIgnore
 	@ManyToOne(optional=true,fetch=FetchType.LAZY)
-	@JoinColumn(name="deptid")
-	public Department getDept() {
-		return dept;
-	}
-
-	public void setDept(Department dept) {
-		this.dept = dept;
-	}
+	@JoinColumn(name="vid")
 
 	public String getUrl() {
 		return url;
+	}
+
+	public Village getVi() {
+		return vi;
+	}
+
+	public void setVi(Village vi) {
+		this.vi = vi;
 	}
 
 	public void setUrl(String url) {
@@ -49,15 +48,6 @@ public class DeptImage extends BaseEntity {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
 	@Transient
 	@Override
 	public String getDescription() {

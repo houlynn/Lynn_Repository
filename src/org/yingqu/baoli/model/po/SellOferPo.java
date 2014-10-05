@@ -18,7 +18,7 @@ public class SellOferPo {
 	private String ptime;
 	@FieldInfo(name = "来源", visible = true, nullAble = false)
 	private String source;
-	private String content;
+	
 	public String getRid() {
 		return rid;
 	}
@@ -55,11 +55,6 @@ public class SellOferPo {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+
 	
 }

@@ -34,10 +34,9 @@ Ext.define("core.bl.inc.view.InteractForm", {
 		xtype : "datetimefield"
 	}, {
 		fieldLabel : "内容",
-		name : "content",
 		xtype : 'extkindeditor',
-		name : "content",
-		id : "inter_content2",
+		name : "interactContent",
+		id : "interact_extkindetor",
 		height : 300,
 		columnWidth : 1,
 

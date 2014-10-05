@@ -1,10 +1,77 @@
 Ext.define("core.bl.news.controller.AppNewsController",{
 	extend:"Ext.app.Controller",
+	mixins: {
+		formUtils:"core.util.FormUtil"
+	},
 	init:function(){
 		var self=this
-		//事件注册
 		this.control({
-			"basegrid button[ref=gridPush]":{
+			"panel[xtype=bl.appNewsForm] button[ref=formSave_news]":{
+				click:function(btn){
+					var baseForm=btn.up("baseform");
+					var funCode=baseForm.funCode;
+					var basePanel=baseForm.up("basepanel[funCode="+funCode+"]");
+					var baseGrid=basePanel.down("basegrid[funCode="+funCode+"]");
+					var funData=basePanel.funData;
+					var pkName=funData.pkName;
+					var formObj=baseForm.getForm();
+					var pkField=formObj.findField(pkName);
+					var act=Ext.isEmpty(pkField.getValue())?"doSave":"doUpdate";
+					var contentObj=basePanel.contentObj;
+					var params={};
+					var content=formObj.findField("newContent").getValue();
+					if(funData.uploadFields){
+						params.uploadFields=funData.uploadFields;
+					}
+					if(contentObj!=null&&contentObj.foreignKeys!=null){
+						params.foreignKeys=contentObj.foreignKeys;
+					}
+					formObj.submit({
+						url:funData.action+"/"+act+".action",
+						params:params,
+						submitEmptyText:true,
+						success:function(form,action){
+							var obj=action.result.obj;
+							resultObj=action.result;
+							if(action.result.success){
+								var insertObj=obj;
+								insertObj["newContent"]=content;
+								ajax({url:funData.action+"/doUpdateContent.action",params:{content:content, id:insertObj[funData.pkName]},callback:function(resObj){
+									if(resObj.success){
+										if(act=="doSave"){
+											 Ext.MessageBox.alert("提示","数据添加成功");
+										}else{
+											 Ext.MessageBox.alert("提示","数据保存成功");
+										}
+										self.setFormValue(formObj,insertObj);
+										baseGrid.getStore().load();
+									}else{
+										if(act=="doSave"){
+											 Ext.MessageBox.alert("提示","数据添加失败");
+										}else{
+											 Ext.MessageBox.alert("提示","数据保存失败");
+										}
+									}
+								}});
+							}
+						},
+						failure:function(form, action){
+							if(action.failureType=="client"){
+								var errors=["前台验证失败，错误信息："];
+								formObj.getFields().each(function(f){
+									if(!f.isValid()){
+										errors.push("<font color=red>"+f.fieldLabel+"</font>:"+f.getErrors().join(","));
+									}
+								});
+								  Ext.MessageBox.alert("错误提示",errors.join("<br/>"));								
+							}else{
+								  Ext.MessageBox.alert("后台数据保存错误");
+							}
+						}						
+					})
+				}
+			},
+			"panel[xtype=bl.appNewsGrid] button[ref=gridPush]":{
 				click:function(btn){
 					var baseGrid=btn.up("basegrid");
         			var rescords=baseGrid.getSelectionModel().getSelection();
@@ -27,7 +94,8 @@ Ext.define("core.bl.news.controller.AppNewsController",{
 		                    		success:function(response,opts){
 		                    			var  obj = Ext.decode(response.responseText);
 										if(obj.success){
-											 Ext.MessageBox.alert("提示",'发布成功!');
+											 Ext.MessageBox.alert("提示",'发布成功!这条信息将会在App显示');
+												baseGrid.getStore().load();
 										}else{
 											 Ext.MessageBox.alert("提示",obj.obj);
 										}
@@ -40,81 +108,9 @@ Ext.define("core.bl.news.controller.AppNewsController",{
 					
 				});
 				}
-			},
-			"basegrid button[ref=gridEdit]":{
-				click:function(btn){
-					var baseGrid=btn.up("basegrid");
-					var funCode=baseGrid.funCode;
-					var basePanel=baseGrid.up("basepanel[funCode="+funCode+"]");
-					var baseForm=basePanel.down("baseform[funCode="+funCode+"]");
-					//得到选中数据
-					var rescords=baseGrid.getSelectionModel().getSelection();
-					var baseCenterPanel=baseGrid.up("basecenterpanel[funCode="+funCode+"]");
-					var funData=basePanel.funData;
-					if(rescords.length==1){							
-						var data=rescords[0].data;
-						var insertObj=data;
-						}
-				var ajax=	function(config){
-						var data={};
-						var request={
-							method:"POST",
-							async:false,
-							success:function(response){
-								data = Ext.decode(Ext.value(response.responseText,'{}'));
-							},
-							failure : function(response){
-						    	alert('数据请求出错了！！！！\n错误信息：\n'+response.responseText);
-						    }
-						};
-						var request=Ext.apply(request,config);
-						Ext.Ajax.request(request);
-						return data;		
-					}
-					var resObj=ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
-					var formObj=baseForm.getForm();
-					var contextField=formObj.findField("context");
-					contextField.setValue(resObj.obj.context);
-				}
-			},
-			"basegrid":{
-				itemdblclick:function(grid,record,item,index,e,eOpts){
-					
-					var basePanel=grid.up("basepanel");
-					var funCode=basePanel.funCode;
-					var baseForm=basePanel.down("baseform[funCode="+funCode+"]");
-					//得到选中数据
-					var rescords=grid.getSelectionModel().getSelection();
-					var baseCenterPanel=grid.up("basecenterpanel[funCode="+funCode+"]");
-					var funData=basePanel.funData;
-					if(rescords.length==1){							
-						var data=rescords[0].data;
-						var insertObj=data;
-						}
-				var ajax=	function(config){
-						var data={};
-						var request={
-							method:"POST",
-							async:false,
-							success:function(response){
-								data = Ext.decode(Ext.value(response.responseText,'{}'));
-							},
-							failure : function(response){
-						    	alert('数据请求出错了！！！！\n错误信息：\n'+response.responseText);
-						    }
-						};
-						var request=Ext.apply(request,config);
-						Ext.Ajax.request(request);
-						return data;		
-					}
-					var resObj=ajax({url:funData.action+"/getInfoById.action",params:{pkValue:insertObj[funData.pkName]}});
-					var formObj=baseForm.getForm();
-					var contextField=formObj.findField("context");
-					contextField.setValue(resObj.obj.context);
-					
-					
-				}
 			}
+			
+			
 		});
 	},
 	views:[

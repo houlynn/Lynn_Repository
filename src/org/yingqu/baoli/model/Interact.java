@@ -47,7 +47,7 @@ public class Interact extends BaseEntity
 	@FieldInfo(name="标题", visible = true, nullAble = false)
 	private String title;
 	@FieldInfo(name="内容", visible = true, nullAble = false)
-	private String content;
+	private String interactContent;
 	@FieldInfo(name = "活动时间", visible = true, nullAble = false,type=ExtFieldType.DATE)
 	private String htime;
 	@FieldInfo(name="人数限制")
@@ -116,16 +116,18 @@ public class Interact extends BaseEntity
 		this.title = title;
 	}
 
-	@Column(length=5000)
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+
+
 
 	public String getHtime() {
 		return htime;
+	}
+	@Column(name="content", columnDefinition="MEDIUMTEXT")
+	public String getInteractContent() {
+		return interactContent;
+	}
+	public void setInteractContent(String interactContent) {
+		this.interactContent = interactContent;
 	}
 	public void setHtime(String htime) {
 		this.htime = htime;

@@ -45,7 +45,12 @@ public class MerchantPo extends PModel {
  	/**
 	 * 申请用户id
 	 */
-   private String userid;                          
+   private String userid;  
+   
+   /**
+    * 图标
+    */
+   private String icon;
       public String getBusinesstime(){
 		return businesstime;
 	}
@@ -99,6 +104,12 @@ public class MerchantPo extends PModel {
 	}
 	public void setMerid(String merid) {
 		this.merid = merid;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
             
 }

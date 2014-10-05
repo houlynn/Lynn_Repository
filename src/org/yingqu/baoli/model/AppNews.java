@@ -42,7 +42,7 @@ public class AppNews extends BaseEntity {
 	private String state;
 	
 	private String addate;
-	private String context;
+	private String newContent;
 
 	@Id
 	@GeneratedValue(generator = "systemUUID")
@@ -94,17 +94,16 @@ public class AppNews extends BaseEntity {
 	public void setState(String state) {
 		this.state = state;
 	}
-	@Column(name="context", columnDefinition="TEXT")
-	public String getContext() {
-		return context;
-	}
-
-	public void setContext(String context) {
-		this.context = context;
-	}
-
 	public String getAddate() {
 		return addate;
+	}
+	@Column(name="content", columnDefinition="MEDIUMTEXT")
+	public String getNewContent() {
+		return newContent;
+	}
+
+	public void setNewContent(String newContent) {
+		this.newContent = newContent;
 	}
 
 	public void setAddate(String addate) {

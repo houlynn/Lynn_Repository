@@ -17,7 +17,7 @@ public class Massage extends BaseEntity {
 	@FieldInfo(name = "主键", type = ExtFieldType.ID,mobileField=true)
 	private String msgid;
 	@FieldInfo(name = "回复内容", visible = true)
-	private String context;
+	private String msgContext;
 	@FieldInfo(name = "帖子ID", visible = true)
 	private String inid;
 	@FieldInfo(name = "评论时间", visible = true)
@@ -42,24 +42,16 @@ public class Massage extends BaseEntity {
 	public String getMsgid() {
 		return msgid;
 	}
-
-
 	public void setMsgid(String msgid) {
 		this.msgid = msgid;
 	}
-
-
-	@Column(length=3000,nullable=false)
-	public String getContext() {
-		return context;
+	@Column(name="content", columnDefinition="TEXT")
+	public String getMsgContext() {
+		return msgContext;
 	}
-
-
-	public void setContext(String context) {
-		this.context = context;
+	public void setMsgContext(String msgContext) {
+		this.msgContext = msgContext;
 	}
-
-
 	@Column(nullable=false)
 	public String getInid() {
 		return inid;

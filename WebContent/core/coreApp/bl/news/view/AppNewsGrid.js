@@ -23,26 +23,12 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 		dataIndex:"title",
 		width : 490,
 		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'标题必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
 	}
 , {
 		text:"来源",
 		dataIndex:"source",
 		width : 150,
 		 columnType:"textfield",
-		field:{
-			 xtype:"textfield",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'来源必填',
-		allowBlank : false,
-		  hideTrigger : false
-		}
 	}
 , {
 		text:"缩略图",
@@ -50,7 +36,9 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 		width : 120,
 		columnType:"textfield",
 		 renderer:function(value,data,record){
-				return "<img src='"+value+"' width:30; height:30px />"; 
+				var width=16;
+				var height=16;
+			 	return "<img src='"+value+"' width="+width+" height="+height+" />";
 		 }
 	}
 , {
@@ -63,15 +51,13 @@ Ext.define("core.bl.news.view.AppNewsGrid", {
 		text:"发布状态",
 		dataIndex:"state",
 		width : 120,
-		 columnType:"basecombobox",
-	  ddCode:"ISPOST",
-		field:{
-			 xtype:"basecombobox",
-			ddCode:"ISPOST",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'发布状态必填',
-		allowBlank : false,
-		  hideTrigger : false
+		renderer : function(value, data, record) {
+				if ("1" == value) {
+					value = "<span style='color:red;font-weight:bold'>已发布</span>";
+			} else {
+				value = "<span style='color:green;font-weight:bold'>未发布</span>";
+			}
+			  return value;
 		}
 	}
 	

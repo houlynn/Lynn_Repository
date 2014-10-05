@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.yingqu.framework.ebi.CommonEbi;
 import org.yingqu.framework.irepertory.CommonIrpertory;
 import org.yingqu.framework.model.Model;
+import org.yingqu.framework.model.vo.PModel;
 
 @Service
 public class CommonEbo implements CommonEbi {
@@ -76,6 +77,11 @@ public class CommonEbo implements CommonEbi {
 	public Integer getCount(String hql) throws Exception {
 		// TODO Auto-generated method stub
 		return ci.getCount(hql);
+	}
+	@Override
+	public Object updateByPhone(PModel entity) throws Exception {
+		// TODO Auto-generated method stub
+		return ci.updateByPhone(entity);
 	}
 
 }

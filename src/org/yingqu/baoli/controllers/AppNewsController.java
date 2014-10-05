@@ -6,6 +6,7 @@ import org.yingqu.baoli.model.AppNews;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.SimpleBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
+import org.yingqu.framework.model.BaseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.JsonObject;
 @RequestMapping("/bl/news")
 @Controller
 public class AppNewsController extends SimpleBaseController<AppNews> {
@@ -40,14 +43,38 @@ public class AppNewsController extends SimpleBaseController<AppNews> {
 	public void doSave(@Validated  AppNews model,BindingResult br,@RequestParam("shrinkimg") MultipartFile shrinkimg,  HttpServletRequest request,
 			HttpServletResponse response) {
 		ProcessFieldsUploadUtil.upload(model, shrinkimg,"shrinkimg","baoli.upload.news"); 
-		super.doSave(model, request, response);
-		
+		 model.setNewContent("");
+		 model.setState("0");
+		 super.doSave(model, request, response);
 	}
+	
+	@RequestMapping(value="/doUpdateContent",method=RequestMethod.POST)
+	public void doUpdateContent(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="id",required=false) String id
+			) {
+		try{
+		StringBuilder builder=new StringBuilder(request.getParameter("content"));
+		AppNews appNews=(AppNews) ebi.findById(clazz, id);
+		appNews.setNewContent(builder.toString());
+		ebi.update(appNews);
+		toWrite(response,
+				jsonBuilder.returnSuccessJson("''"));
+		}catch(Exception e){
+			error("app新闻更新失败!", e);
+			toWrite(response,
+					jsonBuilder.returnFailureJson("'保存方法出错，错误信息"
+							+ e.getMessage() + "'"));
+		}
+	}
+	
+	
 	
 	@RequestMapping(value="/doUpdate",method=RequestMethod.POST)
 	public void doUpdates(@Validated AppNews model,BindingResult br,@RequestParam("shrinkimg") MultipartFile shrinkimg,  HttpServletRequest request,
 			HttpServletResponse response) {
 		ProcessFieldsUploadUtil.upload(model, shrinkimg,"shrinkimg","baoli.upload.news"); 
+		model.setNewContent("");
 		super.doUpdate(model, request, response);
 		
 	}

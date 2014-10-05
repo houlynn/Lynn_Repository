@@ -8,7 +8,7 @@ public class AppNewProd  extends AppNewPo{
 	/**
 	 * 新闻内容
 	 */
-	 private String contxt;
+	 private String newContent;
 	 
 	 /**
 	  * 新闻来源
@@ -20,17 +20,17 @@ public class AppNewProd  extends AppNewPo{
 	public void setAddate(String addate) {
 		this.addate = addate;
 	}
-	public String getContxt() {
-		return contxt;
-	}
-	public void setContxt(String contxt) {
-		this.contxt = contxt;
-	}
 	public String getSource() {
 		return source;
 	}
 	public void setSource(String source) {
 		this.source = source;
+	}
+	public String getNewContent() {
+		return newContent;
+	}
+	public void setNewContent(String newContent) {
+		this.newContent = newContent;
 	}
 	 
 

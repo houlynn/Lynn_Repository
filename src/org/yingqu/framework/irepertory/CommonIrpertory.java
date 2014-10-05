@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.yingqu.framework.model.Model;
+import org.yingqu.framework.model.vo.PModel;
 
 public interface CommonIrpertory {
 
@@ -88,6 +89,14 @@ public interface CommonIrpertory {
 	 * @throws Exception
 	 */
 		public Integer getCount(String hql)  throws Exception ;
+		
+		/**
+		 * 
+		 * @param entity
+		 * @return
+		 * @throws Exception
+		 */
+		public  Object updateByPhone(PModel entity) throws Exception;
 		
 
 }

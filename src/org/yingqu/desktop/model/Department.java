@@ -13,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
-import org.yingqu.baoli.model.DeptImageUrl;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.annotation.NodeType;
 import org.yingqu.framework.constant.ExtFieldType;
@@ -46,17 +44,6 @@ public class Department extends TreeBaseEntity {
 	private Department parent;
 	private Set<Department> children=new HashSet<Department>();
 	private Set<EndUser> users=new HashSet<EndUser>();
-	@FieldInfo(name = "城市", visible = true, nullAble = false)
-	private String city;
-	@FieldInfo(name = "地理位置", visible = true, nullAble = false)
-	private String location;
-	@FieldInfo(name = "简介", visible = true, nullAble = false)
-	private String summary;
-	@FieldInfo(name = "小区介绍", visible = true, nullAble = false)
-	private String introduce;
-	@FieldInfo(name = "经度纬度", visible = true, nullAble = false)
-	private String locationxy;
-	private Set<DeptImageUrl>  images=new HashSet<DeptImageUrl>();
 	
 	@Id
 	@GeneratedValue(generator="systemUUID")
@@ -105,45 +92,6 @@ public class Department extends TreeBaseEntity {
 	}
 	public void setUsers(Set<EndUser> users) {
 		this.users = users;
-	}
-	public String getLocationxy() {
-		return locationxy;
-	}
-	public void setLocationxy(String locationxy) {
-		this.locationxy = locationxy;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getLocation() {
-		return location;
-	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	public String getSummary() {
-		return summary;
-	}
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-	public String getIntroduce() {
-		return introduce;
-	}
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
-	}
-	@JsonIgnore
-	@OneToMany(mappedBy="dept",cascade={CascadeType.REMOVE},fetch=FetchType.LAZY)
-    @LazyCollection(LazyCollectionOption.TRUE)
-	public Set<DeptImageUrl> getImages() {
-		return images;
-	}
-	public void setImages(Set<DeptImageUrl> images) {
-		this.images = images;
 	}
 	@Transient
 	@Override

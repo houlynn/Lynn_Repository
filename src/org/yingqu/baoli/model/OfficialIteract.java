@@ -38,7 +38,7 @@ public class OfficialIteract extends BaseEntity {
 	@FieldInfo(name="标题", visible = true, nullAble = false)
 	private String title;
 	@FieldInfo(name="内容", visible = true, nullAble = false)
-	private String content;
+	private String  officialContent;
 	@SearchProperty(index=6)
 	@FieldInfo(name="发布时间",type=ExtFieldType.DATE)
 	private String ptime;
@@ -108,20 +108,17 @@ public class OfficialIteract extends BaseEntity {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	@Column(length=5000)
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
+	@Column(name="content", columnDefinition="MEDIUMTEXT")
+	public String getOfficialContent() {
+		return officialContent;
 	}
 
-	
+	public void setOfficialContent(String officialContent) {
+		this.officialContent = officialContent;
+	}
 	public String getPtime() {
 		return ptime;
 	}
-
 
 	public void setPtime(String ptime) {
 		this.ptime = ptime;
@@ -137,6 +134,7 @@ public class OfficialIteract extends BaseEntity {
 	public void setPhotourl(Set<OfficialPhotograph> photourl) {
 		this.photourl = photourl;
 	}
+	@JsonIgnore
 	@Transient
 	@Override
 	public String getDescription() 

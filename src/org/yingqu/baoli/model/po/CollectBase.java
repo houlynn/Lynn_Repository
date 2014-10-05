@@ -7,6 +7,12 @@ package org.yingqu.baoli.model.po;
   @version 1.0
  */
 public class CollectBase {
+	
+	/**
+	 * 收藏id
+	 */
+	private String id;
+	
 	/**
 	 * 图标
 	 */
@@ -19,6 +25,11 @@ public class CollectBase {
   * 收藏描述信息
   */
  private String remark;
+ /**
+  * 收藏类型
+  */
+ private String type;
+ 
 public String getIcon() {
 	return icon;
 }
@@ -36,6 +47,18 @@ public String getRemark() {
 }
 public void setRemark(String remark) {
 	this.remark = remark;
+}
+public String getId() {
+	return id;
+}
+public void setId(String id) {
+	this.id = id;
+}
+public String getType() {
+	return type;
+}
+public void setType(String type) {
+	this.type = type;
 }
  
 	

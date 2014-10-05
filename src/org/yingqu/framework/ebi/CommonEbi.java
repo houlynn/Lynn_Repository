@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.yingqu.framework.model.Model;
+import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.utils.StringUtil;
 
 public interface CommonEbi {
@@ -84,6 +85,14 @@ public interface CommonEbi {
  * @throws Exception
  */
 	public Integer getCount(String hql)  throws Exception ;
+	
+	/**
+	 * 更新
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	public  Object updateByPhone(PModel entity) throws Exception;
 	
 
 }

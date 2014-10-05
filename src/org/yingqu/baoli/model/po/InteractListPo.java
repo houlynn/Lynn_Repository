@@ -40,7 +40,7 @@ public class InteractListPo {
 	 /**
 	  * 内容
 	  */
-	 private String context;
+	 private String interactContent;
 	 
 	 /**
 	  * 图片集合
@@ -91,11 +91,11 @@ public class InteractListPo {
 	public void setTypeCode(String typeCode) {
 		this.typeCode = typeCode;
 	}
-	public String getContext() {
-		return context;
+	public String getInteractContent() {
+		return interactContent;
 	}
-	public void setContext(String context) {
-		this.context = context;
+	public void setInteractContent(String interactContent) {
+		this.interactContent = interactContent;
 	}
 	public List<String> getImgList() {
 		return imgList;

@@ -51,15 +51,14 @@ public class SellOfer extends BaseEntity {
 	private String  state;
 	private String username;
 	
-	private String content;
-	
-	@Column(length=3000)
-	public String getContent() {
-		return content;
+	private String sellContent;
+	@Column(name="content", columnDefinition="MEDIUMTEXT")
+	public String getSellContent() {
+		return sellContent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setSellContent(String sellContent) {
+		this.sellContent = sellContent;
 	}
 	private Set<SellOferImg> imgs= new  HashSet<SellOferImg>();
 	@Id
@@ -139,6 +138,7 @@ public class SellOfer extends BaseEntity {
 	public void setImgs(Set<SellOferImg> imgs) {
 		this.imgs = imgs;
 	}
+	@JsonIgnore
 	@Transient
 	@Override
 	public String getDescription() {
