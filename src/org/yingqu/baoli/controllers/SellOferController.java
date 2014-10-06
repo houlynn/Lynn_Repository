@@ -3,8 +3,6 @@ import java.math.BigDecimal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.yingqu.baoli.model.Rental;
 import org.yingqu.baoli.model.SellOfer;
 import org.yingqu.desktop.security.SecurityUserHolder;
 import org.yingqu.framework.controllers.SimpleBaseController;
@@ -54,6 +52,7 @@ public class SellOferController extends SimpleBaseController<SellOfer> {
 		        double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		        model.setPrice(f1+"");
 		        model.setSource("001");
+		        model.setSellContent("");
 		super.doUpdate(model, request, response);
 	}
 

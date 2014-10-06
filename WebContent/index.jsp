@@ -83,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									items : [{
 										iconCls : 'icon-activity',
 										title : '平台首页',
-										xtype:'portalpanel',
+										xtype:'container',
 										layout:'column',
 										items : [{
 												xtype : 'portalcolumn',

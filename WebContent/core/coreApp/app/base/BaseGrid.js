@@ -7,6 +7,7 @@ Ext.define("core.app.base.BaseGrid",{
 	frame:true,
 	itemdblclickOver:false,
 	itemlclickOver:false, 
+	animate:false,
 	cls:"addr-panel",
 	bodyPadding : '0 0 0 0',
 	selModel:{

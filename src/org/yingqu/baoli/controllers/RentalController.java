@@ -57,6 +57,17 @@ public class RentalController extends SimpleBaseController<Rental> {
 			toWrite(response, jsonBuilder.returnFailureJson("'发布失败!'"));
 		}
 	}
+	
+	
+	
+	@Override
+	public void doUpdate(Rental model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		model.setRentalContent("");
+		super.doUpdate(model, request, response);
+	}
+
 	@Override
 	public void doSave(Rental model, HttpServletRequest request,
 			HttpServletResponse response) {

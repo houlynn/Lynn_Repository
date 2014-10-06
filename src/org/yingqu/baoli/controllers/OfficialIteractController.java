@@ -48,6 +48,13 @@ public class OfficialIteractController extends SimpleBaseController<OfficialIter
 	
 	
 	@Override
+	public void doUpdate(OfficialIteract model, HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		model.setOfficialContent("");
+		super.doUpdate(model, request, response);
+	}
+	@Override
 	public OfficialIteract getModel(HttpServletRequest request, OfficialIteract model) {
 		return model;
 	}
