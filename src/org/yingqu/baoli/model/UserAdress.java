@@ -34,6 +34,8 @@ public class UserAdress extends BaseEntity {
 	private String defaulted;
 	@FieldInfo(name = "用户标示",mobileField=true)
 	private String userid;
+	@FieldInfo(name = "电话号码",mobileField=true)
+	private String phone;
 	
 	private AppUser appUser;
 	
@@ -73,7 +75,7 @@ public class UserAdress extends BaseEntity {
 	}
 	@JsonIgnore
 	@ManyToOne(optional=true,fetch=FetchType.LAZY)
-	@JoinColumn(name="uid",nullable=false)
+	@JoinColumn(name="appuser_id",nullable=false)
 	public AppUser getAppUser() {
 		return appUser;
 	}
@@ -88,6 +90,14 @@ public class UserAdress extends BaseEntity {
 
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	@JsonIgnore

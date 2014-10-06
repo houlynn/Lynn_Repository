@@ -122,6 +122,7 @@ public class AppRequestCntroller extends AppBaseController {
 	 * 
 	 * @param request
 	 */
+	@RequestMapping("A000")
 	public void appRequestA000(HttpServletRequest request,
 			HttpServletResponse response, String loginCode) {
 		debug(AppUtils.getCurrentTime() + ":APP调用 获取验证码---A000");
@@ -318,7 +319,8 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * +4 用户更新接口 请求类型为 multipart/form-data defaultAddressid 用户默认地址ID 如果不为空 则不会更新
+	 * +4 用户更新接口 
+	 * 请求类型为 multipart/form-data defaultAddressid 用户默认地址ID 如果不为空 则不会更新
 	 * 
 	 * @param appUser
 	 * @param response
@@ -401,8 +403,7 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * +6更新送货地址
-	 *  defaulted 0 或1 1表示默认地址
+	 * +6更新送货地址 defaulted 0 或1 1表示默认地址
 	 * 
 	 * @param adress
 	 * @param request
@@ -501,8 +502,7 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * +9设置默认地址 
-	 * 默认人地址标示 udid
+	 * +9设置默认地址 默认人地址标示 udid
 	 * 
 	 * @param adress
 	 * @param request
@@ -662,7 +662,7 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * +13   重新测试     加载用户收藏接口
+	 * +13 重新测试 加载用户收藏接口
 	 * 
 	 * @param userid
 	 *            传入用户标示
@@ -739,60 +739,63 @@ public class AppRequestCntroller extends AppBaseController {
 				// ///////////////////////////////////
 
 				List<CollectBase> cths = new ArrayList<CollectBase>();
-				CollectPo cth= new CollectPo();;
+				CollectPo cth = new CollectPo();
+				;
 				cth.setType("003");
 				for (UserCollection uc : ucThs) {
-					cb=new CollectBase();
-					BaseEntity baseEntity=ebi.findByOId(BaseEntity.class, uc.getCid());
-					if(baseEntity==null){
+					cb = new CollectBase();
+					BaseEntity baseEntity = ebi.findByOId(BaseEntity.class,
+							uc.getCid());
+					if (baseEntity == null) {
 						continue;
 					}
-					String ctype=uc.getCtype();
+					String ctype = uc.getCtype();
 					switch (ctype) {
-					case "003"://用户论坛
-						Interact interact=(Interact)baseEntity;
+					case "003":// 用户论坛
+						Interact interact = (Interact) baseEntity;
 						cb.setTitle(interact.getInteractContent());
-						Set<Photograph> icons=interact.getPhotourl();
-						if(interact!=null&&icons.size()>0){
-							String url=icons.iterator().next().getImgurl();
+						Set<Photograph> icons = interact.getPhotourl();
+						if (interact != null && icons.size() > 0) {
+							String url = icons.iterator().next().getImgurl();
 							cb.setIcon(url);
 						}
 						cb.setType(uc.getCtype());
 						break;
-					case "004"://官方贴
-						OfficialIteract officialIteract=(OfficialIteract)baseEntity;
-						Set<OfficialPhotograph> imges=officialIteract.getPhotourl();
+					case "004":// 官方贴
+						OfficialIteract officialIteract = (OfficialIteract) baseEntity;
+						Set<OfficialPhotograph> imges = officialIteract
+								.getPhotourl();
 						cb.setTitle(officialIteract.getTitle());
-						if(imges!=null&imges.size()>0){
-							String url=imges.iterator().next().getImgurl();
+						if (imges != null & imges.size() > 0) {
+							String url = imges.iterator().next().getImgurl();
 							cb.setIcon(url);
 						}
 						cb.setType(uc.getCtype());
 						break;
-					case "005"://出租 
-						Rental rental=(Rental)baseEntity;
+					case "005":// 出租
+						Rental rental = (Rental) baseEntity;
 						cb.setTitle(rental.getTitle());
-						Set<RentalImg> rimgs=rental.getImgs();
-						if(rimgs!=null&rimgs.size()>0){
-							String url=rimgs.iterator().next().getUrl();
+						Set<RentalImg> rimgs = rental.getImgs();
+						if (rimgs != null & rimgs.size() > 0) {
+							String url = rimgs.iterator().next().getUrl();
 							cb.setIcon(url);
 						}
 						cb.setType(uc.getCtype());
 						break;
-					case "006"://出售
-						SellOfer sellOfer=(SellOfer)baseEntity;
+					case "006":// 出售
+						SellOfer sellOfer = (SellOfer) baseEntity;
 						cb.setTitle(sellOfer.getTitle());
-						Set<SellOferImg> oimgs=sellOfer.getImgs();
-						if(oimgs!=null&oimgs.size()>0){
-							String url=oimgs.iterator().next().getUrl();
+						Set<SellOferImg> oimgs = sellOfer.getImgs();
+						if (oimgs != null & oimgs.size() > 0) {
+							String url = oimgs.iterator().next().getUrl();
 							cb.setIcon(url);
 						}
 						cb.setType(uc.getCtype());
 						break;
 					}
-					
+
 					cths.add(cb);
-					cth=null;
+					cth = null;
 				}
 				cth.setItem(cths);
 				listCollect.add(cth);
@@ -808,14 +811,8 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * + (重新测试)收藏类型添加3个 
-	 * 14 用户收藏接口 ctype参数有以下几种类型 
-	 * 001 周边类型 
-	 * 002 商品类型 
-	 * 003 用户贴 
-	 * 004官方贴
-	 * 005出租 
-	 * 006出售
+	 * + (重新测试)收藏类型添加3个 14 用户收藏接口 ctype参数有以下几种类型 001 周边类型 002 商品类型 003 用户贴
+	 * 004官方贴 005出租 006出售
 	 * 
 	 * cid 来源以下主键 Merchant 主键 Goods 主键 帖子 的主键
 	 * 
@@ -832,54 +829,61 @@ public class AppRequestCntroller extends AppBaseController {
 		String cid = model.getCid();
 		String ctype = model.getCtype();
 		try {
-			 boolean flag=true;
-			 AppUser AppUser= super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
-			 if(AppUser==null){
-				 flag=false;
-			 }
-			 
-			 
+			boolean flag = true;
+			AppUser AppUser = super.checkNoFec(userid, "用户标示不能为空", "用户标示无效",
+					resultModel, AppUser.class);
+			if (AppUser == null) {
+				flag = false;
+			}
+
 			if (StringUtil.isEmpty(cid)) {
 				setEmptyCode(resultModel, "传入收藏ID不能为空!");
-				 flag=false;
+				flag = false;
 			} else if (StringUtil.isEmpty(ctype)) {
 				setEmptyCode(resultModel, "收藏类型不能为空!");
-				 flag=false;
+				flag = false;
 			} else {
 				switch (ctype) {
-				case "001"://周边
-					Merchant merchant=	super.checkNoFec(cid, "周边商铺标示不能为空", "周边商铺标示无效", resultModel, Merchant.class);
-					flag=merchant==null?false:true;
+				case "001":// 周边
+					Merchant merchant = super.checkNoFec(cid, "周边商铺标示不能为空",
+							"周边商铺标示无效", resultModel, Merchant.class);
+					flag = merchant == null ? false : true;
 					break;
-				case "002"://商品
-					 Goods goods=	super.checkNoFec(cid, "商品标示不能为空", "商品标示无效", resultModel, Goods.class);
-					flag=goods==null?false:true;
+				case "002":// 商品
+					Goods goods = super.checkNoFec(cid, "商品标示不能为空", "商品标示无效",
+							resultModel, Goods.class);
+					flag = goods == null ? false : true;
 					break;
-				case "003"://用户论坛
-					Interact interact=	super.checkNoFec(cid, "用户论坛标示不能为空", "用户论坛标示无效", resultModel, Interact.class);
-					flag=interact==null?false:true;
+				case "003":// 用户论坛
+					Interact interact = super.checkNoFec(cid, "用户论坛标示不能为空",
+							"用户论坛标示无效", resultModel, Interact.class);
+					flag = interact == null ? false : true;
 					break;
-				case "004"://官方贴
-					OfficialIteract officialIteract=	super.checkNoFec(cid, "官方论坛标示不能为空", "官方论坛示无效", resultModel, OfficialIteract.class);
-					flag=officialIteract==null?false:true;
+				case "004":// 官方贴
+					OfficialIteract officialIteract = super.checkNoFec(cid,
+							"官方论坛标示不能为空", "官方论坛示无效", resultModel,
+							OfficialIteract.class);
+					flag = officialIteract == null ? false : true;
 					break;
-				case "005"://出租 
-					Rental rental=	super.checkNoFec(cid, "出租标示不能为空", "出租标示无效", resultModel, Rental.class);
-					flag=rental==null?false:true;
+				case "005":// 出租
+					Rental rental = super.checkNoFec(cid, "出租标示不能为空", "出租标示无效",
+							resultModel, Rental.class);
+					flag = rental == null ? false : true;
 					break;
-				case "006"://出售
-					SellOfer sellOfer=	super.checkNoFec(cid, "出售标示不能为空", "出售标示无效", resultModel, SellOfer.class);
-					flag=sellOfer==null?false:true;
+				case "006":// 出售
+					SellOfer sellOfer = super.checkNoFec(cid, "出售标示不能为空",
+							"出售标示无效", resultModel, SellOfer.class);
+					flag = sellOfer == null ? false : true;
 					break;
 
 				default:
 					setNoFecCode(resultModel, "非法收藏类型");
-					flag=false;
+					flag = false;
 					break;
 				}
-                 if(flag){
-                	 ebi.save(model);
-                 }
+				if (flag) {
+					ebi.save(model);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -890,151 +894,159 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * +（添加一个接）  收藏明细
-	 * 输入参数    1 收藏标示
-	 *        2收藏类型 001 002 003 004 005 006 周边 商品。。。。。。    
+	 * +（添加一个接） 收藏明细 输入参数 1 收藏标示 2收藏类型 001 002 003 004 005 006 周边 商品。。。。。。
 	 */
 	@RequestMapping("/A016")
 	public void appRequestA016(HttpServletRequest request,
-			HttpServletResponse response, 
-			String id,
-			String type
-			) {
+			HttpServletResponse response, String id, String type) {
 		debug(AppUtils.getCurrentTime() + ":APP调用获取用户所有地址 appRequestA016--A016");
-		super.requestMeth(response, resultModel->{
-			boolean flag=true;
-			switch (type) {
-			case "001"://周边
-				Merchant merchant=	super.checkNoFec(id, "周边商铺标示不能为空", "周边商铺标示无效", resultModel, Merchant.class);
-				flag=merchant==null?false:true;
-				if(flag){
-					MerchantPo view=new MerchantPo();
-					BeanUtils.copyProperties(view, merchant);
-					resultModel.setObj(view);
-				}
-				
-				break;
-			case "002"://商品
-				 Goods goods=	super.checkNoFec(id, "商品标示不能为空", "商品标示无效", resultModel, Goods.class);
-				flag=goods==null?false:true;
-				if(flag){
-					GoodsPo view=new GoodsPo();
-					BeanUtils.copyProperties(view, goods);
-					GoodsDetail gDetail = new GoodsDetail();
-					BeanUtils.copyProperties(gDetail, goods);
-					List<String> imgsList = new ArrayList<String>();
-					if (goods.getImgs() != null && goods.getImgs().size() > 0) {
-						for (GoodImage gdimg : goods.getImgs()) {
-							imgsList.add(gdimg.getUrl());
+		super.requestMeth(
+				response,
+				resultModel -> {
+					boolean flag = true;
+					switch (type) {
+					case "001":// 周边
+						Merchant merchant = super.checkNoFec(id, "周边商铺标示不能为空",
+								"周边商铺标示无效", resultModel, Merchant.class);
+						flag = merchant == null ? false : true;
+						if (flag) {
+							MerchantPo view = new MerchantPo();
+							BeanUtils.copyProperties(view, merchant);
+							resultModel.setObj(view);
 						}
-						String imgJsonStr = jsonBuilder.toJson(imgsList);
-						gDetail.setImg(imgJsonStr);
-					}
-					resultModel.setObj(view);
-				}
-				break;
-			case "003"://用户论坛
-				Interact interact=	super.checkNoFec(id, "用户论坛标示不能为空", "用户论坛标示无效", resultModel, Interact.class);
-				flag=interact==null?false:true;
-				if(flag){
-					InteractListPo viewItem = new InteractListPo();
-					viewItem.setPostTime(interact.getPtime());
-					viewItem.setInid(interact.getInterid());
-					viewItem.setPostAddress(interact.getPostAddress());
-					viewItem.setTypeCode(interact.getType());
-					viewItem.setInteractContent(interact.getInteractContent());
-					Set<Photograph> imgs = interact.getPhotourl();
-					if (imgs != null && imgs.size() > 0) {
-						List<String> listImage=new ArrayList<>();
-						for (Photograph img : imgs) {
-							listImage.add(img.getImgurl());
-						}
-						viewItem.setImgList(listImage);
-					}
-					AppUser appUser = interact.getUid();
-					viewItem.setTopUrl(appUser.getTopUrl());
-					viewItem.setUserName(appUser.getUsername());
-					viewItem.setSefTick(appUser.getSefTick());
-					resultModel.setObj(viewItem);
-				}
-				break;
-			case "004"://官方贴
-				OfficialIteract iteract=	super.checkNoFec(id, "官方论坛标示不能为空", "官方论坛示无效", resultModel, OfficialIteract.class);
-				flag=iteract==null?false:true;
-				if(flag){
-					OfferInteractPo interactPo = new OfferInteractPo();
-					interactPo.setPostTime(iteract.getPtime());
-					interactPo.setInid(iteract.getOinerid());
-					interactPo.setTypeCode(iteract.getType());
-					interactPo.setOfficialContent(iteract.getOfficialContent());
-					Set<OfficialPhotograph> imgs = iteract.getPhotourl();
-					if (imgs != null && imgs.size() > 0) {
-						List<String> imgList=new ArrayList<>();
-						for (OfficialPhotograph img : imgs) {
-							imgList.add(img.getImgurl());
-						}
-						interactPo.setImgList(imgList);
-					}
-					resultModel.setObj(interactPo);
-				}
-				break;
-			case "005"://出租 
-				Rental rental=	super.checkNoFec(id, "出租标示不能为空", "出租标示无效", resultModel, Rental.class);
-				flag=rental==null?false:true;
-				if(flag){
-					RentalPoDetail view = new RentalPoDetail();
-					view.setRid(rental.getRid());
-					view.setTitle(rental.getTitle());
-					view.setPrice(rental.getPrice());
-					view.setPtime(rental.getPtime());
-					view.setSource(rental.getSource());
-					view.setRentalContent(rental.getRentalContent());
-					Set<RentalImg> imgs=rental.getImgs();
-					if(imgs!=null&&imgs.size()>0){
-						List<String> imgList=new ArrayList<>();
-						for(RentalImg img: imgs){
-							imgList.add(img.getUrl());
-						}
-						view.setImgs(imgList);
-					}
-					view.setArea(rental.getArea());
-					resultModel.setObj(view);
-				}
-				break;
-			case "006"://出售
-				SellOfer sellOfer=	super.checkNoFec(id, "出售标示不能为空", "出售标示无效", resultModel, SellOfer.class);
-				flag=sellOfer==null?false:true;
-				if(flag){
-					SellOferPoDetail view = new SellOferPoDetail();
-					view.setRid(sellOfer.getRid());
-					view.setTitle(sellOfer.getTitle());
-					view.setPrice(sellOfer.getPrice());
-					view.setPtime(sellOfer.getPtime());
-					view.setSource(sellOfer.getSource());
-					view.setSellContent(sellOfer.getSellContent());
-					Set<SellOferImg> imgs=sellOfer.getImgs();
-					if(imgs!=null&&imgs.size()>0){
-						List<String> imgList=new ArrayList<>();
-						for(SellOferImg img: imgs){
-							imgList.add(img.getUrl());
-						}
-						view.setImgs(imgList);
-					}
-					view.setArea(sellOfer.getArea());
-					resultModel.setObj(view);
 
-				}
-				break;
+						break;
+					case "002":// 商品
+						Goods goods = super.checkNoFec(id, "商品标示不能为空",
+								"商品标示无效", resultModel, Goods.class);
+						flag = goods == null ? false : true;
+						if (flag) {
+							GoodsPo view = new GoodsPo();
+							BeanUtils.copyProperties(view, goods);
+							GoodsDetail gDetail = new GoodsDetail();
+							BeanUtils.copyProperties(gDetail, goods);
+							List<String> imgsList = new ArrayList<String>();
+							if (goods.getImgs() != null
+									&& goods.getImgs().size() > 0) {
+								for (GoodImage gdimg : goods.getImgs()) {
+									imgsList.add(gdimg.getUrl());
+								}
+								String imgJsonStr = jsonBuilder
+										.toJson(imgsList);
+								gDetail.setImg(imgJsonStr);
+							}
+							resultModel.setObj(view);
+						}
+						break;
+					case "003":// 用户论坛
+						Interact interact = super.checkNoFec(id, "用户论坛标示不能为空",
+								"用户论坛标示无效", resultModel, Interact.class);
+						flag = interact == null ? false : true;
+						if (flag) {
+							InteractListPo viewItem = new InteractListPo();
+							viewItem.setPostTime(interact.getPtime());
+							viewItem.setInid(interact.getInterid());
+							viewItem.setPostAddress(interact.getPostAddress());
+							viewItem.setTypeCode(interact.getType());
+							viewItem.setInteractContent(interact
+									.getInteractContent());
+							Set<Photograph> imgs = interact.getPhotourl();
+							if (imgs != null && imgs.size() > 0) {
+								List<String> listImage = new ArrayList<>();
+								for (Photograph img : imgs) {
+									listImage.add(img.getImgurl());
+								}
+								viewItem.setImgList(listImage);
+							}
+							AppUser appUser = interact.getUid();
+							viewItem.setTopUrl(appUser.getTopUrl());
+							viewItem.setUserName(appUser.getUsername());
+							viewItem.setSefTick(appUser.getSefTick());
+							resultModel.setObj(viewItem);
+						}
+						break;
+					case "004":// 官方贴
+						OfficialIteract iteract = super.checkNoFec(id,
+								"官方论坛标示不能为空", "官方论坛示无效", resultModel,
+								OfficialIteract.class);
+						flag = iteract == null ? false : true;
+						if (flag) {
+							OfferInteractPo interactPo = new OfferInteractPo();
+							interactPo.setPostTime(iteract.getPtime());
+							interactPo.setInid(iteract.getOinerid());
+							interactPo.setTypeCode(iteract.getType());
+							interactPo.setOfficialContent(iteract
+									.getOfficialContent());
+							Set<OfficialPhotograph> imgs = iteract
+									.getPhotourl();
+							if (imgs != null && imgs.size() > 0) {
+								List<String> imgList = new ArrayList<>();
+								for (OfficialPhotograph img : imgs) {
+									imgList.add(img.getImgurl());
+								}
+								interactPo.setImgList(imgList);
+							}
+							resultModel.setObj(interactPo);
+						}
+						break;
+					case "005":// 出租
+						Rental rental = super.checkNoFec(id, "出租标示不能为空",
+								"出租标示无效", resultModel, Rental.class);
+						flag = rental == null ? false : true;
+						if (flag) {
+							RentalPoDetail view = new RentalPoDetail();
+							view.setRid(rental.getRid());
+							view.setTitle(rental.getTitle());
+							view.setPrice(rental.getPrice());
+							view.setPtime(rental.getPtime());
+							view.setSource(rental.getSource());
+							view.setRentalContent(rental.getRentalContent());
+							Set<RentalImg> imgs = rental.getImgs();
+							if (imgs != null && imgs.size() > 0) {
+								List<String> imgList = new ArrayList<>();
+								for (RentalImg img : imgs) {
+									imgList.add(img.getUrl());
+								}
+								view.setImgs(imgList);
+							}
+							view.setArea(rental.getArea());
+							resultModel.setObj(view);
+						}
+						break;
+					case "006":// 出售
+						SellOfer sellOfer = super.checkNoFec(id, "出售标示不能为空",
+								"出售标示无效", resultModel, SellOfer.class);
+						flag = sellOfer == null ? false : true;
+						if (flag) {
+							SellOferPoDetail view = new SellOferPoDetail();
+							view.setRid(sellOfer.getRid());
+							view.setTitle(sellOfer.getTitle());
+							view.setPrice(sellOfer.getPrice());
+							view.setPtime(sellOfer.getPtime());
+							view.setSource(sellOfer.getSource());
+							view.setSellContent(sellOfer.getSellContent());
+							Set<SellOferImg> imgs = sellOfer.getImgs();
+							if (imgs != null && imgs.size() > 0) {
+								List<String> imgList = new ArrayList<>();
+								for (SellOferImg img : imgs) {
+									imgList.add(img.getUrl());
+								}
+								view.setImgs(imgList);
+							}
+							view.setArea(sellOfer.getArea());
+							resultModel.setObj(view);
 
-			default:
-				setNoFecCode(resultModel, "非法收藏类型");
-				flag=false;
-				break;
-			}
-		});
+						}
+						break;
+
+					default:
+						setNoFecCode(resultModel, "非法收藏类型");
+						flag = false;
+						break;
+					}
+				});
 	}
-	
-	
+
 	/**
 	 * 15删除收藏 传入cid
 	 * 
@@ -1115,7 +1127,8 @@ public class AppRequestCntroller extends AppBaseController {
 		}
 		toWritePhone(response, resultModel);
 	}
-//////////////////////////////////////////周边模块////////////////////////////////////////////////////////////////////////////////////////////
+
+	// ////////////////////////////////////////周边模块////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * 18. 001返回周边类型 无效参数 001 本地服务
 	 * 
@@ -1708,10 +1721,10 @@ public class AppRequestCntroller extends AppBaseController {
 		toWritePhone(response, resultModel);
 
 	}
-	////////////////////////////////////////////////社区模块////////////////////////////////////////////////////////////////////////
+
+	// //////////////////////////////////////////////社区模块////////////////////////////////////////////////////////////////////////
 	/**
-	 * 29 012 获取社区首页今日头条   
-	 * 返回头条的标题  缩略图
+	 * 29 012 获取社区首页今日头条 返回头条的标题 缩略图
 	 */
 	@RequestMapping("/012")
 	public void appRequest0012(HttpServletRequest request,
@@ -1731,13 +1744,13 @@ public class AppRequestCntroller extends AppBaseController {
 					resultModel.setMsg("系统没有发布任何新闻");
 				} else {
 					appNews = listnews.get(0);
-					AppNewPo newPo=new AppNewPo();
+					AppNewPo newPo = new AppNewPo();
 					newPo.setImg(appNews.getShrinkimg());
 					newPo.setTitle(appNews.getTitle());
 					resultModel.setObj(newPo);
 				}
 			}
-		
+
 		});
 	}
 
@@ -1839,8 +1852,7 @@ public class AppRequestCntroller extends AppBaseController {
 
 	/**
 	 * 
-	 * 31 014 根据 新闻 标示
-	 * 加载 一条新闻
+	 * 31 014 根据 新闻 标示 加载 一条新闻
 	 * 
 	 * @param newid
 	 *            必须滴
@@ -1854,7 +1866,7 @@ public class AppRequestCntroller extends AppBaseController {
 				resultModel -> {
 					AppNews appNews = super.checkNoFec(newid, "新闻标示不能为空!",
 							"新闻标示无效!", resultModel, AppNews.class);
-					if(appNews!=null){
+					if (appNews != null) {
 						AppNewProd appNewProd = new AppNewProd();
 						appNewProd.setTitle(appNews.getTitle());
 						appNewProd.setAddate(appNews.getAddate());
@@ -1915,6 +1927,9 @@ public class AppRequestCntroller extends AppBaseController {
 		super.requestMeth(
 				response,
 				resultModel -> {
+					if(StringUtil.isNotEmpty(model.getInteractContent())){
+						super.setEmptyCode(resultModel, "发表内容不能为空");
+					}else{
 					AppUser appUser = checkAppUser(userid, resultModel);
 					if (appUser != null) {
 						if (StringUtil.isEmpty(type)) {
@@ -1938,8 +1953,10 @@ public class AppRequestCntroller extends AppBaseController {
 							}
 							model.setPhotourl(imgeItems);
 							model.setUid(appUser);
+							model.setPtime(AppUtils.getCurrentTime());
 							iebi.saveInteract(model);
 						}
+					}
 					}
 				});
 	}
@@ -1961,6 +1978,7 @@ public class AppRequestCntroller extends AppBaseController {
 					String userid = msg.getUserid();
 					String inid = msg.getInid();
 					String cpntext = msg.getMsgContext();
+				    msg.setBacktime(AppUtils.getCurrentTime());
 					boolean flag = true;
 					AppUser appUser = checkNoFec(userid, "用户标示不能为空!",
 							"传入用户标示无效!", resultModel, AppUser.class);
@@ -1973,8 +1991,9 @@ public class AppRequestCntroller extends AppBaseController {
 						setEmptyCode(resultModel, "评论内容不能为空");
 					}
 					if (flag) {
+						msg.setUsername(appUser.getLoginCode());
 						ebi.save(msg);
-						resultModel.setObj(ebi);
+						resultModel.setObj(msg);
 					}
 				}));
 	}
@@ -2008,7 +2027,7 @@ public class AppRequestCntroller extends AppBaseController {
 						viewItem.setInteractContent(item.getInteractContent());
 						Set<Photograph> imgs = item.getPhotourl();
 						if (imgs != null && imgs.size() > 0) {
-							List<String> listImage=new ArrayList<>();
+							List<String> listImage = new ArrayList<>();
 							for (Photograph img : imgs) {
 								listImage.add(img.getImgurl());
 							}
@@ -2175,10 +2194,11 @@ public class AppRequestCntroller extends AppBaseController {
 						interactPo.setPostTime(iteract.getPtime());
 						interactPo.setInid(iteract.getOinerid());
 						interactPo.setTypeCode(iteract.getType());
-						interactPo.setOfficialContent(iteract.getOfficialContent());
+						interactPo.setOfficialContent(iteract
+								.getOfficialContent());
 						Set<OfficialPhotograph> imgs = iteract.getPhotourl();
 						if (imgs != null && imgs.size() > 0) {
-							List<String> imgList=new ArrayList<>();
+							List<String> imgList = new ArrayList<>();
 							for (OfficialPhotograph img : imgs) {
 								imgList.add(img.getImgurl());
 							}
@@ -2212,10 +2232,10 @@ public class AppRequestCntroller extends AppBaseController {
 						view.setPtime(rental.getPtime());
 						view.setSource(rental.getSource());
 						view.setRentalContent(rental.getRentalContent());
-						Set<RentalImg> imgs=rental.getImgs();
-						if(imgs!=null&&imgs.size()>0){
-							List<String> imgList=new ArrayList<>();
-							for(RentalImg img: imgs){
+						Set<RentalImg> imgs = rental.getImgs();
+						if (imgs != null && imgs.size() > 0) {
+							List<String> imgList = new ArrayList<>();
+							for (RentalImg img : imgs) {
 								imgList.add(img.getUrl());
 							}
 							view.setImgs(imgList);
@@ -2251,10 +2271,10 @@ public class AppRequestCntroller extends AppBaseController {
 						view.setPtime(sellOfer.getPtime());
 						view.setSource(sellOfer.getSource());
 						view.setSellContent(sellOfer.getSellContent());
-						Set<SellOferImg> imgs=sellOfer.getImgs();
-						if(imgs!=null&&imgs.size()>0){
-							List<String> imgList=new ArrayList<>();
-							for(SellOferImg img: imgs){
+						Set<SellOferImg> imgs = sellOfer.getImgs();
+						if (imgs != null && imgs.size() > 0) {
+							List<String> imgList = new ArrayList<>();
+							for (SellOferImg img : imgs) {
 								imgList.add(img.getUrl());
 							}
 							view.setImgs(imgList);

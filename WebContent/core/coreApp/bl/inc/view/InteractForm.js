@@ -1,6 +1,10 @@
 Ext.define("core.bl.inc.view.InteractForm", {
 	extend : "core.app.base.BaseForm",
 	alias : "widget.bl.interactForm",
+	tbar:[
+			{xtype:"button",text:"保存",ref:"formSave",iconCls:"table_save",hidden : true},
+			{xtype:"button",text:"返回",ref:"formReturn",iconCls:"return"}
+			],
 	items : [ {
 		fieldLabel : "主键",
 		name : "hId",
@@ -29,7 +33,6 @@ Ext.define("core.bl.inc.view.InteractForm", {
 		name : "ptime",
 		beforeLabelTextTpl : comm.get('required'),
 		emptyText : '发布时间必填',
-		allowBlank : false,
 		readOnly:true,
 		xtype : "datetimefield"
 	}, {

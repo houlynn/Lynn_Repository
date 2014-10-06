@@ -275,7 +275,7 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 				}
 			},
 		
-		"panel[xtype=bl.officialIteractGrid] button[ref=gridEdit]":{
+	/*	"panel[xtype=bl.officialIteractGrid] button[ref=gridEdit]":{
 			click:function(btn){
 				var baseGrid=btn.up("basegrid");
 				var funCode=baseGrid.funCode;
@@ -345,7 +345,7 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 				var contextField=formObj.findField("officialContent");
 				contextField.setValue(resObj.obj.officialContent);
 			}
-		}
+		}*/
 		});
 	},
 	views:[

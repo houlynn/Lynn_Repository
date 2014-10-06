@@ -28,7 +28,7 @@ Ext.define("core.bl.offinc.view.MassageGrid", {
 	}
 , {
 		text:"回复账号账号",
-		dataIndex:"userid",
+		dataIndex:"username",
 		width : 120,
 		 columnType:"textfield"
 	}

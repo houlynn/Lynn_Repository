@@ -29,7 +29,12 @@ public class UserAdressPo extends PModel {
  	/**
 	 * 用户标示
 	 */
-   private String userid;                          
+   private String userid;   
+   
+   /**
+    * 电话
+    */
+   private String phone;
       public String getAddress(){
 		return address;
 	}
@@ -60,5 +65,11 @@ public class UserAdressPo extends PModel {
 	public void setUserid(String userid) {
 		this.userid = userid;
 		}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
             
 }

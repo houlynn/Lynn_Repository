@@ -15,7 +15,7 @@ Ext.define("core.bl.inc.view.PhotographGrid", {
 		hidden:true
 	}
 , {
-		text:"图片链接地址",
+		text:"用户图片",
 		dataIndex:"imgurl",
 		width : 500,
 		 columnType:"textfield",

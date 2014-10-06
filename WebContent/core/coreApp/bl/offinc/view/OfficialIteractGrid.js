@@ -38,14 +38,14 @@ Ext.define("core.bl.offinc.view.OfficialIteractGrid", {
 			{
 				text : "分类",
 				dataIndex : "type",
-				width : 120,
+				width : 80,
 				columnType : "basecombobox",
 				ddCode : "INCATYPE",
 			},
 			{
 				text : "标题",
 				dataIndex : "title",
-				width : 620,
+				width : 650,
 				columnType : "textfield"
 			},
 			{

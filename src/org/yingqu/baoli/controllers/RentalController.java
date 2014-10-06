@@ -2,6 +2,7 @@ package org.yingqu.baoli.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.yingqu.baoli.model.AppNews;
 import org.yingqu.baoli.model.OfficialIteract;
 import org.yingqu.baoli.model.Rental;
 import org.yingqu.desktop.security.SecurityUserHolder;
@@ -10,6 +11,7 @@ import org.yingqu.framework.core.utils.AppUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/bl/ren")
 @Controller
 public class RentalController extends SimpleBaseController<Rental> {
@@ -21,6 +23,25 @@ public class RentalController extends SimpleBaseController<Rental> {
 	@Override
 	public Rental getModel(HttpServletRequest request, Rental model) {
 		return model;
+	}
+	@RequestMapping(value="/doUpdateContent",method=RequestMethod.POST)
+	public void doUpdateContent(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="id",required=false) String id
+			) {
+		try{
+		StringBuilder builder=new StringBuilder(request.getParameter("content"));
+		Rental rental=(Rental) ebi.findById(clazz, id);
+		rental.setRentalContent(builder.toString());
+		ebi.update(rental);
+		toWrite(response,
+				jsonBuilder.returnSuccessJson("''"));
+		}catch(Exception e){
+			error("app新闻更新失败!", e);
+			toWrite(response,
+					jsonBuilder.returnFailureJson("'保存方法出错，错误信息"
+							+ e.getMessage() + "'"));
+		}
 	}
 	@RequestMapping(value="/push",method=RequestMethod.POST)
 	public void postNews(HttpServletRequest request,HttpServletResponse response,String rid){
@@ -44,9 +65,6 @@ public class RentalController extends SimpleBaseController<Rental> {
 		model.setState("0");
 		super.doSave(model, request, response);
 	}
-	
-	
-	
 	
 	
 }

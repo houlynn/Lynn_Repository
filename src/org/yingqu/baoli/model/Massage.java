@@ -82,7 +82,6 @@ public class Massage extends BaseEntity {
 		this.userid = userid;
 	}
 
-@Transient
 	public String getUsername() {
 		return username;
 	}

@@ -1,6 +1,10 @@
 Ext.define("core.bl.ren.view.RentalForm", {
 	extend : "core.app.base.BaseForm",
 	alias : "widget.bl.rentalForm",
+	tbar:[
+			{xtype:"button",text:"保存",ref:"formSave_ren",iconCls:"table_save"},
+			{xtype:"button",text:"返回",ref:"formReturn",iconCls:"return"}
+			],
 	items : [ {
 		fieldLabel : "主键",
 		name : "rid",

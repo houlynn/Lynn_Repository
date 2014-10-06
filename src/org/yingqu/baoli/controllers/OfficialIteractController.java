@@ -1,8 +1,6 @@
 package org.yingqu.baoli.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.yingqu.baoli.model.AppNews;
 import org.yingqu.baoli.model.OfficialIteract;
 import org.yingqu.desktop.security.SecurityUserHolder;
 import org.yingqu.framework.controllers.SimpleBaseController;
@@ -18,7 +16,6 @@ public class OfficialIteractController extends SimpleBaseController<OfficialIter
 	protected OfficialIteractController() {
 		super(OfficialIteract.class);
 	}
-
 	@Override
 	public void doSave(OfficialIteract model, HttpServletRequest request,
 			HttpServletResponse response) {
