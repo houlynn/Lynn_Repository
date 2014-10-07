@@ -31,7 +31,7 @@ Ext.define("core.bl.sysuser.view.EndUserForm", {
 		beforeLabelTextTpl : comm.get('required'),
 		emptyText :'密码必填',
 		allowBlank : false,
-		xtype:"textfield"
+		xtype:"textfield",
    }
  ,
  {

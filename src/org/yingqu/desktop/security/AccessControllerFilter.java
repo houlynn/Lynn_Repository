@@ -36,31 +36,33 @@ public class AccessControllerFilter implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object arg2) throws Exception {
 		// TODO Auto-generated method stub
-/*		boolean flag = false;
+		boolean flag = false;
 		String url = request.getRequestURI();
-		flag = url.contains("Login");
+		flag = url.contains("Login") || url.contains("/app/");
 		if (!flag) {
 			EndUser endUser = SecurityUserHolder.getCurrentUser();
-			flag=!endUser.getUserCode().equals("GUEST");
-			
-			if(!flag)
-			{
-			UsernamePasswordToken token = new UsernamePasswordToken("admin",
-					MD5Util.md5("123456"));
-			token.setRememberMe(true);
-			System.out.println("为了验证登录用户而封装的token为"
-					+ ReflectionToStringBuilder.toString(token,
-							ToStringStyle.MULTI_LINE_STYLE));
-			// 获取当前的Subject
-			Subject currentUser = SecurityUtils.getSubject();
-			currentUser.login(token);
+			flag = !endUser.getUserCode().equals("GUEST");
+			if (!flag) {
+				/*
+				 * response.sendRedirect("/login.jsp");
+				 * response.sendRedirect("/login.jsp");
+				 */
+				response.getWriter()
+				.write("alert('回话过期请重新登陆');window.location.href = 'login.jsp'");
+				if (request.getHeader("x-requested-with") != null
+						&& "XMLHttpRequest".equalsIgnoreCase(request
+								.getHeader("x-requested-with"))) {
+					// httpResponse.setHeader("sessionstatus","timeout");
+					//response.sendError(999);
+				/*	response.getWriter()
+							.write("<script>alert('错误') ;window.location.href = 'login.jsp';</script>");*/
+					
+					
+				}
+
 			}
 		}
-		if(!flag)
-		{
-			response.sendRedirect("/login.jsp");
-		}*/
-		return true;
+		return flag;
 	}
 
 }

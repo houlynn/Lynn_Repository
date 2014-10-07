@@ -418,6 +418,7 @@ Ext.define("core.app.controller.ButtonController",{
 						//错误信息处理
 						failure:function(form, action){
 							//前台表单校验错误
+							var obj=action.result.obj;
 							if(action.failureType=="client"){
 								var errors=["前台验证失败，错误信息："];
 								formObj.getFields().each(function(f){
@@ -427,7 +428,7 @@ Ext.define("core.app.controller.ButtonController",{
 								});
 								  Ext.MessageBox.alert("错误提示",errors.join("<br/>"));								
 							}else{
-								  Ext.MessageBox.alert("后台数据保存错误");
+								  Ext.MessageBox.alert("错误提示",obj);
 							}
 						}						
 					})
