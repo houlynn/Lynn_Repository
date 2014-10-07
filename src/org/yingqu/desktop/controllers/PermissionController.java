@@ -115,7 +115,6 @@ public class PermissionController extends SimpleBaseController<Permission> {
 		excludes=excludes==null?"":excludes;
 		String roleId=request.getParameter("roleId");
 		roleId=roleId==null?"":roleId;
-		  System.out.println("roleId: "+roleId);
 		if(StringUtil.isEmpty(node) || TreeVeriable.ROOT.equalsIgnoreCase(node)){
 			node=TreeVeriable.ROOT;
 		}

@@ -1,5 +1,5 @@
 Ext.define("core.rbac.user.view.MainLayout",{
-	extend:"Ext.panel.Panel",
+	extend:"Ext.container.Container",
 	alias : 'widget.rbac.mainlayout',
 	layout : 'border',
 	frame:true,
@@ -9,7 +9,8 @@ Ext.define("core.rbac.user.view.MainLayout",{
 	items : [{
 		xtype:"rbac.depttree",
 		region:"west",
-		width:comm.get("clientWidth")*0.25
+		width:comm.get("clientWidth")*0.25,
+		hidden:true
 	},{
 		xtype:"rbac.centerlayout",
 		region:"center"

@@ -84,6 +84,7 @@ public class UserAdress extends BaseEntity {
 		this.appUser = appUser;
 	}
 
+	@Transient
 	public String getUserid() {
 		return userid;
 	}

@@ -17,8 +17,9 @@ import javax.persistence.Transient;
 
 import org.yingqu.framework.annotation.DDItemCode;
 import org.yingqu.framework.annotation.DDItemName;
-import org.yingqu.framework.annotation.DefaultOrder;
+import org.yingqu.framework.annotation.Dictionary;
 import org.yingqu.framework.annotation.FieldInfo;
+import org.yingqu.framework.annotation.SearchProperty;
 import org.yingqu.framework.constant.ExtFieldType;
 import org.yingqu.framework.model.BaseEntity;
 import org.yingqu.framework.utils.PropUtil;
@@ -42,15 +43,17 @@ public class EndUser extends BaseEntity implements UserDetails {
 	@DDItemCode
 	private String userId;
 	@DDItemName
-	@FieldInfo(name="用户姓名")
+	@FieldInfo(name="用户姓名",nullAble=false,visible=true)
 	private String username;
-	@FieldInfo(name="用户编码")
+	@FieldInfo(name="用户编码",nullAble=false,visible=true)
 	private String userCode;
-	@FieldInfo(name="密码")
+	@FieldInfo(name="密码",nullAble=false,visible=true)
 	private String password;
-	@FieldInfo(name="性别")
+	@Dictionary("SEX")
+	@SearchProperty(value="SEX",index=1)
+	@FieldInfo(name="性别",nullAble=false,visible=true)
 	private String sex="0";//0代表男，1代表女
-	@FieldInfo(name="出生日期")
+	@FieldInfo(name="出生日期",visible=true,type=ExtFieldType.DATE)
 	private String birthday;
 	/**后面属性不进行持久化操作*/
 	@FieldInfo(name="图标")
@@ -61,6 +64,8 @@ public class EndUser extends BaseEntity implements UserDetails {
 	private String deptName;
 	@FieldInfo(name="部门编码")
 	private String deptCode;
+	
+	private String remark;
 	
 /*	@FieldInfo(name="是否启用")
 	private String enabled;*/
@@ -145,6 +150,7 @@ public class EndUser extends BaseEntity implements UserDetails {
 	public void setDeptCode(String deptCode) {
 		this.deptCode = deptCode;
 	}
+	
 	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.MERGE})
 	@JoinTable(name = "ROLE_USER", joinColumns = {
@@ -209,4 +215,12 @@ public class EndUser extends BaseEntity implements UserDetails {
 		// TODO Auto-generated method stub
 		return "人员表";
 	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+	
 }

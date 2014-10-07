@@ -46,6 +46,7 @@ import org.yingqu.baoli.model.UserAdress;
 import org.yingqu.baoli.model.UserCollection;
 import org.yingqu.baoli.model.Village;
 import org.yingqu.baoli.model.VirtualIcon;
+import org.yingqu.desktop.model.EndUser;
 import org.yingqu.framework.annotation.Dictionary;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.annotation.SearchProperty;
@@ -613,7 +614,7 @@ public class ViewModelGenerator implements LogerManager {
 		
 		/*createCode(UserCollection.class,"bl","uc","org.yingqu.baoli",false);*/
 		
-		createCode(Village.class,"bl","vil","org.yingqu.baoli",false);
+		//createCode(Village.class,"bl","vil","org.yingqu.baoli",false);
 		//createCode(Photograph.class,"bl","incimg","org.yingqu.baoli",false);
 		//createCode(OfficialIteract.class,"bl","offinc","org.yingqu.baoli",true);
 		//createCode(OfficialPhotograph.class,"bl","offincimg","org.yingqu.baoli",false);
@@ -622,6 +623,7 @@ public class ViewModelGenerator implements LogerManager {
 		createCode(RentalImg.class,"bl","renimg","org.yingqu.baoli",false);
 		createCode(SellOfer.class,"bl","sell","org.yingqu.baoli",true);
 		createCode(SellOferImg.class,"bl","sellimg","org.yingqu.baoli",false);*/
+		createCode(EndUser.class, "bl", "sysuser", "org.yingqu.baoli", false);
 	}
 	
 

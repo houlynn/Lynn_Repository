@@ -15,11 +15,6 @@ public class OrderContentController extends SimpleBaseController<OrderContent> {
 
 	@Override
 	public OrderContent getModel(HttpServletRequest request, OrderContent model) {
-		
-		
-		
-		
-		
 		return model;
 	}
 

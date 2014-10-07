@@ -79,7 +79,7 @@ public class RoleController extends SimpleBaseController<Role> {
 		{
 		if(StringUtil.isNotEmpty(roleId)){
 			String idsWhere=StringUtil.fromArrayToStr(idArray);
-			ebi.executeSql("delete ROLE_USER where ROLEID='"+roleId+"' and USERID in ("+idsWhere+")");
+			ebi.executeSql("delete from ROLE_USER where ROLEID='"+roleId+"' and USERID in ("+idsWhere+")");
 			toWrite(response,jsonBuilder.returnSuccessJson("'移除成功'"));
 		}else{
 			toWrite(response,jsonBuilder.returnFailureJson("'传入角色主键错误！'"));

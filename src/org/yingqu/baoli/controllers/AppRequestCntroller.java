@@ -69,14 +69,10 @@ import org.yingqu.baoli.model.po.OrderProAdrees;
 import org.yingqu.baoli.model.po.RentalPo;
 import org.yingqu.baoli.model.po.RentalPoDetail;
 import org.yingqu.baoli.model.po.RoundPo;
-import org.yingqu.baoli.model.po.SellOferPo;
 import org.yingqu.baoli.model.po.SellOferPoDetail;
 import org.yingqu.baoli.model.po.UserAdressPo;
 import org.yingqu.baoli.model.po.VirtualIconPo;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
-import org.yingqu.framework.annotation.FieldInfo;
-import org.yingqu.framework.annotation.SearchProperty;
-import org.yingqu.framework.constant.ExtFieldType;
 import org.yingqu.framework.controllers.AppBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
@@ -96,6 +92,9 @@ public class AppRequestCntroller extends AppBaseController {
 
 	@Autowired
 	private GoodsEbi gdebi;
+	
+	@Autowired
+	private AppUserEbi userebi;
 
 	public GoodsEbi getGdebi() {
 		return gdebi;
@@ -114,6 +113,14 @@ public class AppRequestCntroller extends AppBaseController {
 
 	public void setIebi(InteractEbi iebi) {
 		this.iebi = iebi;
+	}
+
+	public AppUserEbi getUserebi() {
+		return userebi;
+	}
+
+	public void setUserebi(AppUserEbi userebi) {
+		this.userebi = userebi;
 	}
 
 	// ////////////////////////////////////////////////我的模块接口////////////////////////////////////////////////////////////////////////////
@@ -432,6 +439,7 @@ public class AppRequestCntroller extends AppBaseController {
 							address.setDefaulted("0");// 是否默认
 						}
 						address.setUname(adress.getUname());
+						address.setAppUser(appUser);
 						ebi.update(address);
 						resultModel.setObj(address);
 					}
@@ -454,7 +462,7 @@ public class AppRequestCntroller extends AppBaseController {
 				response,
 				resultModel -> {
 					UserAdress useraddress = super.checkNoFec(adress.getUdid(),
-							"地址标示不能为空", "用户标示无效", resultModel, UserAdress.class);
+							"地址标示不能为空", "地址标示无效", resultModel, UserAdress.class);
 					if (useraddress != null) {
 						ebi.removeById(useraddress.getUdid(), UserAdress.class);
 					}
@@ -475,7 +483,7 @@ public class AppRequestCntroller extends AppBaseController {
 		ResultModel resultModel = initResultModel();
 		try {
 			if (StringUtil.isEmpty(mode.getUserid())) {
-				setEmptyCode(resultModel, "传入的用户地址簿能为空!");
+				setEmptyCode(resultModel, "用户标示不能为空!");
 				error(resultModel.getMsg());
 			} else {
 				AppUser user = (AppUser) ebi.findByOId(AppUser.class,
@@ -517,11 +525,16 @@ public class AppRequestCntroller extends AppBaseController {
 		String uaddid = adress.getUdid();
 		boolean flag = true;
 		try {
-			if (StringUtil.isEmpty(userid) || StringUtil.isEmpty(uaddid)) {
-				setEmptyCode(resultModel, "传入用户标示不能为空!");
-				error(resultModel.getMsg());
+			if(StringUtil.isEmpty(userid)){
 				flag = false;
-			} else {
+				setEmptyCode(resultModel, "传入用户标示不能为空!");
+			}
+			if(StringUtil.isEmpty(uaddid)){
+				flag = false;
+				setEmptyCode(resultModel, "传入地址标示不能为空!");
+			}
+			
+			if(flag) {
 				AppUser user = (AppUser) ebi.findByOId(AppUser.class,
 						adress.getUserid());
 				if (user == null) {
@@ -535,8 +548,7 @@ public class AppRequestCntroller extends AppBaseController {
 						flag = false;
 					}
 					if (flag) {
-						AppUserEbi uebi = (AppUserEbi) ebi;
-						uebi.executeSql(userid, uaddid);
+						userebi.executeSql(userid, uaddid);
 						resultModel.setMsg("设置成功!");
 					}
 				}

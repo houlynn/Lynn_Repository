@@ -101,9 +101,6 @@ public class UserController extends SimpleBaseController<EndUser> {
 				+ "/";
 		String username = request.getParameter("userCode");
 		String password = request.getParameter("password");
-		username="admin";
-		password="123456";
-		System.out.println("username: " + username + "password: " + password);
 		// 获取HttpSession中的验证码
 		String verifyCode = (String) request.getSession().getAttribute(
 				"verifyCode");
