@@ -6,7 +6,6 @@ import org.yingqu.baoli.model.AppNews;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.SimpleBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
-import org.yingqu.framework.model.BaseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonObject;
 @RequestMapping("/bl/news")
 @Controller
 public class AppNewsController extends SimpleBaseController<AppNews> {

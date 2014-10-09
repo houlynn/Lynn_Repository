@@ -45,6 +45,9 @@ public class GoodsDetail {
 	private String specification; 
 	@FieldInfo(name = "发货地", visible = true, nullAble = false)
 	private String shipfrom;
+	
+	
+	private boolean 
 	public String getGid() {
 		return gid;
 	}

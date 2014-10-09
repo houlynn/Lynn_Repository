@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.yingqu.framework.controllers.SimpleBaseController;
+import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
 import org.yingqu.framework.utils.DateUtil;
 import org.yingqu.framework.utils.EntityUtil;
@@ -152,6 +153,29 @@ public class ProcessFieldsUploadUtil {
 		EntityUtil.invokeSetMethod(model, uploadField, new Object[]{rootPath});
 		}
 	} 
+	
+	public static boolean uploadByBase64(String config,StringBuffer bufferImage,String postfix,Object owner, String uploadField) throws Exception{
+		String confiPath=PropUtil.get(config);
+		if(StringUtil.isEmpty(confiPath)){
+			throw new Exception();
+		}
+		String basePath=SimpleBaseController.webrootAbsPath+"/"+PropUtil.get("baoli.upload.top")+"/"+DateUtil.formatDate(new Date());
+		File dir=new File(basePath);
+		if(!dir.exists()){
+			dir.mkdirs();
+			System.out.println("创建文件夹:"+dir);
+		}
+		String filePath=dir+"/"+AppUtils.getCurrentTimeAsNumber()+"."+postfix;
+		boolean flag= AppUtils.generateImage(bufferImage.toString(),filePath);
+		if(flag){
+			flag=false;
+			EntityUtil.invokeSetMethod(owner, uploadField, new Object[]{PropUtil.get("baoli.upload.top")+"/"+DateUtil.formatDate(new Date())+"/"+AppUtils.getCurrentTimeAsNumber()+"."+postfix});
+			System.out.println("成功上传文件:"+filePath);
+			flag=true;
+		}
+		return flag;
+	
+	}
 	
 }
 

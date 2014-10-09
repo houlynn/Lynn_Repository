@@ -11,10 +11,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,9 +72,13 @@ import org.yingqu.baoli.model.po.UserAdressPo;
 import org.yingqu.baoli.model.po.VirtualIconPo;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.AppBaseController;
+import org.yingqu.framework.controllers.SimpleBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
 import org.yingqu.framework.model.vo.ResultModel;
+import org.yingqu.framework.utils.DateUtil;
+import org.yingqu.framework.utils.EntityUtil;
+import org.yingqu.framework.utils.PropUtil;
 import org.yingqu.framework.utils.StringUtil;
 
 /**
@@ -159,24 +161,33 @@ public class AppRequestCntroller extends AppBaseController {
 			HttpServletResponse response, @Validated AppUser model) {
 		debug(AppUtils.getCurrentTime() + ":APP调用 注册方法---A001");
 		ResultModel resultModel = this.initResultModel();
+		boolean flag=true;
 		try {
+			if(StringUtil.isEmpty(model.getLoginCode())){
+				flag=false;
+				setEmptyCode(resultModel, "用户账号不能为空！");
+			}
 			if (StringUtil.isNotEmpty(model.getLoginCode())) {
 				String hql = " from AppUser where loginCode='"
 						+ model.getLoginCode().trim() + "'";
 				AppUser appuser = (AppUser) ebi.getEntityByHql(AppUser.class,
 						hql);
-				if (null == appuser) {
-					ebi.save(model);
-				} else {
+				if (appuser!=null) {
+					flag=false;
 					setNoFecCode(resultModel, "用户账号已存在!");
-				}
-			} else {
-				setEmptyCode(resultModel, "用户账号不能为空！");
-			}
+				} 
+			  
 			if (StringUtil.isEmpty(model.getPwd())) {
 				setEmptyCode(resultModel, "密码不能为空!");
+				flag=false;
 			}
-		} catch (Exception e) {
+			if(flag){
+				model.setOwner("0");
+				model.setSex("0");
+				model.setUsername("匿名用户");
+				ebi.save(model);
+			}
+		} }catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			setServerErrCode(resultModel, "注册失败!");
@@ -325,6 +336,7 @@ public class AppRequestCntroller extends AppBaseController {
 		toWriterResult(response, resModel);
 	}
 
+
 	/**
 	 * +4 用户更新接口 
 	 * 请求类型为 multipart/form-data defaultAddressid 用户默认地址ID 如果不为空 则不会更新
@@ -384,6 +396,244 @@ public class AppRequestCntroller extends AppBaseController {
 
 	}
 
+/**
+ * +  上传头像	图片字符 必须的
+ *           图片格式  默认为 png
+ *           用户标示
+ * @param response
+ * @param request
+ * @param imageStr
+ * @param postfix
+ */
+	@RequestMapping(value="/A005_1",method=RequestMethod.POST)
+	public void appRequestA005_1(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "postfix", required = false, defaultValue = "png") String postfix,
+		     String userid
+			) {
+		        super.requestMeth(response, resultModel->{
+		        	   boolean flag=true;
+		        	   StringBuffer buffer=new StringBuffer();
+		        	   buffer.append(request.getParameter("imageStr"));
+		        	  if(StringUtil.isEmpty(buffer.toString())){
+		        		super.setEmptyCode(resultModel, "图片字符不能为空");
+		        		flag=false;
+		        	  }
+		        	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+		        	    if(appUser==null){
+		        	    	flag=false;
+		        	    }
+		        	    flag= ProcessFieldsUploadUtil.uploadByBase64("baoli.upload.top",buffer,postfix,appUser,"topUrl");
+		        	    if(flag){
+		        	    	   ebi.update(appUser);
+				        	    resultModel.setObj(appUser.getTopUrl());	
+		        	    }else{
+		        	    	throw  new Exception();	
+		        	    }
+		        	 
+		        });
+	}
+	/**
+	 * 亲昵
+	 * @param response
+	 * @param request
+	 * @param username
+	 * @param userid
+	 */
+	@RequestMapping(value="/A005_2")
+	public void appRequestA005_2(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "username", required = false, defaultValue = "") String username,
+		     String userid
+			){
+		    super.requestMeth(response, resultModel->{
+		    	   boolean flag=true;
+		    	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+	        	    if(appUser==null){
+	        	    	flag=false;
+	        	    }
+	        	    if(StringUtil.isEmpty(username)){
+	        	    	super.setEmptyCode(resultModel, "用户亲昵不能为空");
+	        	    }
+	        	    if(flag){
+	        	    	appUser.setUsername(username);
+	        	    	ebi.update(appUser);
+	        	    }
+	        	    resultModel.setObj(appUser.getUsername());
+		    });
+	}
+	/**
+	 * 职业
+	 * @param response
+	 * @param request
+	 * @param occupation
+	 * @param userid
+	 */
+	@RequestMapping(value="/A005_3")
+	public void appRequestA005_3(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "occupation", required = false, defaultValue = "") String occupation,
+		     String userid
+			){
+		    super.requestMeth(response, resultModel->{
+		    	   boolean flag=true;
+		    	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+	        	    if(appUser==null){
+	        	    	flag=false;
+	        	    }
+	        	    if(StringUtil.isEmpty(occupation)){
+	        	    	super.setEmptyCode(resultModel, "职业不能为空");
+	        	    }
+	        	    if(flag){
+	        	    	appUser.setOccupation(occupation);
+	        	    	ebi.update(appUser);
+	        	    }
+	        	    resultModel.setObj(appUser.getOccupation());
+		    });
+	}
+	
+	/**
+	 * 星座
+	 * @param response
+	 * @param request
+	 * @param constellation
+	 * @param userid
+	 */
+	@RequestMapping(value="/A005_4")
+	public void appRequestA005_4(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "constellation", required = false, defaultValue = "") String constellation,
+		     String userid
+			){
+		    super.requestMeth(response, resultModel->{
+		    	   boolean flag=true;
+		    	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+	        	    if(appUser==null){
+	        	    	flag=false;
+	        	    }
+	        	    if(StringUtil.isEmpty(constellation)){
+	        	    	super.setEmptyCode(resultModel, "星座不能为空");
+	        	    }
+	        	    if(flag){
+	        	    	appUser.setConstellation(constellation);
+	        	    	ebi.update(appUser);
+	        	    }
+	        	    resultModel.setObj(appUser.getConstellation());
+		    });
+	}
+	
+	/**
+	 * 家乡
+	 * @param response
+	 * @param request
+	 * @param constellation
+	 * @param userid
+	 */
+	@RequestMapping(value="/A005_5")
+	public void appRequestA005_5(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "home", required = false, defaultValue = "") String home,
+		     String userid
+			){
+		    super.requestMeth(response, resultModel->{
+		    	   boolean flag=true;
+		    	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+	        	    if(appUser==null){
+	        	    	flag=false;
+	        	    }
+	        	    if(StringUtil.isEmpty(home)){
+	        	    	super.setEmptyCode(resultModel, "家乡不能为空");
+	        	    }
+	        	    if(flag){
+	        	    	appUser.setHome(home);
+	        	    	ebi.update(appUser);
+	        	    }
+	        	    resultModel.setObj(appUser.getHome());
+		    });
+	}
+
+	/**
+	 * 个性签名
+	 * @param response
+	 * @param request
+	 * @param constellation
+	 * @param userid
+	 */
+	@RequestMapping(value="/A005_6")
+	public void appRequestA005_6(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "sefTick", required = false, defaultValue = "") String sefTick,
+		     String userid
+			){
+		    super.requestMeth(response, resultModel->{
+		    	   boolean flag=true;
+		    	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+	        	    if(appUser==null){
+	        	    	flag=false;
+	        	    }
+	        	    if(StringUtil.isEmpty(sefTick)){
+	        	    	super.setEmptyCode(resultModel, "个性签名不能为空");
+	        	    }
+	        	    if(flag){
+	        	    	appUser.setSefTick(sefTick);
+	        	    	ebi.update(appUser);
+	        	    }
+	        	    resultModel.setObj(appUser.getSefTick());
+		    });
+	}
+	
+	
+	/**
+	 * 情感状态  001 002 003 004
+	 * @param response
+	 * @param request
+	 * @param constellation
+	 * @param userid
+	 */
+	@RequestMapping(value="/A005_7")
+	public void appRequestA005_7(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "feelings", required = false, defaultValue = "") String feelings,
+		     String userid
+			){
+		    super.requestMeth(response, resultModel->{
+		    	   boolean flag=true;
+		    	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+	        	    if(appUser==null){
+	        	    	flag=false;
+	        	    }
+	        	    if(StringUtil.isEmpty(feelings)){
+	        	    	super.setEmptyCode(resultModel, "情感状态不能为空");
+	        	    }
+	        	    if(flag){
+	        	    	appUser.setFeelings(feelings);
+	        	    	ebi.update(appUser);
+	        	    }
+	        	    resultModel.setObj(appUser.getFeelings());
+		    });
+	}
+	
+	/**
+	 * 兴趣爱好
+	 * @param response
+	 * @param request
+	 * @param hoby
+	 * @param userid
+	 */
+	@RequestMapping(value="/A005_8")
+	public void appRequestA005_8(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "hoby", required = false, defaultValue = "") String hoby,
+		     String userid
+			){
+		    super.requestMeth(response, resultModel->{
+		    	   boolean flag=true;
+		    	   AppUser appUser=  super.checkNoFec(userid, "用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
+	        	    if(appUser==null){
+	        	    	flag=false;
+	        	    }
+	        	    if(StringUtil.isEmpty(hoby)){
+	        	    	super.setEmptyCode(resultModel, "兴趣爱好不能为空");
+	        	    }
+	        	    if(flag){
+	        	    	appUser.setHoby(hoby);
+	        	    	ebi.update(appUser);
+	        	    }
+	        	    resultModel.setObj(appUser.getHoby());
+		    });
+	}
 	/**
 	 * 5设置送货地址 需要传入 userid必须的
 	 * 
@@ -907,6 +1157,7 @@ public class AppRequestCntroller extends AppBaseController {
 
 	/**
 	 * +（添加一个接） 收藏明细 输入参数 1 收藏标示 2收藏类型 001 002 003 004 005 006 周边 商品。。。。。。
+	 * id 为收藏条目的ID
 	 */
 	@RequestMapping("/A016")
 	public void appRequestA016(HttpServletRequest request,
@@ -916,6 +1167,10 @@ public class AppRequestCntroller extends AppBaseController {
 				response,
 				resultModel -> {
 					boolean flag = true;
+					if(StringUtil.isEmpty(type)){
+						super.setEmptyCode(resultModel, "收藏类型不能为空!");
+						 flag =false;
+					}else{
 					switch (type) {
 					case "001":// 周边
 						Merchant merchant = super.checkNoFec(id, "周边商铺标示不能为空",
@@ -934,18 +1189,18 @@ public class AppRequestCntroller extends AppBaseController {
 						flag = goods == null ? false : true;
 						if (flag) {
 							GoodsPo view = new GoodsPo();
-							BeanUtils.copyProperties(view, goods);
-							GoodsDetail gDetail = new GoodsDetail();
-							BeanUtils.copyProperties(gDetail, goods);
+							view.setName(goods.getName());
+							view.setPrice(goods.getPrice());
+							view.setSaleCount(goods.getSaleCount());
+							view.setTrip(goods.getTrip());
+							view.setYprice(goods.getYprice());
 							List<String> imgsList = new ArrayList<String>();
 							if (goods.getImgs() != null
 									&& goods.getImgs().size() > 0) {
 								for (GoodImage gdimg : goods.getImgs()) {
 									imgsList.add(gdimg.getUrl());
 								}
-								String imgJsonStr = jsonBuilder
-										.toJson(imgsList);
-								gDetail.setImg(imgJsonStr);
+								view.setImgs(imgsList);
 							}
 							resultModel.setObj(view);
 						}
@@ -1055,6 +1310,7 @@ public class AppRequestCntroller extends AppBaseController {
 						setNoFecCode(resultModel, "非法收藏类型");
 						flag = false;
 						break;
+					}
 					}
 				});
 	}
@@ -1254,6 +1510,7 @@ public class AppRequestCntroller extends AppBaseController {
 			gdp = new GoodsPo();
 			Set<GoodImage> imgs = gd.getImgs();
 			gdp.setName(gd.getName());// 商品名称
+			gdp.setGid(gd.getGid());//商品ID
 			gdp.setPrice(gd.getPrice());// 单价
 			gdp.setSaleCount(gd.getSaleCount());// 销售数量
 			gdp.setTrip(gd.getTrip());
@@ -1413,8 +1670,7 @@ public class AppRequestCntroller extends AppBaseController {
 								or.setGid(gid);
 								or.setPrice(goods.getPrice());
 								or.setCount(count);
-								or.setAcount(goods.getPrice()
-										* goods.getPrice());
+								or.setAcount(goods.getPrice()*goods.getPrice());
 								orderitem.add(or);
 							}
 						}
@@ -1674,11 +1930,10 @@ public class AppRequestCntroller extends AppBaseController {
 	 *
 	 */
 	@RequestMapping("/010")
-	public void appRequest0010(@Validated Merchant model, BindingResult br,
-			@RequestParam("icon") MultipartFile icon,
+	public void appRequest0010(@Validated Merchant model,
 			HttpServletRequest request, HttpServletResponse response) {
-		ProcessFieldsUploadUtil.upload(model, icon, "icon",
-				"baoli.upload.merchant");
+	/*	ProcessFieldsUploadUtil.upload(model, icon, "icon",
+				"baoli.upload.merchant");*/
 		String useri = model.getUserid();
 		ResultModel resultModel = this.initResultModel();
 		try {
@@ -1693,6 +1948,43 @@ public class AppRequestCntroller extends AppBaseController {
 		toWritePhone(response, resultModel);
 	}
 
+	/**
+	 * 上传商户图标
+	 * @param response
+	 * @param request
+	 * @param postfix
+	 * @param merid
+	 */
+	@RequestMapping(value="/010_A",method=RequestMethod.POST)
+	public void appRequest010_A(HttpServletResponse response,HttpServletRequest request,
+		     @RequestParam(value = "postfix", required = false, defaultValue = "png") String postfix,
+		     @RequestParam(value = "merid", required = false, defaultValue = "")  String merid  
+			) {
+		        super.requestMeth(response, resultModel->{
+		        	   boolean flag=true;
+		        	   StringBuffer buffer=new StringBuffer();
+		        	   buffer.append(request.getParameter("imageStr"));
+		        	  if(StringUtil.isEmpty(buffer.toString())){
+		        		super.setEmptyCode(resultModel, "图片字符不能为空");
+		        		flag=false;
+		        	  }
+		        	  Merchant merchant=  super.checkNoFec(merid, "商户标示不能为空", "传入商户无效", resultModel, Merchant.class);
+		        	    if(merchant==null){
+		        	    	flag=false;
+		        	    }
+		        	    flag= ProcessFieldsUploadUtil.uploadByBase64("baoli.upload.merchant",buffer,postfix,merchant,"icon");
+		        	    if(flag){
+		        	    	   ebi.update(merchant);
+				        	    resultModel.setObj(merchant.getIcon());	
+		        	    }else{
+		        	    	throw  new Exception();	
+		        	    }
+		        	 
+		        });
+	}
+	
+	
+	
 	/**
 	 * 28 011 根据服务类型代码 加载商户
 	 * 
@@ -1872,7 +2164,6 @@ public class AppRequestCntroller extends AppBaseController {
 	@RequestMapping("/014")
 	public void appRequest0014(String newid, HttpServletRequest request,
 			HttpServletResponse response) {
-
 		super.requestMeth(
 				response,
 				resultModel -> {
@@ -1917,7 +2208,7 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * 33 016 用户发帖 提交 方式 enctype="multipart/form-data"
+	 * 33 016 用户发帖 提交 方式 
 	 * 
 	 * @param userid
 	 *            用户标示 必须
@@ -1925,46 +2216,55 @@ public class AppRequestCntroller extends AppBaseController {
 	 *            帖子类型 必须 相关项参考 数字字典 用户论坛分类 条目
 	 * @param model
 	 *            参考用户 发帖界面 注意活动类型帖子传入的参数, 发帖地址
-	 * @param imge
-	 *            图片文件u 用户上传图片的文件集合 file类型
+	 * @param imgesStr 示例数据  [{"imgStr":"qqwqw","postfix":"jpg"},{"imgStr":"qqwqw","postfix":"jpg"}]
+	 *           
 	 * @param request
 	 * @param response
 	 */
 	@RequestMapping(value = "/016", method = RequestMethod.POST)
 	public void appRequest016(@Validated Interact model, BindingResult result,
-			@RequestParam("imge") MultipartFile[] imges,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "imgsStr", required = false, defaultValue = "") String imgsStr
+			) {
 		String userid = model.getUserid();
 		String type = model.getType();
 		super.requestMeth(
 				response,
 				resultModel -> {
+					boolean flag=true;
 					if(StringUtil.isNotEmpty(model.getInteractContent())){
 						super.setEmptyCode(resultModel, "发表内容不能为空");
+						flag=false;
 					}else{
 					AppUser appUser = checkAppUser(userid, resultModel);
 					if (appUser != null) {
 						if (StringUtil.isEmpty(type)) {
 							setEmptyCode(resultModel, "贴子类型不能为空!");
+							flag=false;
 						} else {
 							Set<Photograph> imgeItems = new HashSet<>();
 							Photograph imgeItem = null;
-							for (MultipartFile img : imges) {
-								if (img != null) {
-									imgeItem = new Photograph();
-									String path = ProcessFieldsUploadUtil
-											.processFieldsUpload(img,
-													"baoli.upload.interact");
-									if (path == null) {
-										setServerErrCode(resultModel);
-									}
-									imgeItem.setImgurl(path);
-									imgeItems.add(imgeItem);
-									imgeItem = null;
-								}
-							}
+						    if(flag){
+						    	 if(StringUtil.isNotEmpty(imgsStr)){
+						    		   List<Map> imges = jsonBuilder.fromJsonArray(imgsStr);
+						    			for (Map img : imges) {
+												imgeItem = new Photograph();
+												StringBuffer imageStr=new StringBuffer(img.get("imgStr")+"");
+												String postfix=img.get("postfix")==null?"png":img.get("postfix")+"";
+											    flag= ProcessFieldsUploadUtil.uploadByBase64("baoli.upload.interact",imageStr,postfix,imgeItem,"imgurl");
+												if (!flag) {
+													throw new Exception();
+												}else{
+													imgeItems.add(imgeItem);
+												
+												}
+												imgeItem = null;
+											}
+										}
+						    }
 							model.setPhotourl(imgeItems);
 							model.setUid(appUser);
+						    model.setUsername(appUser.getUsername());
 							model.setPtime(AppUtils.getCurrentTime());
 							iebi.saveInteract(model);
 						}
@@ -1981,7 +2281,7 @@ public class AppRequestCntroller extends AppBaseController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/017", method = RequestMethod.POST)
+	@RequestMapping(value = "/017")
 	public void appRequest017(Massage msg, HttpServletRequest request,
 			HttpServletResponse response) {
 		super.requestMeth(
@@ -2253,7 +2553,6 @@ public class AppRequestCntroller extends AppBaseController {
 							view.setImgs(imgList);
 						}
 						view.setArea(rental.getArea());
-						BeanUtils.copyProperties(view, rental);
 						resultModel.setObj(view);
 					}
 				});
@@ -2273,7 +2572,7 @@ public class AppRequestCntroller extends AppBaseController {
 		super.requestMeth(
 				response,
 				(resultModel) -> {
-					SellOfer sellOfer = checkNoFec(rid, "出租标识能为空", "出租标示无效",
+					SellOfer sellOfer = checkNoFec(rid, "出售标识能为空", "出售标示无效",
 							resultModel, SellOfer.class);
 					if (sellOfer != null) {
 						SellOferPoDetail view = new SellOferPoDetail();

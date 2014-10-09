@@ -40,6 +40,8 @@ public class GoodsPo {
 	 */
 	private String trip;
 	
+	private String gid;
+	
 
 	public String getTrip() {
 		return trip;
@@ -101,6 +103,14 @@ public class GoodsPo {
 
 	public void setSaleCount(float saleCount) {
 		this.saleCount = saleCount;
+	}
+
+	public String getGid() {
+		return gid;
+	}
+
+	public void setGid(String gid) {
+		this.gid = gid;
 	}
 	
 	
