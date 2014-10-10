@@ -36,6 +36,8 @@ public class UserAdress extends BaseEntity {
 	private String userid;
 	@FieldInfo(name = "电话号码",mobileField=true)
 	private String phone;
+	@FieldInfo(name = "邮编",mobileField=true)
+	private String postcode;
 	
 	private AppUser appUser;
 	
@@ -99,6 +101,14 @@ public class UserAdress extends BaseEntity {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
 	}
 
 	@JsonIgnore

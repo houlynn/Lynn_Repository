@@ -157,19 +157,19 @@ public class ProcessFieldsUploadUtil {
 	public static boolean uploadByBase64(String config,StringBuffer bufferImage,String postfix,Object owner, String uploadField) throws Exception{
 		String confiPath=PropUtil.get(config);
 		if(StringUtil.isEmpty(confiPath)){
-			throw new Exception();
+			throw new Exception("没有找到存方论坛图片的文件夹");
 		}
-		String basePath=SimpleBaseController.webrootAbsPath+"/"+PropUtil.get("baoli.upload.top")+"/"+DateUtil.formatDate(new Date());
+		String basePath=SimpleBaseController.webrootAbsPath+"/"+PropUtil.get(config)+"/"+DateUtil.formatDate(new Date());
 		File dir=new File(basePath);
 		if(!dir.exists()){
 			dir.mkdirs();
 			System.out.println("创建文件夹:"+dir);
 		}
-		String filePath=dir+"/"+AppUtils.getCurrentTimeAsNumber()+"."+postfix;
+		String filePath=dir+"/"+UUID.randomUUID()+"."+postfix;
 		boolean flag= AppUtils.generateImage(bufferImage.toString(),filePath);
 		if(flag){
 			flag=false;
-			EntityUtil.invokeSetMethod(owner, uploadField, new Object[]{PropUtil.get("baoli.upload.top")+"/"+DateUtil.formatDate(new Date())+"/"+AppUtils.getCurrentTimeAsNumber()+"."+postfix});
+			EntityUtil.invokeSetMethod(owner, uploadField, new Object[]{PropUtil.get("baoli.upload.top")+"/"+DateUtil.formatDate(new Date())+"/"+UUID.randomUUID()+"."+postfix});
 			System.out.println("成功上传文件:"+filePath);
 			flag=true;
 		}

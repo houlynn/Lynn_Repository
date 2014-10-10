@@ -74,8 +74,17 @@ public class Goods extends BaseEntity {
 	private String shipfrom; 
 	@FieldInfo(name = "广告词", visible = true, nullAble = false)
 	private String trip;
+	@FieldInfo(name = "成分", visible = true, nullAble = false)
+	private String ingredient;
+	
 	
 	private Set<GoodImage> imgs=new HashSet<GoodImage>();
+	
+	
+	/**
+	 * 是否已经收藏
+	 */
+	private boolean marking; 
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
@@ -219,6 +228,23 @@ public class Goods extends BaseEntity {
 
 	public void setTrip(String trip) {
 		this.trip = trip;
+	}
+
+	@Transient
+	public boolean getMarking() {
+		return marking;
+	}
+
+	public void setMarking(boolean marking) {
+		this.marking = marking;
+	}
+
+	public String getIngredient() {
+		return ingredient;
+	}
+
+	public void setIngredient(String ingredient) {
+		this.ingredient = ingredient;
 	}
 
 	@JsonIgnore

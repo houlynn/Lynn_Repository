@@ -10,12 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,13 +76,9 @@ import org.yingqu.baoli.model.po.UserAdressPo;
 import org.yingqu.baoli.model.po.VirtualIconPo;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.AppBaseController;
-import org.yingqu.framework.controllers.SimpleBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
 import org.yingqu.framework.model.vo.ResultModel;
-import org.yingqu.framework.utils.DateUtil;
-import org.yingqu.framework.utils.EntityUtil;
-import org.yingqu.framework.utils.PropUtil;
 import org.yingqu.framework.utils.StringUtil;
 
 /**
@@ -148,6 +148,71 @@ public class AppRequestCntroller extends AppBaseController {
 
 		});
 	}
+	
+	@RequestMapping("A00_B")
+	public void appRequestA00_B(HttpServletRequest request,
+			HttpServletResponse response, String loginCode,
+			String pid
+			) {
+		
+		debug(AppUtils.getCurrentTime() + ":APP调用 获取验证码---A000");
+		super.requestMeth(response, resultModel -> {
+			List<Map<String,String>> data=new ArrayList<>();
+			if(StringUtil.isEmpty(pid)){
+				for(int i=0;i<10;i++){
+					Map<String,String> view=new HashMap<String,String>();
+					view.put("itemCode",i+"");
+					view.put("itemName", "我是省"+i);
+					data.add(view);
+					view=null;
+				}
+			}else{
+					switch(pid){
+					case "0":{
+						for(int i=0;i<10;i++){
+							Map<String,String> view=new HashMap<String,String>();
+							view.put("itemCode",i+"");
+							view.put("itemName", "第"+i+"（我是0省的城市）");
+							data.add(view);
+							view=null;
+						}
+						break;
+					}
+	               case "1":{
+	            		for(int j=0;j<10;j++){
+							Map<String,String> view=new HashMap<String,String>();
+							view.put("itemCode",j+"");
+							view.put("itemName", "第"+j+"（我是1省的城市）个市");
+							data.add(view);
+							view=null;
+					}
+	            		break;
+	             
+	               }
+	               case"" :{
+						for(int i=0;i<10;i++){
+							Map<String,String> view=new HashMap<String,String>();
+							view.put("itemCode",i+"");
+							view.put("itemName", "第"+i+"（我是0省的城市）");
+							data.add(view);
+							view=null;
+						}
+						for(int j=0;j<10;j++){
+							Map<String,String> view=new HashMap<String,String>();
+							view.put("itemCode",j+"");
+							view.put("itemName", "第"+j+"（我是1省的城市）个市");
+							data.add(view);
+							view=null;
+					}
+						
+					}
+					}
+						
+					}
+			resultModel.setObj(data);
+
+		});
+	}
 
 	/**
 	 * 1 添加一个注册接口 参数值参考 注册界面 /register
@@ -213,8 +278,10 @@ public class AppRequestCntroller extends AppBaseController {
 			String pwd = appUser.getPwd();
 			String loginCode = appUser.getLoginCode();
 			if (StringUtil.isEmpty(loginCode)) {
-				setEmptyCode(resModel, "loginCode");
-			} else {
+				setEmptyCode(resModel, "登陆账号不能为空!");
+			}else if(StringUtils.isEmpty(pwd)){
+				setEmptyCode(resModel, "密码不能为空!");
+			}else {
 				String hql = " from AppUser o where loginCode='" + loginCode
 						+ "' and pwd='" + pwd + "'";
 				List<AppUser> users = (List<AppUser>) ebi.queryByHql(hql);
@@ -229,7 +296,7 @@ public class AppRequestCntroller extends AppBaseController {
 					String hcoll = " select count(o) from UserCollection o where o.uid='"
 							+ userid + "'";
 					count = ebi.getCount(hcoll);// 收藏数目
-					String addHql = "from UserAdress where userid='" + userid
+					String addHql = "from UserAdress where appUser='" + userid
 							+ "' and defaulted='1'";
 					UserAdress addAdress = (UserAdress) ebi.getEntityByHql(
 							UserAdress.class, addHql);
@@ -410,6 +477,7 @@ public class AppRequestCntroller extends AppBaseController {
 		     @RequestParam(value = "postfix", required = false, defaultValue = "png") String postfix,
 		     String userid
 			) {
+		 
 		        super.requestMeth(response, resultModel->{
 		        	   boolean flag=true;
 		        	   StringBuffer buffer=new StringBuffer();
@@ -745,6 +813,11 @@ public class AppRequestCntroller extends AppBaseController {
 					List<UserAdress> list = (List<UserAdress>) ebi
 							.queryByHql(" from  UserAdress where appUser='"
 									+ mode.getUserid() + "'");
+					list.parallelStream().map(item->{
+						item.setUserid(item.getAppUser().getUserid());
+					     return item;	
+					}).collect(Collectors.toList());
+					
 					resultModel.setObj(list);
 				}
 
@@ -1560,13 +1633,16 @@ public class AppRequestCntroller extends AppBaseController {
 				});
 	}
 
-	/**
+	/**参数 userid
+	 * + 添加了 gid marking这两个值段
 	 * 22 005 商品详细 商品主键 必须的
 	 */
 	@RequestMapping("/005")
 	public void appRequest005(
 			@RequestParam(value = "gid", required = false, defaultValue = "") String gid,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "userid", required = false, defaultValue = "") String userid
+			) {
 		ResultModel resultModel = this.initResultModel();
 		try {
 			if (StringUtil.isEmpty(gid)) {
@@ -1577,14 +1653,31 @@ public class AppRequestCntroller extends AppBaseController {
 					setNoFecCode(resultModel, "传入的商品标示无效!");
 				} else {
 					GoodsDetail gDetail = new GoodsDetail();
-					BeanUtils.copyProperties(gDetail, goods);
+					gDetail.setGid(gid);
+					gDetail.setName(goods.getName());
+					gDetail.setPrice(goods.getPrice());
+					gDetail.setYprice(goods.getYprice());
+					gDetail.setRemarks(goods.getRemarks());
+					gDetail.setFree(goods.getFree());
+					gDetail.setSaleCount(goods.getSaleCount());
+					gDetail.setStock(goods.getStock());
+					gDetail.setMoveprice(goods.getMoveprice());
+					gDetail.setShelfdate(goods.getShelfdate());
+					gDetail.setOrigin(goods.getOrigin());
+					gDetail.setSpecification(goods.getSpecification());
+					gDetail.setShipfrom(goods.getShipfrom());
+					gDetail.setIngredient(goods.getIngredient());
+					String hql=" SELECT count(o) from  UserCollection o where o.uid='"+userid+"' and o.cid='"+gid+"'";
+					Integer count= ebi.getCount(hql);
+					if(count!=null&&count!=0){
+						gDetail.setMarking(true);//这个户有收藏这个商品app收藏按钮是闪亮的
+					}
 					List<String> imgsList = new ArrayList<String>();
 					if (goods.getImgs() != null && goods.getImgs().size() > 0) {
 						for (GoodImage gdimg : goods.getImgs()) {
 							imgsList.add(gdimg.getUrl());
 						}
-						String imgJsonStr = jsonBuilder.toJson(imgsList);
-						gDetail.setImg(imgJsonStr);
+						gDetail.setImg(imgsList);
 					}
 					resultModel.setObj(gDetail);
 				}
@@ -2222,7 +2315,7 @@ public class AppRequestCntroller extends AppBaseController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/016", method = RequestMethod.POST)
-	public void appRequest016(@Validated Interact model, BindingResult result,
+	public void appRequest016( Interact model,
 			HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "imgsStr", required = false, defaultValue = "") String imgsStr
 			) {
@@ -2232,7 +2325,7 @@ public class AppRequestCntroller extends AppBaseController {
 				response,
 				resultModel -> {
 					boolean flag=true;
-					if(StringUtil.isNotEmpty(model.getInteractContent())){
+					if(StringUtil.isEmpty(model.getInteractContent())){
 						super.setEmptyCode(resultModel, "发表内容不能为空");
 						flag=false;
 					}else{
@@ -2247,17 +2340,20 @@ public class AppRequestCntroller extends AppBaseController {
 						    if(flag){
 						    	 if(StringUtil.isNotEmpty(imgsStr)){
 						    		   List<Map> imges = jsonBuilder.fromJsonArray(imgsStr);
+						    		   debug("用户将上传： "+imges.size()+" 张图片");
 						    			for (Map img : imges) {
+						    				   debug("=================================");
 												imgeItem = new Photograph();
 												StringBuffer imageStr=new StringBuffer(img.get("imgStr")+"");
 												String postfix=img.get("postfix")==null?"png":img.get("postfix")+"";
 											    flag= ProcessFieldsUploadUtil.uploadByBase64("baoli.upload.interact",imageStr,postfix,imgeItem,"imgurl");
 												if (!flag) {
-													throw new Exception();
+													throw new Exception("保存图片是失败!");
 												}else{
 													imgeItems.add(imgeItem);
 												
 												}
+												debug("用户上传图片："+imgeItem.getImgurl()+"成功!");
 												imgeItem = null;
 											}
 										}
@@ -2267,6 +2363,7 @@ public class AppRequestCntroller extends AppBaseController {
 						    model.setUsername(appUser.getUsername());
 							model.setPtime(AppUtils.getCurrentTime());
 							iebi.saveInteract(model);
+							resultModel.setObj(model.getInterid());
 						}
 					}
 					}
@@ -2277,7 +2374,7 @@ public class AppRequestCntroller extends AppBaseController {
 	 * 34 017 论坛评论
 	 * 
 	 * @param msg
-	 *            用户标示 ，贴子ID，评论内容必须的 用户定位信息
+	 *            用户标示 ，贴子ID，评论内容必须的   用户定位信息
 	 * @param request
 	 * @param response
 	 */
@@ -2380,27 +2477,43 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "orderSql", required = false, defaultValue = "") String orderSql,
 			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit) {
-		super.requestMeth(response, (resultModel) -> {
-			if (StringUtil.isEmpty(interid)) {
-				setEmptyCode(resultModel, "帖子标识不能为空!");
-			}
-		});
+		
+		 ResultModel resultModel= initResultModel();
 		whereSql += " and  inid='" + interid + "'";
 		orderSql += " order  by backtime desc";
-		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
-				response, Massage.class, (list, resultModel) -> {
-					List<MessagePo> views = new ArrayList<>();
-					views = list.parallelStream().map(item -> {
-						MessagePo view = new MessagePo();
-						view.setCity(item.getCity());
-						view.setProvince(item.getProvince());
-						view.setMesg(item.getMsgContext());
-						view.setUserName(item.getUsername());
-						view.setPsTime(item.getBacktime());
-						return view;
-					}).collect(Collectors.toList());
-					resultModel.setObj(views);
-				});
+		if (StringUtil.isEmpty(interid)) {
+			setEmptyCode(resultModel, "帖子标识不能为空!");
+		}else{
+		try{
+	StringBuffer hql = new StringBuffer(" from Massage where 1=1 ");
+	StringBuffer countHql = new StringBuffer("select count(*) from Massage   where 1=1");
+	hql.append(whereSql);
+	hql.append(parentSql);
+	hql.append(querySql);
+	countHql.append(whereSql);
+	countHql.append(querySql);
+	countHql.append(parentSql);
+	Integer count = ebi.getCount(countHql.toString()).intValue();
+	hql.append(orderSql);
+	String  limitStr=limit.equals("0") ? String.valueOf(count) : limit;
+	List<Massage> list = (List<Massage>) ebi.queryByHql(hql.toString(),
+			Integer.valueOf(start), Integer.valueOf(limit));
+				List<MessagePo> views = new ArrayList<>();
+				views = list.parallelStream().map(item -> {
+					MessagePo view = new MessagePo();
+					view.setCity(item.getCity());
+					view.setProvince(item.getProvince());
+					view.setMesg(item.getMsgContext());
+					view.setUserName(item.getUsername());
+					view.setPsTime(item.getBacktime());
+					return view;
+				}).collect(Collectors.toList());
+				resultModel.setObj(views);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+		super.toWritePhone(response, resultModel);
 	}
 
 	/**

@@ -56,6 +56,7 @@ public class UserCollection extends BaseEntity {
 		this.ctype = ctype;
 	}
 
+	@Column(nullable=false)
 	public String getUid() {
 		return uid;
 	}

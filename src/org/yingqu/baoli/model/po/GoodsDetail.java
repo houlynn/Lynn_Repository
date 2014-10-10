@@ -1,6 +1,10 @@
 package org.yingqu.baoli.model.po;
 
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.constant.ExtFieldType;
 /**
@@ -23,7 +27,7 @@ public class GoodsDetail {
 	 * 返回json数据
 	 */
 	@FieldInfo(name = "图片地址", visible = true, nullAble = false)
-	private String img;
+	private List<String> img=new ArrayList<String>();
 	@FieldInfo(name = "成分或描述", visible = true, nullAble = false,mobileField=true)
 	private String remarks;
 	/**
@@ -46,8 +50,15 @@ public class GoodsDetail {
 	@FieldInfo(name = "发货地", visible = true, nullAble = false)
 	private String shipfrom;
 	
+	/**
+	 * 成分
+	 */
+	private String ingredient;
 	
-	private boolean 
+	/**
+	 * 是否已经收藏
+	 */
+	private boolean marking=false; 
 	public String getGid() {
 		return gid;
 	}
@@ -72,10 +83,10 @@ public class GoodsDetail {
 	public void setYprice(float yprice) {
 		this.yprice = yprice;
 	}
-	public String getImg() {
+	public List<String> getImg() {
 		return img;
 	}
-	public void setImg(String img) {
+	public void setImg(List<String> img) {
 		this.img = img;
 	}
 	public String getRemarks() {
@@ -131,6 +142,19 @@ public class GoodsDetail {
 	}
 	public void setShipfrom(String shipfrom) {
 		this.shipfrom = shipfrom;
+	}
+	
+	public boolean getMarking() {
+		return marking;
+	}
+	public void setMarking(boolean marking) {
+		this.marking = marking;
+	}
+	public String getIngredient() {
+		return ingredient;
+	}
+	public void setIngredient(String ingredient) {
+		this.ingredient = ingredient;
 	} 
 	
 	
