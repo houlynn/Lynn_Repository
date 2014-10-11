@@ -91,6 +91,8 @@ public class AppUser extends BaseEntity {
 	private String topUrl; 
 	private String defaultAddressid;
 	private Set<UserAdress> adress=new HashSet<UserAdress>();
+	private UserAdress defaultAdress;
+	
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
@@ -303,6 +305,15 @@ public class AppUser extends BaseEntity {
 
 	public void setProvince(String province) {
 		this.province = province;
+	}
+
+	@Transient
+	public UserAdress getDefaultAdress() {
+		return defaultAdress;
+	}
+
+	public void setDefaultAdress(UserAdress defaultAdress) {
+		this.defaultAdress = defaultAdress;
 	}
 
 	@Transient

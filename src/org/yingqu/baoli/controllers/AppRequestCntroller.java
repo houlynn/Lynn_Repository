@@ -66,6 +66,8 @@ import org.yingqu.baoli.model.po.OfferInteractPo;
 import org.yingqu.baoli.model.po.MerchantPo;
 import org.yingqu.baoli.model.po.MessagePo;
 import org.yingqu.baoli.model.po.OderPro;
+import org.yingqu.baoli.model.po.OrderContenPro;
+import org.yingqu.baoli.model.po.OrderItemPro;
 import org.yingqu.baoli.model.po.OrderPro;
 import org.yingqu.baoli.model.po.OrderProAdrees;
 import org.yingqu.baoli.model.po.RentalPo;
@@ -80,6 +82,8 @@ import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
+import com.sun.accessibility.internal.resources.accessibility;
 
 /**
  * APP接口请求处理类
@@ -302,6 +306,8 @@ public class AppRequestCntroller extends AppBaseController {
 							UserAdress.class, addHql);
 					if (addAdress != null) {
 						appUserPo.setDefaultAddressid(addAdress.getUdid());// 默认地址ID
+						addAdress.setUserid(userid);
+						appUserPo.setDefaultAdress(addAdress);
 					}
 					appUserPo.setCollecCount(count);
 					resModel.setObj(appUserPo);
@@ -413,53 +419,107 @@ public class AppRequestCntroller extends AppBaseController {
 	 *            默认地址
 	 */
 	@RequestMapping("/A005")
-	public void updateAppUser(AppUser appUser, HttpServletResponse response,
-			HttpServletRequest request, BindingResult br,
-			@RequestParam("topUrl") MultipartFile topUrl) {
+	public void updateAppUser(String  userid, HttpServletResponse response,
+			HttpServletRequest request,
+			String code,
+			String value
+	) {
 		debug(AppUtils.getCurrentTime() + ":APP调用 updateAppUser");
-		ResultModel resModel = initResultModel();
-		String userId = appUser.getUserid();
-		if (StringUtil.isEmpty(userId)) {
-			setEmptyCode(resModel, "传入用户标示不能为空!");
-		} else {
-			AppUser user;
-			try {
-				user = (AppUser) ebi.findByOId(AppUser.class, userId);
-				if (user == null) {
-					setNoFecCode(resModel, "传入用户标示无效");
-					error("传入无效的用户标示!");
-				} else {
-					if (StringUtil.isNotEmpty(topUrl.getOriginalFilename())) {
-						ProcessFieldsUploadUtil.upload(appUser, topUrl,
-								"topUrl", "baoli.upload.top");
-					}
-					user.setUsername(appUser.getUsername());// 用户亲昵
-					if (StringUtil.isNotEmpty(appUser.getDefaultAddressid())) {
-						UserAdress uddres = new UserAdress();
-						uddres.setUdid(appUser.getDefaultAddressid());
-						defaultAddress(uddres, request, response);
-						debug("更新用户地址！:-------------------------------");
-
-					}
-					user.setOccupation(appUser.getOccupation());// 职业
-					user.setConstellation(appUser.getConstellation());// 星座
-					user.setHome(appUser.getHome());// 家乡
-					user.setSefTick(appUser.getSefTick());// 个性签名
-					user.setFeelings(user.getFeelings());// 情感状态
-					user.setTopUrl(appUser.getTopUrl());// 用户头像
-					debug("用户头像地址:" + appUser.getTopUrl());
-					ebi.update(user);
-					resModel.setMsg("更新成功!");
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				setServerErrCode(resModel, "服务器错误！更新用户失败!");
-				error(resModel.getMsg(), e);
+		super.requestMeth(response, resultModel->{
+			boolean flag=true;
+			if(StringUtil.isEmpty(code)){
+				flag=false;
+				super.setEmptyCode(resultModel, "更新代码不能为空");
 			}
-			toWriterResult(response, resModel);
-
+			if(StringUtil.isEmpty(value)){
+				super.setEmptyCode(resultModel, "对更新条目并未赋值");
+				flag=false;
+			}
+			AppUser appUser= super.checkNoFec(userid, "用户标示不能为空!", "用户标示无效!", resultModel, AppUser.class);
+			if(appUser==null){
+				flag=false;
+			}
+			if(flag){
+				switch(code){
+				case "001":{
+					   if(StringUtil.isEmpty(value)){
+		        	    	super.setEmptyCode(resultModel, "用户亲昵不能为空");
+		        	    }else{
+		        	      	appUser.setUsername(value);
+		        	      	ebi.update(appUser);
+		        	      	 resultModel.setObj(appUser.getUsername());
+		        	    }
+					break;
+				}
+              case "002":{
+            	   if(StringUtil.isEmpty(value)){
+	        	    	super.setEmptyCode(resultModel, "职业不能为空");
+	        	    }else{
+	        	    	appUser.setOccupation(value);
+	        	    	ebi.update(appUser);
+	        	    	 resultModel.setObj(appUser.getOccupation());
+	        	    }
+					break;
+				}
+          	case "003":{
+          	   if(StringUtil.isEmpty(value)){
+       	    	super.setEmptyCode(resultModel, "星座不能为空");
+       	    }else{
+       	 	appUser.setConstellation(value);
+	    	ebi.update(appUser);
+	    	   resultModel.setObj(appUser.getConstellation());
+       	    }
+				break;
+			}
+          case "004":{
+        	   if(StringUtil.isEmpty(value)){
+       	    	super.setEmptyCode(resultModel, "家乡不能为空");
+       	    }else{
+       	 	    appUser.setHome(value);
+	    	    ebi.update(appUser);
+	    	    resultModel.setObj(appUser.getHome());
+       	    }
+          }
+          case "005":{
+        	   if(StringUtil.isEmpty(value)){
+       	    	super.setEmptyCode(resultModel, "个性签名不能为空");
+       	    }else{
+       	  	appUser.setSefTick(value);
+	    	ebi.update(appUser);
+	    	resultModel.setObj(appUser.getSefTick());
+       	    }
+				break;
+			}
+          case "006":{
+       	   if(StringUtil.isEmpty(value)){
+      	    	super.setEmptyCode(resultModel, "情感状态不能为空");
+      	    }else{
+      	    	appUser.setFeelings(value);
+    	    	ebi.update(appUser);
+    	    	resultModel.setObj(appUser.getFeelings());
+      	    }
+				break;
+			}
+          case "007":{
+          	   if(StringUtil.isEmpty(value)){
+         	    	super.setEmptyCode(resultModel, "兴趣爱好不能为空");
+         	    }else{
+         	   	appUser.setHoby(value);
+    	    	ebi.update(appUser);
+    	    	resultModel.setObj(appUser.getHoby());
+         	    }
+   				break;
+   			}
+          default :{
+        	  super.setNoFecCode(resultModel, "非法更新类型");
+        	  
+          }
 		}
+	}
+} );
+		 
+		
+
 
 	}
 
@@ -1692,7 +1752,7 @@ public class AppRequestCntroller extends AppBaseController {
 
 	/**
 	 * 23 006订单接口
-	 * 
+	 *  [{"gid":"402881e4485d2a6601485d2bafd70000","count":100}]
 	 * @param userid
 	 *            用户标示
 	 * @param orderDetail
@@ -1735,6 +1795,7 @@ public class AppRequestCntroller extends AppBaseController {
 			}
 			if (flag) {
 				OrderContent content = new OrderContent();
+				content.setIspay("000");
 				content.setUserid(userid);
 				content.setAdressid(udid);
 				content.setOrdertime(orderDetail.getOrdertime());
@@ -1769,14 +1830,49 @@ public class AppRequestCntroller extends AppBaseController {
 						}
 						content.setItems(orderitem);
 						content.setOrdertime(AppUtils.getCurrentTime());
-						content.setIspay("0");
 						OrderContent oc = (OrderContent) gdebi
 								.saveOrder(content);
 						String oderid = oc.getOrdid();
 						if (StringUtil.isEmpty(oderid)) {
 							throw new Exception();
 						} else {
-							resultModel.setObj(oderid);
+							OrderContenPro  contenPro=new OrderContenPro();
+							contenPro.setAcount(content.getAcount());
+							contenPro.setAdressid(content.getAdressid());
+							contenPro.setIspay(content.getIspay());
+							contenPro.setOrdertime(content.getOrdertime());
+							contenPro.setOrdid(content.getOrdid());
+							contenPro.setPayType(contenPro.getPayType());
+							contenPro.setRemarks(contenPro.getRemarks());
+							contenPro.setUserid(contenPro.getUserid());
+							contenPro.setWeekendto(content.getWeekendto());
+							Set<OrderItem> items=content.getItems();
+							 Set<OrderItemPro> listItem=new HashSet<>();
+							 contenPro.setItems(listItem);
+							 if(items!=null&&items.size()>0){
+								 for(OrderItem ori:items ){
+									 OrderItemPro viewItem=new OrderItemPro();
+									 Goods goods=ebi.findByOId( Goods.class, ori.getGid());
+									 if(goods!=null){
+										 viewItem.setGid(ori.getGid());
+										 viewItem.setName(goods.getName());
+										 viewItem.setPrice(goods.getPrice());
+										 viewItem.setYprice(goods.getYprice());
+										 List<String> imgesList=new ArrayList<String>();
+										 Set<GoodImage> goodsImags=goods.getImgs();
+										 if(goodsImags!=null&&goodsImags.size()>0){
+											 for(GoodImage gimg : goodsImags){
+												 imgesList.add(gimg.getUrl());
+											 }
+										 }
+										 viewItem.setImgs(imgesList);
+									 }
+								
+								 }
+							
+							 }
+							
+							resultModel.setObj(contenPro);
 						}
 					}
 

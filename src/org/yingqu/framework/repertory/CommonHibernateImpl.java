@@ -118,8 +118,7 @@ public class CommonHibernateImpl implements CommonIrpertory {
 	 */
    @Override
 public <T extends Model> void removeById(String id,Class<T> clazz) throws Exception {
-		String pkName=ModelUtil.getClassPkName(clazz);
-		Object obj=sf.getCurrentSession().load(clazz, pkName);
+		Object obj=sf.getCurrentSession().load(clazz, id);
 		sf.getCurrentSession().delete(obj);
 	   
    }

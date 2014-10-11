@@ -1,5 +1,6 @@
 package org.yingqu.baoli.model.po;
 
+import org.yingqu.baoli.model.UserAdress;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.model.vo.PModel;
 
@@ -110,6 +111,9 @@ public class AppUserPo extends PModel {
 	 * 小区ID
 	 */
 	private String villageid;
+	
+	
+	private UserAdress defaultAdress;
 
 	public Integer getAge() {
 		return age;
@@ -270,6 +274,14 @@ public class AppUserPo extends PModel {
 
 	public void setProvince(String province) {
 		this.province = province;
+	}
+
+	public UserAdress getDefaultAdress() {
+		return defaultAdress;
+	}
+
+	public void setDefaultAdress(UserAdress defaultAdress) {
+		this.defaultAdress = defaultAdress;
 	}
 
 

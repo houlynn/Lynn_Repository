@@ -59,6 +59,7 @@ public class CommonEbo implements CommonEbi {
 	public <T extends Model> void removeById(String id, Class<T> clazz)
 			throws Exception {
 		// TODO Auto-generated method stub
+		ci.removeById(id, clazz);
 
 	}
 

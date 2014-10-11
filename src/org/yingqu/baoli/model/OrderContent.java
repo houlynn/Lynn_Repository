@@ -45,12 +45,16 @@ public class OrderContent extends BaseEntity {
 	private String remarks;
 	@FieldInfo(name = "金额", visible = true, nullAble = false)
 	private float acount;
-	
 	private String payType;
+	
+	/**
+	 * 是否周末送货
+	 */
+	private String weekendto;
 	
 	@Dictionary
 	@SearchProperty(index=1,value="ISPAY")
-	@FieldInfo(name = "支付状态", visible = true, nullAble = false)
+	@FieldInfo(name = "交易状态", visible = true, nullAble = false)
 	private String ispay;
 	private Set<OrderItem> items=new HashSet<OrderItem>();
 	@Id
@@ -119,6 +123,14 @@ public class OrderContent extends BaseEntity {
 
 	public void setPayType(String payType) {
 		this.payType = payType;
+	}
+
+	public String getWeekendto() {
+		return weekendto;
+	}
+
+	public void setWeekendto(String weekendto) {
+		this.weekendto = weekendto;
 	}
 
 	@Transient
