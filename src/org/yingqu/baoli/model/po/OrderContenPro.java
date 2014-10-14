@@ -14,8 +14,6 @@ public class OrderContenPro {
 		private String adressid;
 		@FieldInfo(name = "下单时间", visible = true, nullAble = false)
 		private String ordertime;
-		@FieldInfo(name = "备注", visible = true, nullAble = false)
-		private String remarks;
 		@FieldInfo(name = "金额", visible = true, nullAble = false)
 		private float acount;
 		private String payType;
@@ -48,16 +46,6 @@ public class OrderContenPro {
 		public void setOrdertime(String ordertime) {
 			this.ordertime = ordertime;
 		}
-
-		public String getRemarks() {
-			return remarks;
-		}
-
-		public void setRemarks(String remarks) {
-			this.remarks = remarks;
-		}
-
-
 		public float getAcount() {
 			return acount;
 		}

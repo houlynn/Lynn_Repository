@@ -41,9 +41,9 @@
     <filter-name>openSessionInView</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  <filter>
+<!--   <filter>
     <filter-name>encodingFilter</filter-name>
-    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <filter-class>org.yingqu.baoli.web.ContentTypeFilter</filter-class>
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
@@ -52,7 +52,11 @@
       <param-name>forceEncoding</param-name>
       <param-value>true</param-value>
     </init-param>
-  </filter>
+  </filter> -->
+    <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.yingqu.baoli.web.ContentTypeFilter</filter-class>
+  </filter> 
   <filter-mapping>
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>

@@ -159,17 +159,20 @@ public class ProcessFieldsUploadUtil {
 		if(StringUtil.isEmpty(confiPath)){
 			throw new Exception("没有找到存方论坛图片的文件夹");
 		}
-		String basePath=SimpleBaseController.webrootAbsPath+"/"+PropUtil.get(config)+"/"+DateUtil.formatDate(new Date());
+		String dateForder= PropUtil.get(config)+"/"+DateUtil.formatDate(new Date());
+		String basePath=SimpleBaseController.webrootAbsPath+dateForder;
 		File dir=new File(basePath);
 		if(!dir.exists()){
 			dir.mkdirs();
 			System.out.println("创建文件夹:"+dir);
 		}
-		String filePath=dir+"/"+UUID.randomUUID()+"."+postfix;
+		String requstPath="/"+UUID.randomUUID()+"."+postfix;;
+		String filePath=dir+requstPath;
 		boolean flag= AppUtils.generateImage(bufferImage.toString(),filePath);
 		if(flag){
 			flag=false;
-			EntityUtil.invokeSetMethod(owner, uploadField, new Object[]{PropUtil.get("baoli.upload.top")+"/"+DateUtil.formatDate(new Date())+"/"+UUID.randomUUID()+"."+postfix});
+			requstPath=dateForder+requstPath;
+			EntityUtil.invokeSetMethod(owner, uploadField, new Object[]{requstPath});
 			System.out.println("成功上传文件:"+filePath);
 			flag=true;
 		}

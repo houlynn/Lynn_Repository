@@ -523,7 +523,7 @@ public void checkUser(AppUser user,HttpServletRequest request, HttpServletRespon
 					   op.setOrdid(oc.getOrdid());
 					   op.setIspay(oc.getIspay());
 					   op.setOrdertime(oc.getOrdertime());
-					   op.setItems(oc.getItems());
+					  // op.setItems(oc.getItems());
 					   orderpro.add(op);
 					   op=null;
 				   }

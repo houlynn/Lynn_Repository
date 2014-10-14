@@ -1,5 +1,8 @@
 package org.yingqu.baoli.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -67,6 +71,7 @@ import org.yingqu.baoli.model.po.MerchantPo;
 import org.yingqu.baoli.model.po.MessagePo;
 import org.yingqu.baoli.model.po.OderPro;
 import org.yingqu.baoli.model.po.OrderContenPro;
+import org.yingqu.baoli.model.po.OrderDetail;
 import org.yingqu.baoli.model.po.OrderItemPro;
 import org.yingqu.baoli.model.po.OrderPro;
 import org.yingqu.baoli.model.po.OrderProAdrees;
@@ -274,7 +279,9 @@ public class AppRequestCntroller extends AppBaseController {
 	 * @param response
 	 */
 	@RequestMapping("A002")
-	public void login(AppUser appUser, HttpServletResponse response) {
+	public void login(AppUser appUser, HttpServletResponse response,
+	 HttpServletRequest request)
+	{
 		this.initResultModel();
 		debug(AppUtils.getCurrentTime() + ":APP调用 登陆方法---A002");
 		ResultModel resModel = initResultModel();
@@ -308,6 +315,16 @@ public class AppRequestCntroller extends AppBaseController {
 						appUserPo.setDefaultAddressid(addAdress.getUdid());// 默认地址ID
 						addAdress.setUserid(userid);
 						appUserPo.setDefaultAdress(addAdress);
+					}else{
+						 List<UserAdress> useradds= (List<UserAdress>) ebi.queryByHql("from UserAdress where appUser='"+userid+"'", 0, 1);
+						 if(useradds!=null&& useradds.size()>0){
+							    UserAdress defaultadd=useradds.get(0);
+							    defaultadd.setDefaulted("1");
+								userebi.executeSql(userid, defaultadd.getUdid());
+								appUserPo.setDefaultAddressid(defaultadd.getUdid());// 默认地址ID
+								appUserPo.setDefaultAdress(defaultadd);
+						 }
+							
 					}
 					appUserPo.setCollecCount(count);
 					resModel.setObj(appUserPo);
@@ -542,6 +559,7 @@ public class AppRequestCntroller extends AppBaseController {
 		        	   boolean flag=true;
 		        	   StringBuffer buffer=new StringBuffer();
 		        	   buffer.append(request.getParameter("imageStr"));
+		        	   System.out.println(buffer);
 		        	  if(StringUtil.isEmpty(buffer.toString())){
 		        		super.setEmptyCode(resultModel, "图片字符不能为空");
 		        		flag=false;
@@ -772,7 +790,20 @@ public class AppRequestCntroller extends AppBaseController {
 	@RequestMapping(value = "A006")
 	public void addAdress(UserAdress adress, HttpServletRequest request,
 			HttpServletResponse response) {
+		try {
+			System.out.println("获取到URL "+AppUtils.getCurrentTimestamp());
+			System.out.println(request.getQueryString());
+			System.out.println(URLDecoder.decode(request.getQueryString(), "UTF-8"));
+			System.out.println("------------------------------------------");
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		debug(AppUtils.getCurrentTime() + ":APP调用  设置addAdress---A006");
+		System.out.println("============================");
+		System.out.println(adress.getUname()+adress.getAddress());
 		super.requestMeth(
 				response,
 				resultModel -> {
@@ -781,6 +812,9 @@ public class AppRequestCntroller extends AppBaseController {
 					if (appUser != null) {
 						adress.setAppUser(appUser);
 						ebi.save(adress);
+						if ("1".equals((adress.getDefaulted()))) {
+							userebi.executeSql(adress.getUserid(), adress.getUdid());
+						} 
 						resultModel.setObj(adress);
 					}
 
@@ -1042,7 +1076,37 @@ public class AppRequestCntroller extends AppBaseController {
 					op.setOrdid(oc.getOrdid());
 					op.setIspay(oc.getIspay());
 					op.setOrdertime(oc.getOrdertime());
-					op.setItems(oc.getItems());
+					Set<OrderItem> items=oc.getItems();
+					if(items!=null&&items.size()>0){
+						OrderItem oritem=items.iterator().next();
+						op.setAcount(oritem.getAcount());
+						 Goods goods=  ebi.findByOId(Goods.class, oritem.getGid());
+						 if(goods==null){
+							 ebi.removeById(oc.getOrdid(), OrderContent.class);
+							 continue;
+						 }
+						OrderDetail orderDetail=new OrderDetail();
+						orderDetail.setName(goods.getName());
+						orderDetail.setRemarks(goods.getRemarks());
+						orderDetail.setPrice(goods.getPrice());
+						op.setItemCount(oritem.getCount());
+						List<String> imgeList=new ArrayList<String>();
+						Set<GoodImage> setImages=goods.getImgs();
+						if(setImages!=null&&setImages.size()>0){
+							for(GoodImage gi :setImages ){
+								imgeList.add(gi.getUrl());
+							}
+						}
+					    orderDetail.setImgs(imgeList);
+					    op.setGoodInfo(orderDetail);
+					    op.setAcount(oc.getAcount());
+					    
+						 
+						//GoodImage
+						//orderDetail.setName(name);
+						//orderDetail.setImgs(imgs);
+					}
+					
 					orderpro.add(op);
 					op = null;
 				}
@@ -1800,7 +1864,6 @@ public class AppRequestCntroller extends AppBaseController {
 				content.setAdressid(udid);
 				content.setOrdertime(orderDetail.getOrdertime());
 				content.setRemarks(orderDetail.getRemark());
-				content.setAcount(orderDetail.getAoucnt());
 				String oderStr = orderDetail.getOderStr();
 				if (StringUtil.isEmpty(oderStr)) {
 					setEmptyCode(resultModel, "订单json字符串不能为空!");
@@ -1819,15 +1882,20 @@ public class AppRequestCntroller extends AppBaseController {
 							int count = (int) obj.get("count");
 							Goods goods = ebi.findByOId(Goods.class, gid);
 							if (goods == null) {
-								setNoFecCode(resultModel, "传入的gid无效");
+								setNoFecCode(resultModel, "商品ID无效!");
+								toWritePhone(response, resultModel);
 							} else {
 								or.setGid(gid);
 								or.setPrice(goods.getPrice());
 								or.setCount(count);
-								or.setAcount(goods.getPrice()*goods.getPrice());
+								or.setAcount(goods.getPrice()*count);
 								orderitem.add(or);
 							}
 						}
+						if(orderitem.size()>0){
+							content.setAcount(orderitem.iterator().next().getAcount());
+						}
+					
 						content.setItems(orderitem);
 						content.setOrdertime(AppUtils.getCurrentTime());
 						OrderContent oc = (OrderContent) gdebi
@@ -1835,7 +1903,7 @@ public class AppRequestCntroller extends AppBaseController {
 						String oderid = oc.getOrdid();
 						if (StringUtil.isEmpty(oderid)) {
 							throw new Exception();
-						} else {
+						}/* else {
 							OrderContenPro  contenPro=new OrderContenPro();
 							contenPro.setAcount(content.getAcount());
 							contenPro.setAdressid(content.getAdressid());
@@ -1843,13 +1911,14 @@ public class AppRequestCntroller extends AppBaseController {
 							contenPro.setOrdertime(content.getOrdertime());
 							contenPro.setOrdid(content.getOrdid());
 							contenPro.setPayType(contenPro.getPayType());
-							contenPro.setRemarks(contenPro.getRemarks());
 							contenPro.setUserid(contenPro.getUserid());
 							contenPro.setWeekendto(content.getWeekendto());
+							contenPro.setUserid(content.getUserid());
 							Set<OrderItem> items=content.getItems();
 							 Set<OrderItemPro> listItem=new HashSet<>();
 							 contenPro.setItems(listItem);
 							 if(items!=null&&items.size()>0){
+								 Set<OrderItemPro> orderItems=new HashSet<OrderItemPro>();
 								 for(OrderItem ori:items ){
 									 OrderItemPro viewItem=new OrderItemPro();
 									 Goods goods=ebi.findByOId( Goods.class, ori.getGid());
@@ -1867,16 +1936,15 @@ public class AppRequestCntroller extends AppBaseController {
 										 }
 										 viewItem.setImgs(imgesList);
 									 }
-								
+									 orderItems.add(viewItem);
 								 }
+								 contenPro.setItems(orderItems);
+							 }*/
 							
-							 }
-							
-							resultModel.setObj(contenPro);
+							resultModel.setObj(oderid);
 						}
 					}
 
-				}
 
 			}
 		} catch (NullPointerException e) {
@@ -2025,7 +2093,7 @@ public class AppRequestCntroller extends AppBaseController {
 	public void appRequest008(
 			@RequestParam(value = "userid", required = false, defaultValue = "") String userid,
 			@RequestParam(value = "orderid", required = false, defaultValue = "") String orderid,
-			@RequestParam(value = "payType", required = false, defaultValue = "") String payType,
+			@RequestParam(value = "state", required = false, defaultValue = "") String payType,
 			HttpServletRequest request, HttpServletResponse response) {
 		ResultModel resultModel = initResultModel();
 		try {
@@ -2053,12 +2121,34 @@ public class AppRequestCntroller extends AppBaseController {
 				}
 			}
 			if (StringUtil.isEmpty(payType)) {
-				setEmptyCode(resultModel, "传入订支付类型不能为空!");
+				setEmptyCode(resultModel, "订单状态不能为空!");
 				flag = false;
-			}
+			}else{
+				switch (payType) {
+				case "000":
+					break;
+		       case "001":
+					
+					break;
+		       case "002":
+			
+			break;
+		      case "003":
+			
+			break;
+
+				default:
+					flag = false;
+					setNoFecCode(resultModel,"非法状态");
+					break;
+				}
 
 			if (flag) {
-				order.setIspay("1");
+				order.setIspay(payType);
+				OrderContent oreder=ebi.findByOId(OrderContent.class, orderid);
+				ebi.update(oreder);
+				resultModel.setObj(payType);
+	/*			order.setIspay("1");
 				order.setPayType(payType);
 				order = ebi.update(order);
 				OrderProAdrees view = new OrderProAdrees();
@@ -2067,7 +2157,8 @@ public class AppRequestCntroller extends AppBaseController {
 				view.setItems(order.getItems());
 				view.setAdress(ebi.findByOId(UserAdress.class,
 						order.getAdressid()));
-				resultModel.setObj(view);
+				resultModel.setObj(view);*/
+			}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -1,11 +1,4 @@
 package org.yingqu.baoli.model.po;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.yingqu.baoli.model.OrderItem;
 import org.yingqu.framework.model.vo.PModel;
 
 /**
@@ -21,7 +14,7 @@ public class OrderPro extends PModel {
 	 */
 	private String  ordid;
 	/**
-	 * 下单时间
+	 * 下单时间（店名）
 	 */
 	private String ordertime;
 	/**
@@ -35,14 +28,18 @@ public class OrderPro extends PModel {
 	
 	
 	/**
-	 * 订单状态 1待付款000  2支付成功 001  3 交易 成功 002   4交易关闭003
+	 * 订单状态 
+	 * 1待付款000  
+	 * 2交易成功 001  
+	 * 3 交易关闭002   
 	 */
 	private String ispay;
 	
 	/**
-	 * 订单项
+	 * 商品属性
 	 */
-	private Set<OrderItem> items=new HashSet<OrderItem>();
+	private  OrderDetail goodInfo=new OrderDetail();
+	
 
 	public String getOrdid() {
 		return ordid;
@@ -84,13 +81,14 @@ public class OrderPro extends PModel {
 		this.ispay = ispay;
 	}
 
-	public Set<OrderItem> getItems() {
-		return items;
+	public OrderDetail getGoodInfo() {
+		return goodInfo;
 	}
 
-	public void setItems(Set<OrderItem> items) {
-		this.items = items;
+	public void setGoodInfo(OrderDetail goodInfo) {
+		this.goodInfo = goodInfo;
 	}
+
 
 
 }
