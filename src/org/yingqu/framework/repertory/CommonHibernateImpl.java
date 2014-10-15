@@ -6,6 +6,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.yingqu.framework.irepertory.CommonIrpertory;
@@ -173,6 +174,11 @@ public Object updateByPhone(PModel entity) throws Exception {
 	return model;
 }
 
+@Override
+public <T>  List<T> doWork(String sql,Work work,List<T> list) throws Exception{
+	sf.getCurrentSession().doWork(work);
+	return list;
+}
 
 	
 }

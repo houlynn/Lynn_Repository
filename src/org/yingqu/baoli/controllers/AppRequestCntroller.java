@@ -2,7 +2,8 @@ package org.yingqu.baoli.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,14 +14,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+
+
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
+
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.jasper.tagplugins.jstl.core.Url;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -80,6 +89,7 @@ import org.yingqu.baoli.model.po.RentalPoDetail;
 import org.yingqu.baoli.model.po.RoundPo;
 import org.yingqu.baoli.model.po.SellOferPoDetail;
 import org.yingqu.baoli.model.po.UserAdressPo;
+import org.yingqu.baoli.model.po.ViewPange;
 import org.yingqu.baoli.model.po.VirtualIconPo;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.AppBaseController;
@@ -87,6 +97,10 @@ import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
+
+
+
 
 import com.sun.accessibility.internal.resources.accessibility;
 
@@ -160,7 +174,7 @@ public class AppRequestCntroller extends AppBaseController {
 	
 	@RequestMapping("A00_B")
 	public void appRequestA00_B(HttpServletRequest request,
-			HttpServletResponse response, String loginCode,
+			HttpServletResponse response,
 			String pid
 			) {
 		
@@ -168,55 +182,52 @@ public class AppRequestCntroller extends AppBaseController {
 		super.requestMeth(response, resultModel -> {
 			List<Map<String,String>> data=new ArrayList<>();
 			if(StringUtil.isEmpty(pid)){
-				for(int i=0;i<10;i++){
+		/*		for(int i=0;i<10;i++){
 					Map<String,String> view=new HashMap<String,String>();
 					view.put("itemCode",i+"");
 					view.put("itemName", "我是省"+i);
 					data.add(view);
-					view=null;
-				}
+					view=null;*/
+					
+				  String sql="select * from province";
+				  Work work=conn->{
+					  PreparedStatement ps=  conn.prepareStatement(sql);
+					  ResultSet rset=  ps.executeQuery();
+					  while(rset.next()){
+						  Map<String,String> viewItem=new HashMap<String, String>();
+						  viewItem.put("itemCode", rset.getString("ProSort"));
+						  viewItem.put("itemName",rset.getString("ProName"));
+						  viewItem.put("autonomy", rset.getString("autonomy"));
+						  data.add(viewItem);
+						  viewItem=null;
+					  }
+					  rset.close();
+					//  conn.close();
+					  
+				  };
+				   ebi.doWork(sql, work, data);
+				   
+					
+				//}
 			}else{
-					switch(pid){
-					case "0":{
-						for(int i=0;i<10;i++){
-							Map<String,String> view=new HashMap<String,String>();
-							view.put("itemCode",i+"");
-							view.put("itemName", "第"+i+"（我是0省的城市）");
-							data.add(view);
-							view=null;
-						}
-						break;
-					}
-	               case "1":{
-	            		for(int j=0;j<10;j++){
-							Map<String,String> view=new HashMap<String,String>();
-							view.put("itemCode",j+"");
-							view.put("itemName", "第"+j+"（我是1省的城市）个市");
-							data.add(view);
-							view=null;
-					}
-	            		break;
-	             
-	               }
-	               case"" :{
-						for(int i=0;i<10;i++){
-							Map<String,String> view=new HashMap<String,String>();
-							view.put("itemCode",i+"");
-							view.put("itemName", "第"+i+"（我是0省的城市）");
-							data.add(view);
-							view=null;
-						}
-						for(int j=0;j<10;j++){
-							Map<String,String> view=new HashMap<String,String>();
-							view.put("itemCode",j+"");
-							view.put("itemName", "第"+j+"（我是1省的城市）个市");
-							data.add(view);
-							view=null;
-					}
-						
-					}
-					}
-						
+				String sql="select * from city where ProID='"+pid+"'";
+				  Work work=conn->{
+					  PreparedStatement ps=  conn.prepareStatement(sql);
+					  ResultSet rset=  ps.executeQuery();
+					  while(rset.next()){
+						  Map<String,String> viewItem=new HashMap<String, String>();
+						  viewItem.put("itemCode", rset.getString("CitySort"));
+						  viewItem.put("itemName",rset.getString("CityName"));
+						  viewItem.put("autonomy", "false");
+						  data.add(viewItem);
+						  viewItem=null;
+					  }
+					  rset.close();
+					 // conn.close();
+					  
+				  };
+				  ebi.doWork(sql, work, data);
+				  
 					}
 			resultModel.setObj(data);
 
@@ -366,7 +377,9 @@ public class AppRequestCntroller extends AppBaseController {
 				limit,
 				response,
 				Village.class,
-				(list, resultModel) -> {
+				(list, resultModel,totalCount) -> {
+					ViewPange viewPange=new ViewPange();
+					viewPange.setTotalCount(totalCount);
 					List<Map<String, String>> views = new ArrayList<>();
 					views = list
 							.parallelStream()
@@ -376,7 +389,8 @@ public class AppRequestCntroller extends AppBaseController {
 								view.put("name", item.getName());
 								return view;
 							}).collect(Collectors.toList());
-					resultModel.setObj(views);
+					viewPange.setItems(views);
+					resultModel.setObj(viewPange);
 				});
 	}
 
@@ -1270,7 +1284,8 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * + (重新测试)收藏类型添加3个 14 用户收藏接口 ctype参数有以下几种类型 001 周边类型 002 商品类型 003 用户贴
+	 * + (重新测试)收藏类型添加3个 14 用户收藏接口 ctype参数有以下几种类型 
+	 * 001 周边类型 002 商品类型 003 用户贴
 	 * 004官方贴 005出租 006出售
 	 * 
 	 * cid 来源以下主键 Merchant 主键 Goods 主键 帖子 的主键
@@ -1551,7 +1566,10 @@ public class AppRequestCntroller extends AppBaseController {
 			HttpServletResponse response) {
 		debug(AppUtils.getCurrentTime() + ":APP调用获取用户所有地址 phoneList--A018");
 		super.load(whereSql, parentSql, querySql, orderSql, startStr, limitStr,
-				response, AppVersion.class, (list, resultModel) -> {
+				response, AppVersion.class, (list, resultModel,totalCount) -> {
+					ViewPange viewPange=new ViewPange();
+					viewPange.setTotalCount(totalCount);
+					viewPange.setItems(list);
 					resultModel.setObj(list);
 				});
 	}
@@ -1751,7 +1769,10 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit,
 			HttpServletResponse response) {
 		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
-				response, Goods.class, (list, resultModel) -> {
+				response, Goods.class, (list, resultModel,totalCount) -> {
+					ViewPange viewPange=new ViewPange();
+					viewPange.setItems(list);
+					viewPange.setTotalCount(totalCount);
 					List<GoodsPo> goddspro = fillGoodsPo(list);
 					resultModel.setObj(goddspro);
 				});
@@ -2316,21 +2337,31 @@ public class AppRequestCntroller extends AppBaseController {
 		super.requestMeth(response, (resultModel) -> {
 			String today = AppUtils.getCurDate();
 			String hql = " from AppNews where 1=1 and addate between '" + today
-					+ "' and '" + today + "' order  by adtime desc";
+					+ "' and '" + today + "'  and state='1' order  by adtime desc";
 			List<AppNews> listnews = (List<AppNews>) ebi.queryByHql(hql, 0, 1);
 			AppNews appNews = null;
-			if (listnews != null & listnews.size() > 0) {
+			if (listnews != null&& listnews.size() > 0) {
 				appNews = listnews.get(0);
+				hql=" select count(o) from Massage o where inid='"+appNews.getNewid()+"'";
+				Integer onCount= ebi.getCount(hql);
+				AppNewPo newPo = new AppNewPo();
+				newPo.setImg(appNews.getShrinkimg());
+				newPo.setTitle(appNews.getTitle());
+				newPo.setOnCount(onCount==null?0:onCount);
+				resultModel.setObj(newPo);
 			} else {
-				hql = " from AppNews where 1=1  order  by addtime desc";
+				hql = " from AppNews where 1=1  and state='1' order  by adtime desc";
 				listnews = (List<AppNews>) ebi.queryByHql(hql, 0, 1);
 				if (listnews == null || listnews.size() == 0) {
 					resultModel.setMsg("系统没有发布任何新闻");
 				} else {
 					appNews = listnews.get(0);
+					hql=" select count(o) from Massage o where inid='"+appNews.getNewid()+"'";
+					Integer onCount= ebi.getCount(hql);
 					AppNewPo newPo = new AppNewPo();
 					newPo.setImg(appNews.getShrinkimg());
 					newPo.setTitle(appNews.getTitle());
+					newPo.setOnCount(onCount==null?0:onCount);
 					resultModel.setObj(newPo);
 				}
 			}
@@ -2402,7 +2433,9 @@ public class AppRequestCntroller extends AppBaseController {
 						limit,
 						response,
 						AppNews.class,
-						(list, resultModel) -> {
+						(list, resultModel,totalCount) -> {
+							ViewPange viewPange=new ViewPange();
+							viewPange.setTotalCount(totalCount);
 							List<AppNews> listnews = list;
 							debug("获取到SIZE： " + list.size());
 							/**
@@ -2425,7 +2458,8 @@ public class AppRequestCntroller extends AppBaseController {
 									listNews.add(mapnews);
 								}
 							}
-							resultModel.setObj(listNews);
+							viewPange.setItems(listNews);
+							resultModel.setObj(viewPange);
 						});
 			}
 		} catch (ParseException e) {
@@ -2474,7 +2508,9 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit,
 			HttpServletRequest request, HttpServletResponse response) {
 		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
-				response, VirtualIcon.class, (list, resultModel) -> {
+				response, VirtualIcon.class, (list, resultModel,totalCount) -> {
+					ViewPange viewPange=new ViewPange();
+					viewPange.setTotalCount(totalCount);
 					List<VirtualIconPo> views = new ArrayList<VirtualIconPo>();
 					views = list.parallelStream().map(item -> {
 						VirtualIconPo view = new VirtualIconPo();
@@ -2483,7 +2519,8 @@ public class AppRequestCntroller extends AppBaseController {
 						view.setLinkUrl(item.getLinkUrl());
 						return view;
 					}).collect(Collectors.toList());
-					resultModel.setObj(views);
+					viewPange.setItems(views);
+					resultModel.setObj(viewPange);
 				});
 	}
 
@@ -2549,6 +2586,7 @@ public class AppRequestCntroller extends AppBaseController {
 							model.setUid(appUser);
 						    model.setUsername(appUser.getUsername());
 							model.setPtime(AppUtils.getCurrentTime());
+							model.setPostAddress(appUser.getProvince()+appUser.getCity());
 							iebi.saveInteract(model);
 							resultModel.setObj(model.getInterid());
 						}
@@ -2561,7 +2599,7 @@ public class AppRequestCntroller extends AppBaseController {
 	 * 34 017 论坛评论
 	 * 
 	 * @param msg
-	 *            用户标示 ，贴子ID，评论内容必须的   用户定位信息
+	 *            用户标示 ，贴子ID，评论内容必须的   用户定位信息  评论类型 001用户论坛 
 	 * @param request
 	 * @param response
 	 */
@@ -2588,6 +2626,8 @@ public class AppRequestCntroller extends AppBaseController {
 					}
 					if (flag) {
 						msg.setUsername(appUser.getLoginCode());
+						msg.setProvince(appUser.getProvince());
+						msg.setCity(appUser.getCity());
 						ebi.save(msg);
 						resultModel.setObj(msg);
 					}
@@ -2612,7 +2652,8 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit) {
 		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
-				response, Interact.class, (list, resultModel) -> {
+				response, Interact.class, (list, resultModel,totalCount) -> {
+					ViewPange viewPange=new ViewPange();
 					List<InteractListPo> views = new ArrayList<>();
 					views = list.parallelStream().map(item -> {
 						InteractListPo viewItem = new InteractListPo();
@@ -2635,7 +2676,9 @@ public class AppRequestCntroller extends AppBaseController {
 						viewItem.setSefTick(appUser.getSefTick());
 						return viewItem;
 					}).collect(Collectors.toList());
-					resultModel.setObj(views);
+					viewPange.setItems(views);
+					viewPange.setTotalCount(totalCount);
+					resultModel.setObj(viewPange);
 				});
 
 	}
@@ -2726,7 +2769,9 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit) {
 		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
-				response, Rental.class, (list, resultModel) -> {
+				response, Rental.class, (list, resultModel,totalCount) -> {
+					ViewPange viewPange=new ViewPange();
+					viewPange.setTotalCount(totalCount);
 					List<RentalPo> views = new ArrayList<>();
 					views = list.parallelStream().map(item -> {
 						RentalPo view = new RentalPo();
@@ -2738,7 +2783,8 @@ public class AppRequestCntroller extends AppBaseController {
 						}
 						return view;
 					}).collect(Collectors.toList());
-					resultModel.setObj(views);
+					viewPange.setItems(views);
+					resultModel.setObj(viewPange);
 				});
 	}
 
@@ -2765,7 +2811,9 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit) {
 		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
-				response, SellOfer.class, (list, resultModel) -> {
+				response, SellOfer.class, (list, resultModel,totaleCount) -> {
+					ViewPange viewPange=new ViewPange();
+					viewPange.setTotalCount(totaleCount);
 					List<RentalPo> views = new ArrayList<>();
 					views = list.parallelStream().map(item -> {
 						RentalPo view = new RentalPo();
@@ -2781,7 +2829,8 @@ public class AppRequestCntroller extends AppBaseController {
 						}
 						return view;
 					}).collect(Collectors.toList());
-					resultModel.setObj(views);
+					viewPange.setItems(views);
+					resultModel.setObj(viewPange);
 				});
 	}
 

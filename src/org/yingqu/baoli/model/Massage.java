@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.constant.ExtFieldType;
@@ -112,6 +113,7 @@ public class Massage extends BaseEntity {
 	}
 
 
+	@JsonIgnore
 	@Transient
 	@Override
 	public String getDescription() {

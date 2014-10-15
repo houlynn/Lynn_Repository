@@ -3,6 +3,7 @@ package org.yingqu.framework.ebi;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.jdbc.Work;
 import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.utils.StringUtil;
@@ -94,5 +95,16 @@ public interface CommonEbi {
 	 */
 	public  Object updateByPhone(PModel entity) throws Exception;
 	
+	
+	/***
+	 * 
+	 * @param sql
+	 * @param work
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public <T>  List<T> doWork(String sql,Work work,List<T> list) throws Exception;
+
 
 }

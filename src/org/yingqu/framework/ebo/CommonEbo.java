@@ -2,6 +2,7 @@ package org.yingqu.framework.ebo;
 
 import java.util.List;
 
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yingqu.framework.ebi.CommonEbi;
@@ -84,5 +85,14 @@ public class CommonEbo implements CommonEbi {
 		// TODO Auto-generated method stub
 		return ci.updateByPhone(entity);
 	}
+	@Override
+	public <T> List<T> doWork(String sql, Work work, List<T> list)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return ci.doWork(sql, work, list);
+	}
+	
+	
+	
 
 }

@@ -3,6 +3,7 @@ package org.yingqu.framework.irepertory;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.jdbc.Work;
 import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 
@@ -98,5 +99,14 @@ public interface CommonIrpertory {
 		 */
 		public  Object updateByPhone(PModel entity) throws Exception;
 		
+		/***
+		 * 
+		 * @param sql
+		 * @param work
+		 * @param list
+		 * @return
+		 * @throws Exception
+		 */
+		public <T>  List<T> doWork(String sql,Work work,List<T> list) throws Exception;
 
 }

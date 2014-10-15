@@ -10,6 +10,12 @@ public class AppNewPo {
 	 * 缩略图
 	 */
 	private String  img;
+	
+	/**
+	 * 评论数量
+	 */
+	private int onCount;
+	
 	public String getTitle() {
 		return title;
 	}
@@ -27,6 +33,12 @@ public class AppNewPo {
 		this.img = img;
 	}
 	public AppNewPo() {
+	}
+	public int getOnCount() {
+		return onCount;
+	}
+	public void setOnCount(int onCount) {
+		this.onCount = onCount;
 	}
 	
 	

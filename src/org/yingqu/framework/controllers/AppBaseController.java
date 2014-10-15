@@ -49,7 +49,7 @@ public class AppBaseController   implements LogerManager{
 	public interface PrepareResult<T extends Model> {
 
 		public  void prepare(List<T> list,
-				ResultModel resultModel);
+				ResultModel resultModel,int count);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class AppBaseController   implements LogerManager{
 			limit = limit.equals("0") ? String.valueOf(count) : limit;
 			List<T> list = (List<T>) ebi.queryByHql(hql.toString(),
 					Integer.valueOf(start), Integer.valueOf(limit));
-			prepareResult.prepare(list, resultModel);
+			prepareResult.prepare(list, resultModel,count);
 		} catch (Exception e) {
               e.printStackTrace();
               setServerErrCode(resultModel, "服务端错误,无法加载数据!");
