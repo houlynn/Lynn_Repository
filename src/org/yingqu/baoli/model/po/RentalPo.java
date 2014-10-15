@@ -1,5 +1,8 @@
 package org.yingqu.baoli.model.po;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.annotation.SearchProperty;
 import org.yingqu.framework.constant.ExtFieldType;
@@ -11,6 +14,12 @@ import org.yingqu.framework.constant.ExtFieldType;
   @version 1.0
  */
 public class RentalPo {
+	public List<String> getImge() {
+		return imge;
+	}
+	public void setImge(List<String> imge) {
+		this.imge = imge;
+	}
 	@FieldInfo(name = "主键", type = ExtFieldType.ID, mobileField = true)
 	private String rid;
 	@FieldInfo(name = "出租信息", visible = true, nullAble = false)
@@ -24,6 +33,8 @@ public class RentalPo {
 	private String ptime;
 	@FieldInfo(name = "来源", visible = true, nullAble = false)
 	private String source;
+	
+	private List<String> imge=new ArrayList<>();
 	public String getRid() {
 		return rid;
 	}

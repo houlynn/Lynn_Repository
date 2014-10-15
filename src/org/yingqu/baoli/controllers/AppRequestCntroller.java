@@ -2776,8 +2776,21 @@ public class AppRequestCntroller extends AppBaseController {
 					views = list.parallelStream().map(item -> {
 						RentalPo view = new RentalPo();
 						try {
-							BeanUtils.copyProperties(view, item);
+							view.setArea(item.getArea());
+							view.setRid(item.getRid());
+							view.setSource(item.getSource());
+							view.setTitle(item.getTitle());
+							view.setPtime(item.getPtime());
 							view.setPrice(view.getPrice() + "元/m2/天");
+							Set<RentalImg> imgSet=item.getImgs();
+							List<String> imgList=new ArrayList<>();
+							if(imgSet!=null&&imgSet.size()>0){
+								for(RentalImg img :imgSet ){
+									imgList.add(img.getUrl());
+								}
+							}
+							view.setImge(imgList);
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -2818,12 +2831,26 @@ public class AppRequestCntroller extends AppBaseController {
 					views = list.parallelStream().map(item -> {
 						RentalPo view = new RentalPo();
 						try {
-							BeanUtils.copyProperties(view, item);
+							view.setArea(item.getArea());
+							view.setPrice(item.getPrice());
+							view.setRid(item.getRid());
+							view.setSource(item.getSource());
+							view.setTitle(item.getTitle());
+							view.setPtime(item.getPtime());
 							if ("0".equals(view.getPrice())) {
 								view.setPrice("面议");
 							} else {
 								view.setPrice(view.getPrice() + "万");
 							}
+							Set<SellOferImg> imgeSet=item.getImgs();
+							List<String> imges=new ArrayList<>();
+							if(imgeSet!=null&&imgeSet.size()>0){
+								for(SellOferImg img :imgeSet){
+									imges.add(img.getUrl());
+								}
+							}
+							view.setImge(imges);
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
