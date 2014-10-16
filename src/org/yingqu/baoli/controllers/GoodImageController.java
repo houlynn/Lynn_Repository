@@ -28,7 +28,7 @@ public class GoodImageController extends SimpleBaseController<GoodImage> {
 		return model;
 	}
 	@RequestMapping("/uploadField")
-	public void uploadField( @Validated GoodImage model,BindingResult br,@RequestParam("url") MultipartFile url,
+	public void uploadField( @Validated GoodImage model,BindingResult br,@RequestParam("file") MultipartFile url,
 			@RequestParam(value="foreignKey",required=false,defaultValue="") String foreignKey,
 			HttpServletRequest request,
 			HttpServletResponse response) {

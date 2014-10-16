@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.constant.ExtFieldType;
@@ -30,6 +31,8 @@ public class VirtualIcon extends BaseEntity {
 	private String inconUrl;
 	@FieldInfo(name = "备注",visible=true)
 	private String remark;
+	
+	private String  state;
 	@Id
 	@GeneratedValue(generator = "systemUUID")
 	@Column(length = 50)
@@ -77,6 +80,15 @@ public class VirtualIcon extends BaseEntity {
 		this.remark = remark;
 	}
 
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	@JsonIgnore
 	@Transient
 	@Override
 	public String getDescription() {

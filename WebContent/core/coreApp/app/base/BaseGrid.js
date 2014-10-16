@@ -18,7 +18,7 @@ Ext.define("core.app.base.BaseGrid",{
 		{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add',hidden:true},
 		{xtype:'button',text:'编辑',ref:'gridEdit',iconCls:'table_edit',disabled:true},
 		{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-		{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
+		{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save',hidden:true}
 	],
 	columns:[],
 	enableKeyNav:true,  //可以使用键盘控制上下

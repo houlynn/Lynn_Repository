@@ -28,9 +28,7 @@ import org.yingqu.framework.utils.DateUtil;
 import org.yingqu.framework.utils.JsonBuilder;
 import org.yingqu.framework.utils.ModelUtil;
 import org.yingqu.framework.utils.StringUtil;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 

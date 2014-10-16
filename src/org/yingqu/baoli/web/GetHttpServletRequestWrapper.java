@@ -34,10 +34,10 @@ public class GetHttpServletRequestWrapper  extends HttpServletRequestWrapper {
     }
 
     public String convert(String target) {
-        System.out.println("编码转换之前：" + target);
+       // System.out.println("编码转换之前：" + target);
         try {
             String  str= new String(target.trim().getBytes("ISO-8859-1"), charset);
-            System.out.println(str);
+            //System.out.println(str);
             return str;
         } catch (UnsupportedEncodingException e) {
             return target;

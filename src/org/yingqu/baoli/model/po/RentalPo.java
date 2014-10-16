@@ -14,12 +14,6 @@ import org.yingqu.framework.constant.ExtFieldType;
   @version 1.0
  */
 public class RentalPo {
-	public List<String> getImge() {
-		return imge;
-	}
-	public void setImge(List<String> imge) {
-		this.imge = imge;
-	}
 	@FieldInfo(name = "主键", type = ExtFieldType.ID, mobileField = true)
 	private String rid;
 	@FieldInfo(name = "出租信息", visible = true, nullAble = false)
@@ -34,7 +28,8 @@ public class RentalPo {
 	@FieldInfo(name = "来源", visible = true, nullAble = false)
 	private String source;
 	
-	private List<String> imge=new ArrayList<>();
+	//private List<String> imge=new ArrayList<>();
+	private String imge;
 	public String getRid() {
 		return rid;
 	}
@@ -70,6 +65,12 @@ public class RentalPo {
 	}
 	public void setSource(String source) {
 		this.source = source;
+	}
+	public String getImge() {
+		return imge;
+	}
+	public void setImge(String imge) {
+		this.imge = imge;
 	}
 	
 	 

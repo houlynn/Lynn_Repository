@@ -46,6 +46,13 @@ public class OrderContent extends BaseEntity {
 	@FieldInfo(name = "金额", visible = true, nullAble = false)
 	private float acount;
 	private String payType;
+	private String loginCode;
+	/**
+	 * 商品名称
+	 */
+	private String  gdName;
+	
+	private String uname;
 	
 	/**
 	 * 是否周末送货
@@ -109,6 +116,7 @@ public class OrderContent extends BaseEntity {
 		this.ispay = ispay;
 	}
 
+	@Column(nullable=false)
 	public String getAdressid() {
 		return adressid;
 	}
@@ -133,6 +141,14 @@ public class OrderContent extends BaseEntity {
 		this.weekendto = weekendto;
 	}
 
+	public String getLoginCode() {
+		return loginCode;
+	}
+
+	public void setLoginCode(String loginCode) {
+		this.loginCode = loginCode;
+	}
+
 	@Transient
 	@Override
 	public String getDescription() {
@@ -148,6 +164,22 @@ public class OrderContent extends BaseEntity {
 
 	public void setItems(Set<OrderItem> items) {
 		this.items = items;
+	}
+
+	public String getGdName() {
+		return gdName;
+	}
+
+	public void setGdName(String gdName) {
+		this.gdName = gdName;
+	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
 	}
 
 }

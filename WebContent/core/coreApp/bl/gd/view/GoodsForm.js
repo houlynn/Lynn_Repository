@@ -42,7 +42,6 @@ Ext.define("core.bl.gd.view.GoodsForm", {
 		name:"hot",
 		beforeLabelTextTpl : comm.get('required'),
 		emptyText :'是否推荐商品必填',
-		allowBlank : false,
 		ddCode:"ISHOTGOODS",
 		xtype:"basecombobox"
    }
@@ -52,7 +51,6 @@ Ext.define("core.bl.gd.view.GoodsForm", {
 		name:"releases",
 		beforeLabelTextTpl : comm.get('required'),
 		emptyText :'是否发布必填',
-		allowBlank : false,
 		ddCode:"ISPOST",
 		xtype:"basecombobox"
    }
@@ -68,19 +66,17 @@ Ext.define("core.bl.gd.view.GoodsForm", {
    }
  ,
  {
-		fieldLabel:"发布时间",
-		name:"releasetime",
+		fieldLabel:"成分",
+		name:"ingredient",
 		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'发布时间必填',
-		allowBlank : false,
-		xtype:"datetimefield"
+		emptyText :'成分',
    }
  ,
  {
 		fieldLabel:"销量",
 		name:"saleCount",
 		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'销量必填',
+		emptyText :'请输入销量',
 		allowBlank : false,
 		decimalPrecision:3,
 		hideTrigger : false,
@@ -105,7 +101,6 @@ Ext.define("core.bl.gd.view.GoodsForm", {
 		name:"moveprice",
 		beforeLabelTextTpl : comm.get('required'),
 		emptyText :'运费必填',
-		allowBlank : false,
 		decimalPrecision:3,
 		hideTrigger : false,
 		emptyText :'请输输入小数',
@@ -116,8 +111,7 @@ Ext.define("core.bl.gd.view.GoodsForm", {
 		fieldLabel:"保质期",
 		name:"shelfdate",
 		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'保质期必填',
-		allowBlank : false,
+		emptyText :'请输入保质期',
 		xtype:"textfield"
    }
  ,
@@ -125,8 +119,7 @@ Ext.define("core.bl.gd.view.GoodsForm", {
 		fieldLabel:"产地",
 		name:"origin",
 		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'产地必填',
-		allowBlank : false,
+		emptyText :'请输入产地',
 		xtype:"textfield"
    }
  ,
@@ -134,8 +127,7 @@ Ext.define("core.bl.gd.view.GoodsForm", {
 		fieldLabel:"规格",
 		name:"specification",
 		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'规格必填',
-		allowBlank : false,
+		emptyText :'请输入规格',
 		xtype:"textfield"
    }
  ,
@@ -144,7 +136,6 @@ Ext.define("core.bl.gd.view.GoodsForm", {
 		name:"shipfrom",
 		beforeLabelTextTpl : comm.get('required'),
 		emptyText :'发货地必填',
-		allowBlank : false,
 		xtype:"textfield"
    },   {
 		fieldLabel:"商品简介",

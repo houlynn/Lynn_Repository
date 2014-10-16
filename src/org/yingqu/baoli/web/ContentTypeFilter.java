@@ -16,7 +16,7 @@ public class ContentTypeFilter implements Filter {
     private FilterConfig config;  
       
     public void destroy() {  
-        System.out.println(config.getFilterName()+"被销毁");  
+        //System.out.println(config.getFilterName()+"被销毁");  
         charset = null;  
         config = null;  
     }  
@@ -30,15 +30,15 @@ public class ContentTypeFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
 
         if (req.getMethod().equalsIgnoreCase("get")) {
-        	System.out.println("请求GET方法---------------------------------------------");
+        	//System.out.println("请求GET方法---------------------------------------------");
             req = new GetHttpServletRequestWrapper(req, charset);
         }
 
-        System.out.println("----请求被" + config.getFilterName() + "过滤");
+        //System.out.println("----请求被" + config.getFilterName() + "过滤");
         // 传递给目标servlet或jsp的实际上时包装器对象的引用，而不是原始的HttpServletRequest对象
         chain.doFilter(req, response);
 
-        System.out.println("----响应被" + config.getFilterName() + "过滤");
+       // System.out.println("----响应被" + config.getFilterName() + "过滤");
     } 
   
     public void init(FilterConfig config) throws ServletException {  

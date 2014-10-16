@@ -1,5 +1,8 @@
 Ext.define("core.bl.sell.controller.RentalController",{
 	extend:"Ext.app.Controller",
+	mixins: {
+		formUtils:"core.util.FormUtil"
+	},
 	init:function(){
 		var self=this
 		//事件注册

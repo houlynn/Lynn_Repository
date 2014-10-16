@@ -54,6 +54,7 @@ public class OrderItem extends BaseEntity {
 		this.oitmid = oitmid;
 	}
 
+	@Column(nullable=false)
 	public String getGid() {
 		return gid;
 	}

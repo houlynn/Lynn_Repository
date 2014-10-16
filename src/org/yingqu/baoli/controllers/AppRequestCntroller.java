@@ -1855,6 +1855,8 @@ public class AppRequestCntroller extends AppBaseController {
 			HttpServletRequest request, HttpServletResponse response) {
 		ResultModel resultModel = initResultModel();
 		try {
+			String loginCode="";
+			String gdName="";
 			boolean flag = true;
 			if (StringUtil.isEmpty(userid)) {
 				flag = false;
@@ -1865,6 +1867,8 @@ public class AppRequestCntroller extends AppBaseController {
 				if (user == null) {
 					flag = false;
 					setNoFecCode(resultModel, "传入的用户标示无效!");
+				}else{
+					loginCode=user.getLoginCode();
 				}
 			}
 			if (StringUtil.isEmpty(udid)) {
@@ -1914,10 +1918,13 @@ public class AppRequestCntroller extends AppBaseController {
 							}
 						}
 						if(orderitem.size()>0){
-							content.setAcount(orderitem.iterator().next().getAcount());
+							OrderItem order=  orderitem.iterator().next();
+							content.setAcount(order.getAcount());
+							Goods goods = ebi.findByOId(Goods.class, order.getGid());
+							content.setGdName(goods.getName());
 						}
-					
 						content.setItems(orderitem);
+						content.setLoginCode(loginCode);
 						content.setOrdertime(AppUtils.getCurrentTime());
 						OrderContent oc = (OrderContent) gdebi
 								.saveOrder(content);
@@ -2781,15 +2788,16 @@ public class AppRequestCntroller extends AppBaseController {
 							view.setSource(item.getSource());
 							view.setTitle(item.getTitle());
 							view.setPtime(item.getPtime());
-							view.setPrice(view.getPrice() + "元/m2/天");
+							view.setPrice(item.getPrice() + "元/m2/天");
 							Set<RentalImg> imgSet=item.getImgs();
-							List<String> imgList=new ArrayList<>();
+							//List<String> imgList=new ArrayList<>();
 							if(imgSet!=null&&imgSet.size()>0){
-								for(RentalImg img :imgSet ){
+					/*			for(RentalImg img :imgSet ){
 									imgList.add(img.getUrl());
-								}
+								}*/
+								view.setImge(imgSet.iterator().next().getUrl());
 							}
-							view.setImge(imgList);
+							//view.setImge(imgList);
 							
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -2843,13 +2851,14 @@ public class AppRequestCntroller extends AppBaseController {
 								view.setPrice(view.getPrice() + "万");
 							}
 							Set<SellOferImg> imgeSet=item.getImgs();
-							List<String> imges=new ArrayList<>();
+						//	List<String> imges=new ArrayList<>();
 							if(imgeSet!=null&&imgeSet.size()>0){
-								for(SellOferImg img :imgeSet){
+							/*	for(SellOferImg img :imgeSet){
 									imges.add(img.getUrl());
-								}
+								}*/
+								view.setImge(imgeSet.iterator().next().getUrl());
 							}
-							view.setImge(imges);
+						
 							
 						} catch (Exception e) {
 							e.printStackTrace();

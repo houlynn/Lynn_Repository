@@ -31,7 +31,6 @@ Ext.define("core.bl.vi.view.VirtualIconForm", {
 		name:"inconUrl",
 		beforeLabelTextTpl : comm.get('required'),
 		allowBlank : false,
-		
    }
  ,
  {

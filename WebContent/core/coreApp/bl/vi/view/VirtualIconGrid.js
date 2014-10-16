@@ -33,8 +33,11 @@ Ext.define("core.bl.vi.view.VirtualIconGrid", {
 , {
 		text:"跳转地址",
 		dataIndex:"linkUrl",
-		width : 120,
+		width : 320,
 		 columnType:"textfield",
+		 renderer:function(value,data,record){
+			 	return "<a href ='"+value+"'>"+value+"</a>";
+		 },
 		field:{
 			 xtype:"textfield",
 		beforeLabelTextTpl : comm.get('required'),
@@ -49,19 +52,35 @@ Ext.define("core.bl.vi.view.VirtualIconGrid", {
 		width : 120,
 		 columnType:"textfield",
 		 renderer:function(value,data,record){
-				return "<img src='"+value+"' />"; 
+				var width=16;
+				var height=16;
+			 	return "<img src='"+value+"' width="+width+" height="+height+" />";
 		 }
 	}
 , {
 		text:"备注",
 		dataIndex:"remark",
-		width : 120,
+		width : 220,
 		 columnType:"textfield",
 		field:{
 			 xtype:"textfield",
 		allowBlank : true,
 		  hideTrigger : false
 		}
+	},
+	 {
+		text:"发布状态",
+		dataIndex:"state",
+		width : 120,
+		columnType:"basecombobox",
+		ddCode:"ISPOST",
+		field:{
+		 xtype:"basecombobox",
+		 ddCode:"ISPOST",
+		 beforeLabelTextTpl : comm.get('required'),
+		 emptyText :'请选择发布状态',
+		 allowBlank : false,
+			}
 	}
 	
 	 ],

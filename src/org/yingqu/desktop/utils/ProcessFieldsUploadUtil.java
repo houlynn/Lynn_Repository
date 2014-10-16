@@ -145,8 +145,12 @@ public class ProcessFieldsUploadUtil {
 		if(!dir.exists()){
 			//logger.info("创建文件目录"+toUploadDir);
 			dir.mkdirs();
-		}		
-		fileName=UUID.randomUUID()+"."+icon.getOriginalFilename();
+		}	
+		  String peifx =icon.getOriginalFilename().substring(icon.getOriginalFilename().lastIndexOf(".")+1,icon.getOriginalFilename().length());  
+		  System.out.println(peifx);
+	         //对扩展名进行小写转换  
+		  peifx = peifx.toLowerCase();
+		fileName=UUID.randomUUID()+"."+peifx;
 		String rootPath=toUploadDir+"/"+fileName;
 		File dst=new File(SimpleBaseController.webrootAbsPath+rootPath);
 		copy(ins, dst, false);

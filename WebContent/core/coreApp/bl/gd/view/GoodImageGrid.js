@@ -4,7 +4,7 @@ Ext.define("core.bl.gd.view.GoodImageGrid", {
 	tbar:[
            {xtype:'button',text:'上传商品图片',ref:'gridUpload',iconCls:'table_add'},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'},
+			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save',hidden:true},
 			
 		],
 	columns : [{

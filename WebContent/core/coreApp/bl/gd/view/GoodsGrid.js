@@ -6,7 +6,8 @@ Ext.define("core.bl.gd.view.GoodsGrid", {
 			{xtype:'button',text:'添加',ref:'gridInsert',iconCls:'table_add',hidden:false},
 			{xtype:'button',text:'编辑',ref:'gridEdit',iconCls:'table_edit',disabled:true},
 			{xtype:'button',text:'删除',ref:'gridDelete',iconCls:'table_remove'},
-			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'}
+			{xtype:'button',text:'保存',ref:'gridSave',iconCls:'table_save'},
+			{xtype:'button',text:'发布到APP',ref:'gridPush',iconCls:'table_save'}
 		],
 	columns : [{
 		xtype:"rownumberer",
@@ -57,11 +58,11 @@ Ext.define("core.bl.gd.view.GoodsGrid", {
 		}
 	}, {
 		text:"是否推荐商品",
-		dataIndex:"hot",
-		width : 80,
+	 	dataIndex:"hot",
+		 width : 80,
 		 columnType:"basecombobox",
-	  ddCode:"ISHOTGOODS",
-		field:{
+	     ddCode:"ISHOTGOODS",
+		 field:{
 			 xtype:"basecombobox",
 			ddCode:"ISHOTGOODS",
 		beforeLabelTextTpl : comm.get('required'),
@@ -83,20 +84,7 @@ Ext.define("core.bl.gd.view.GoodsGrid", {
 		  hideTrigger : false
 		}
 	}
-, {
-		text:"是否发布",
-		dataIndex:"releases",
-		width : 80,
-		 columnType:"basecombobox",
-	  ddCode:"ISPOST",
-		field:{
-			 xtype:"basecombobox",
-			ddCode:"ISPOST",
-		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'是否发布必填',
-		allowBlank : false,
-		}
-	},
+,
  {
 		text:"发布时间",
 		dataIndex:"releasetime",
@@ -144,13 +132,22 @@ Ext.define("core.bl.gd.view.GoodsGrid", {
 		field:{
 		xtype:"textfield",
 		beforeLabelTextTpl : comm.get('required'),
-		emptyText :'商品名称必填',
+		emptyText :'广告词',
 		allowBlank : false,
+		}},
+		{
+			text:"是否发布",
+			dataIndex:"releases",
+			width : 80,
+			renderer : function(value, data, record) {
+				if ("1" == value) {
+					value = "<span style='color:red;font-weight:bold'>已发布</span>";
+			} else {
+				value = "<span style='color:green;font-weight:bold'>未发布</span>";
+			}
+			  return value;
 		}
-		
-		
-	}
-	
+		}
 	 ],
 	store:"core.bl.gd.store.GoodsStore",
 	bbar:{

@@ -36,6 +36,7 @@ import org.yingqu.baoli.model.OfficialIteract;
 import org.yingqu.baoli.model.OfficialPhotograph;
 import org.yingqu.baoli.model.OrderContent;
 import org.yingqu.baoli.model.OrderItem;
+import org.yingqu.baoli.model.OrderView;
 import org.yingqu.baoli.model.PayKey;
 import org.yingqu.baoli.model.Photograph;
 import org.yingqu.baoli.model.Rental;
@@ -623,7 +624,8 @@ public class ViewModelGenerator implements LogerManager {
 		createCode(RentalImg.class,"bl","renimg","org.yingqu.baoli",false);
 		createCode(SellOfer.class,"bl","sell","org.yingqu.baoli",true);
 		createCode(SellOferImg.class,"bl","sellimg","org.yingqu.baoli",false);*/
-		createCode(EndUser.class, "bl", "sysuser", "org.yingqu.baoli", false);
+		//createCode(EndUser.class, "bl", "sysuser", "org.yingqu.baoli", false);
+		createCode(OrderView.class, "bl", "order", "org.yingqu.baoli", true);
 	}
 	
 

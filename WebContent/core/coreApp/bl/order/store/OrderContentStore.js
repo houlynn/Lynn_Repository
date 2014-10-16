@@ -1,7 +1,7 @@
 Ext.define("core.bl.order.store.OrderContentStore", {
 	extend : "Ext.data.Store",
 	model : factory.ModelFactory.getModelByName(
-			"org.yingqu.baoli.model.OrderContent", "").modelName,
+			"org.yingqu.baoli.model.OrderView", "").modelName,
 	proxy : {
 		type : "ajax",
 		url : "/bl/order/load.action",
