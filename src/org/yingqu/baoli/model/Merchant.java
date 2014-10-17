@@ -56,8 +56,17 @@ public class Merchant extends BaseEntity {
 	private String applytime;
 	@FieldInfo(name = "地址", visible = true,type=ExtFieldType.DATE)
 	private String adress;
+	/**
+	 * 经度
+	 */
 	private String xponit;
+	/**
+	 * 纬度
+	 */
 	private String yponit;
+	/**
+	 * 图标路径
+	 */
 	private String icon;
 	
 	@Id
@@ -118,6 +127,7 @@ public class Merchant extends BaseEntity {
 	public void setCardid(String cardid) {
 		this.cardid = cardid;
 	}
+	@Column(nullable=true)
 	public String getUserid() {
 		return userid;
 	}
@@ -169,6 +179,13 @@ public class Merchant extends BaseEntity {
 	}
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+	
+	public String getAdress() {
+		return adress;
+	}
+	public void setAdress(String adress) {
+		this.adress = adress;
 	}
 	@Transient
 	@Override

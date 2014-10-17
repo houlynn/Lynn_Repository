@@ -2245,9 +2245,30 @@ public class AppRequestCntroller extends AppBaseController {
 		String useri = model.getUserid();
 		ResultModel resultModel = this.initResultModel();
 		try {
-			checkAppUser(useri, resultModel);
-			model.setApplytime(AppUtils.getCurrentTime());
-			ebi.save(model);
+			boolean flag=true;
+			 AppUser appUser= checkAppUser(useri, resultModel);
+			 if(appUser==null)
+			 if(StringUtil.isEmpty(model.getName())){
+				 flag=false;
+				 setEmptyCode(resultModel, "商铺名称不能为空！");
+			 }
+			 if(StringUtil.isEmpty(model.getAdress())){
+				 flag=false;
+				 setEmptyCode(resultModel, "商铺地址不能为空！");
+			 }
+			 if(StringUtil.isEmpty(model.getBtype())){
+				 flag=false;
+				 setEmptyCode(resultModel, "服务类型不能为空！");
+			 }
+			 
+			 if(flag){
+					model.setApplytime(AppUtils.getCurrentTime());
+					model.setAudit("0");
+					model.setUsername(appUser.getLoginCode());
+					ebi.save(model);
+					resultModel.setObj(model.getMerid());
+			 }
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 			setServerErrCode(resultModel);
