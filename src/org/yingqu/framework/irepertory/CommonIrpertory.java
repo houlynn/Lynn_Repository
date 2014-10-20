@@ -9,9 +9,6 @@ import org.yingqu.framework.model.vo.PModel;
 
 public interface CommonIrpertory {
 
-	public abstract SessionFactory getSf();
-
-	public abstract void setSf(SessionFactory sf);
 
 	/**
 	 * 根据ID加载一个实体

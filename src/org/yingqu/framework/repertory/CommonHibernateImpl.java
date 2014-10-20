@@ -27,14 +27,12 @@ public class CommonHibernateImpl implements CommonIrpertory {
 	/* (non-Javadoc)
 	 * @see org.yingqu.framework.repertory.CommonIrpertory#getSf()
 	 */
-	@Override
 	public SessionFactory getSf() {
 		return sf;
 	}
 	/* (non-Javadoc)
 	 * @see org.yingqu.framework.repertory.CommonIrpertory#setSf(org.hibernate.SessionFactory)
 	 */
-	@Override
 	public void setSf(SessionFactory sf) {
 		this.sf = sf;
 	}
