@@ -126,12 +126,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									split : true,
 									bbar : [{
 										iconCls : 'icon-user',
-										text : '管理员'
+										text : '<font color=red>'+comm.get("currentUser").username+'</font> '+comm.get("currentUser").deptName,
 									},'-',{
 										text : Ext.Date.format(new Date(),'Y年m月d日')
 									},'->',{
 										text : '退出',
-										iconCls : 'icon-logout'
+										iconCls : 'icon-logout',
+									    handler:function(){
+									    	 Ext.MessageBox.confirm("确认框", "你确定要退出系统吗？", function(btn) {  
+							        	    	 if("yes"==btn){
+							        	    		 window.location.href="rbacUser/logout.action";
+							        	    	 }
+									    	 });
+									    }	 
 									}],
 									bodyStyle : 'backgroud-color:#99bbe8;line-height : 50px;padding-left:20px;font-size:22px;color:#000000;font-family:黑体;font-weight:bolder;' +
 											'background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(153,187, 232, 0.4) ), color-stop(50%, rgba(153, 187, 232, 1) ),color-stop(0%, rgba(153, 187, 232, 0.4) ) )'

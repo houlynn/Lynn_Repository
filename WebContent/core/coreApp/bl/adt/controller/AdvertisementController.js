@@ -4,7 +4,7 @@ Ext.define("core.bl.adt.controller.AdvertisementController",{
 		var self=this
 		//事件注册
 		this.control({
-			"basegrid button[ref=gridUpload]":{
+			"panel[xtype=bl.avvertiseImageUrlGrid] button[ref=gridUpload]":{
 				click:function(btn){
 					//得到组件
 					var baseGrid=btn.up("basegrid");						
@@ -43,6 +43,7 @@ Ext.define("core.bl.adt.controller.AdvertisementController",{
 							layout : "fit",
 							width : 600,
 							height : 120,
+							closeactin: 'hide',
 							items:{
 								xtype:'bl.avvertiseImageUrlForm',
 								id:"adtForm"

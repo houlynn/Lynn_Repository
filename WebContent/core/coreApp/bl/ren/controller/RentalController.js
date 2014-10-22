@@ -200,6 +200,7 @@ Ext.define("core.bl.ren.controller.RentalController",{
 							layout : "fit",
 							width : 700,
 							height : 300,
+							closeactin: 'hide',
 							items:{
 								xtype:'uploadpanel',
 								addFileBtnText : '选择文件...',

@@ -187,7 +187,6 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 					//得到配置信息
 					var funData=basePanel.funData;
 					var  parentCode=funData["parentCode"];
-					console.log(parentCode);
 	                var mainForm=basePanel.up("baseform[funCode="+parentCode+"]");
 				    var formObj=mainForm.getForm();
 				    var f=formObj.findField("oinerid");
@@ -226,6 +225,7 @@ Ext.define("core.bl.offinc.controller.OfficialIteractController",{
 							title:"上传图片",
 							width : 700,
 							height : 300,
+							closeactin: 'hide',
 							items:{
 								xtype:'uploadpanel',
 								addFileBtnText : '选择文件...',

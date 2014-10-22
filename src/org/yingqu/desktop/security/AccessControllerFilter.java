@@ -38,27 +38,13 @@ public class AccessControllerFilter implements HandlerInterceptor {
 		// TODO Auto-generated method stub
 		boolean flag = false;
 		String url = request.getRequestURI();
-		flag = url.contains("Login") || url.contains("/app/");
+		flag = url.contains("Login") || url.contains("/app/")||url.contains("rbacUser/logout.action");
 		if (!flag) {
 			EndUser endUser = SecurityUserHolder.getCurrentUser();
 			flag = !endUser.getUserCode().equals("GUEST");
 			if (!flag) {
-				/*
-				 * response.sendRedirect("/login.jsp");
-				 * response.sendRedirect("/login.jsp");
-				 */
-				response.getWriter()
-				.write("alert('回话过期请重新登陆');window.location.href = 'login.jsp'");
-				if (request.getHeader("x-requested-with") != null
-						&& "XMLHttpRequest".equalsIgnoreCase(request
-								.getHeader("x-requested-with"))) {
-					// httpResponse.setHeader("sessionstatus","timeout");
-					//response.sendError(999);
-				/*	response.getWriter()
-							.write("<script>alert('错误') ;window.location.href = 'login.jsp';</script>");*/
-					
-					
-				}
+				//"window.location.href='rbacUser/logout.action'"
+				response.getWriter().write("alert('回话过期请重新登录！')");
 
 			}
 		}
