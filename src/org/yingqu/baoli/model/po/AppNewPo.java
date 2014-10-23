@@ -3,6 +3,11 @@ package org.yingqu.baoli.model.po;
 public class AppNewPo {
 
 	/**
+	 * 条目ID
+	 */
+	private String itemId;
+	
+	/**
 	 * 新闻标题
 	 */
 	private String title;
@@ -39,6 +44,12 @@ public class AppNewPo {
 	}
 	public void setOnCount(int onCount) {
 		this.onCount = onCount;
+	}
+	public String getItemId() {
+		return itemId;
+	}
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 	
 	

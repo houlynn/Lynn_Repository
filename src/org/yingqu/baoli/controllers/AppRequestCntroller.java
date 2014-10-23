@@ -2363,16 +2363,19 @@ public class AppRequestCntroller extends AppBaseController {
 	public void appRequest0012(HttpServletRequest request,
 			HttpServletResponse response) {
 		super.requestMeth(response, (resultModel) -> {
+			Map<String,AppNewPo> map=new HashMap<String, AppNewPo>();
+			
 			String today = AppUtils.getCurDate();
 			String hql = " from AppNews where 1=1 and addate between '" + today
 					+ "' and '" + today + "'  and state='1' order  by adtime desc";
 			List<AppNews> listnews = (List<AppNews>) ebi.queryByHql(hql, 0, 1);
 			AppNews appNews = null;
+			AppNewPo newPo=null; 
 			if (listnews != null&& listnews.size() > 0) {
 				appNews = listnews.get(0);
 				hql=" select count(o) from Massage o where inid='"+appNews.getNewid()+"'";
 				Integer onCount= ebi.getCount(hql);
-				AppNewPo newPo = new AppNewPo();
+				newPo= new AppNewPo();
 				newPo.setImg(appNews.getShrinkimg());
 				newPo.setTitle(appNews.getTitle());
 				newPo.setOnCount(onCount==null?0:onCount);
@@ -2386,13 +2389,61 @@ public class AppRequestCntroller extends AppBaseController {
 					appNews = listnews.get(0);
 					hql=" select count(o) from Massage o where inid='"+appNews.getNewid()+"'";
 					Integer onCount= ebi.getCount(hql);
-					AppNewPo newPo = new AppNewPo();
+					 newPo = new AppNewPo();
+					newPo.setItemId(appNews.getNewid());
 					newPo.setImg(appNews.getShrinkimg());
 					newPo.setTitle(appNews.getTitle());
 					newPo.setOnCount(onCount==null?0:onCount);
-					resultModel.setObj(newPo);
 				}
 			}
+			map.put("newIfo", newPo);//今日头条
+			
+			
+               AppNewPo intern=null; 
+				hql = " from OfficialIteract where 1=1  and state='1' order  by ptime desc";
+				List<OfficialIteract> 	offerIns = (List<OfficialIteract>) ebi.queryByHql(hql, 0, 1);
+				OfficialIteract  offerIn=null;
+				if (offerIns == null || offerIns.size() == 0) {
+					resultModel.setMsg("系统没有发布任何官方论坛信息");
+				} else {
+					intern = new AppNewPo();
+					offerIn = offerIns.get(0);
+					hql=" select count(o) from Massage o where inid='"+appNews.getNewid()+"'";
+					Integer onCount= ebi.getCount(hql);
+					Set<OfficialPhotograph> imgs=offerIn.getPhotourl();
+					if(imgs!=null&&imgs.size()>0){
+						intern.setImg(imgs.iterator().next().getImgurl());
+					}
+					intern.setItemId(offerIn.getOinerid());
+					intern.setTitle(offerIn.getTitle());
+					intern.setOnCount(offerIn==null?0:onCount);
+					intern.setImg(offerIn.getOinerid());
+				}
+				map.put("Official", intern);//官方论坛
+				
+				
+	               AppNewPo userInter=null; 
+					hql = " from Interact where 1=1   order  by ptime desc";
+					List<Interact> 	interacts = (List<Interact>) ebi.queryByHql(hql, 0, 1);
+					Interact  interact=null;
+					if (interacts == null || interacts.size() == 0) {
+						resultModel.setMsg("系统没有发布任何官方论坛信息");
+					} else {
+						userInter = new AppNewPo();
+						interact = interacts.get(0);
+						hql=" select count(o) from Massage o where inid='"+interact.getInterid()+"'";
+						Integer onCount= ebi.getCount(hql);
+						Set<Photograph> imgs=interact.getPhotourl();
+						if(imgs!=null&&imgs.size()>0){
+							userInter.setImg(imgs.iterator().next().getImgurl());
+						}
+						userInter.setTitle(interact.getInteractContent());
+						userInter.setOnCount(offerIn==null?0:onCount);
+						userInter.setItemId(interact.getInterid());
+					}
+					map.put("userintern", userInter);//官方论坛
+					resultModel.setObj(map);
+				
 
 		});
 	}
