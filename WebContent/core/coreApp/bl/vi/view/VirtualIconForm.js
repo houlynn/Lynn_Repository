@@ -30,7 +30,7 @@ Ext.define("core.bl.vi.view.VirtualIconForm", {
 		fieldLabel:"图片链接地址",
 		name:"inconUrl",
 		beforeLabelTextTpl : comm.get('required'),
-		allowBlank : false,
+		//allowBlank : false,
    }
  ,
  {

@@ -9,6 +9,10 @@ package org.yingqu.baoli.model.po;
 public class CollectBase {
 	
 	/**
+	 * 对应ID
+	 */
+	private String cid;
+	/**
 	 * 收藏id
 	 */
 	private String id;
@@ -59,6 +63,12 @@ public String getType() {
 }
 public void setType(String type) {
 	this.type = type;
+}
+public String getCid() {
+	return cid;
+}
+public void setCid(String cid) {
+	this.cid = cid;
 }
  
 	

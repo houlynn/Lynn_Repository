@@ -20,8 +20,14 @@ import java.util.stream.Collectors;
 
 
 
+
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
+
 
 
 
@@ -75,6 +81,7 @@ import org.yingqu.baoli.model.po.CollectPo;
 import org.yingqu.baoli.model.po.GoodsDetail;
 import org.yingqu.baoli.model.po.GoodsPo;
 import org.yingqu.baoli.model.po.InteractListPo;
+import org.yingqu.baoli.model.po.NewTile;
 import org.yingqu.baoli.model.po.OfferInteractPo;
 import org.yingqu.baoli.model.po.MerchantPo;
 import org.yingqu.baoli.model.po.MessagePo;
@@ -95,8 +102,13 @@ import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.controllers.AppBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
+import org.yingqu.framework.model.Model;
+import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
+
+
 
 
 
@@ -1170,7 +1182,8 @@ public class AppRequestCntroller extends AppBaseController {
 						continue;
 					}
 					cmp = new ColleckMercharPro();
-					cmp.setId(m.getMerid());
+					cmp.setId(uc.getId());
+					cmp.setCid(m.getMerid());
 					cmp.setIcon(m.getIcon());// 图标
 					cmp.setPhone(m.getPhone());// 联系电话
 					cmp.setTitle(m.getName());// 标题
@@ -1200,6 +1213,8 @@ public class AppRequestCntroller extends AppBaseController {
 					} else {
 						gds.setImg("");// 没有图片
 					}
+					cb.setId(uc.getId());
+					cb.setCid(gds.getGid());
 					cb.setRemark(gds.getRemarks());
 					cb.setTitle(gds.getName());
 					cb.setType(uc.getCtype());
@@ -1227,6 +1242,8 @@ public class AppRequestCntroller extends AppBaseController {
 					case "003":// 用户论坛
 						Interact interact = (Interact) baseEntity;
 						cb.setTitle(interact.getInteractContent());
+						cb.setId(uc.getId());
+						cb.setCid(interact.getInterid());
 						Set<Photograph> icons = interact.getPhotourl();
 						if (interact != null && icons.size() > 0) {
 							String url = icons.iterator().next().getImgurl();
@@ -1244,6 +1261,8 @@ public class AppRequestCntroller extends AppBaseController {
 							cb.setIcon(url);
 						}
 						cb.setType(uc.getCtype());
+						cb.setId(uc.getId());
+						cb.setCid(officialIteract.getOinerid());
 						break;
 					case "005":// 出租
 						Rental rental = (Rental) baseEntity;
@@ -1253,6 +1272,8 @@ public class AppRequestCntroller extends AppBaseController {
 							String url = rimgs.iterator().next().getUrl();
 							cb.setIcon(url);
 						}
+						cb.setId(uc.getId());
+						cb.setCid(rental.getRid());
 						cb.setType(uc.getCtype());
 						break;
 					case "006":// 出售
@@ -1263,6 +1284,8 @@ public class AppRequestCntroller extends AppBaseController {
 							String url = oimgs.iterator().next().getUrl();
 							cb.setIcon(url);
 						}
+						cb.setId(uc.getId());
+						cb.setCid(sellOfer.getRid());
 						cb.setType(uc.getCtype());
 						break;
 					}
@@ -2479,7 +2502,52 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "startdate", required = false, defaultValue = "") String startdate,
 			@RequestParam(value = "enddate", required = false, defaultValue = "") String enddate,
 			HttpServletResponse response) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		//whereSql += "  and state='1' and addate between  '" + startdate + "' and '"+ enddate + "' ";
+		whereSql += "  and state='1'" ;
+		orderSql += " order  by adtime desc";
+		super.load(whereSql, parentSql, querySql, orderSql, start, limit, response, AppNews.class, (list, resultModel,totalCount) -> {
+			ViewPange viewPange=new ViewPange();
+			viewPange.setTotalCount(totalCount);
+		   List<Map<String,Object>> view=new ArrayList<>();
+			String sql="select distinct addate from AppNews   where state='1' order  by adtime desc";
+			List<String> datas=new ArrayList<>();
+			Work work=(conn->{
+				  PreparedStatement ps=  conn.prepareStatement(sql);
+				  ResultSet rset=  ps.executeQuery();
+				  while(rset.next()){
+					  datas.add(rset.getString("addate"));
+				  }
+				  rset.close();
+				//  conn.close();
+			});
+			try {
+				ebi.doWork(sql,work,datas);
+				for(String d :datas){
+					Map<String,Object> viewItem=new HashMap<>();
+					viewItem.put("date", d);
+					List<AppNews> dataList=  list.parallelStream().filter(item-> d.equals(item.getAddate())).collect(Collectors.toList());
+				List<NewTile> tiltles=	dataList.parallelStream().map(item->{
+						NewTile nitem=new NewTile();
+						nitem.setImg(item.getShrinkimg());
+						nitem.setNewId(item.getNewid());
+						nitem.setTitle(item.getTitle());
+						return nitem;
+						
+					}).collect(Collectors.toList());
+				  viewItem.put("items",tiltles);
+				  view.add(viewItem);
+				}
+				viewPange.setItems(view);
+				resultModel.setObj(viewPange);
+			} catch (Exception e) {
+				e.printStackTrace();
+				 super.setServerErrCode(resultModel);
+			}
+			
+		});
+		
+		
+/*		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startd = null;
 		Date endd = null;
 		try {
@@ -2517,9 +2585,9 @@ public class AppRequestCntroller extends AppBaseController {
 							viewPange.setTotalCount(totalCount);
 							List<AppNews> listnews = list;
 							debug("获取到SIZE： " + list.size());
-							/**
+							*//**
 							 * 按日期 作为 map key 返回 list 新闻 列表
-							 */
+							 *//*
 							List<Map<String, List<AppNewPo>>> listNews = new ArrayList<Map<String, List<AppNewPo>>>();
 
 							if (list != null) {
@@ -2543,7 +2611,7 @@ public class AppRequestCntroller extends AppBaseController {
 			}
 		} catch (ParseException e) {
 			error("日期转换失败!");
-		}
+		}*/
 
 	}
 
@@ -2577,7 +2645,7 @@ public class AppRequestCntroller extends AppBaseController {
 	/**
 	 * 32 加载虚拟小区 015 无需参数
 	 */
-	@RequestMapping("/015")
+	//@RequestMapping("/015")
 	public void appRequest0014(
 			@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
 			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
@@ -2602,7 +2670,30 @@ public class AppRequestCntroller extends AppBaseController {
 					resultModel.setObj(viewPange);
 				});
 	}
-
+	@RequestMapping("/015")
+	public void  appRequest0014(String id,HttpServletResponse response){
+		super.requestMeth(
+				response,
+				resultModel -> {
+					boolean flag=true;
+					  if(StringUtil.isEmpty(id)){
+						super.setEmptyCode(resultModel, "虚拟ID不能为空!");
+		        		flag=false;
+					}
+					  if(flag){
+						  String hql="from  VirtualIcon where state='1' and iconid='"+id+"'";
+						 List<VirtualIcon> list=  (List<VirtualIcon>) ebi.queryByHql(hql);
+						 if(list!=null&&list.size()!=0){
+							 VirtualIcon viretu=  list.get(0);
+							 resultModel.setObj(viretu.getLinkUrl());
+						 }else{
+							 super.setNoFecCode(resultModel, "");
+						 }
+					  }
+				});
+	}
+	
+	
 	/**
 	 * 33 016 用户发帖 提交 方式 
 	 * 
@@ -3071,6 +3162,36 @@ public class AppRequestCntroller extends AppBaseController {
 			ResultModel resModel) {
 		String josString = jsonBuilder.toJson(resModel);
 		this.toWrite(response, josString);
+	}
+	
+	/**
+	 * 重置密码
+	 */
+	@RequestMapping(value = "/A020")
+	public void  appRequest024(String loginCode,String pwd,HttpServletResponse response){
+		super.requestMeth(response, resultModel->{
+			boolean flag=true;
+			if(StringUtil.isEmpty(loginCode)){
+				super.setEmptyCode(resultModel, "登陆账号不能为空");
+				flag=false;
+			}
+			if(StringUtil.isEmpty(pwd)){
+				super.setEmptyCode(resultModel, "用户密码不能为空");
+				flag=false;
+			}
+			if(flag){
+				String hsql=" from AppUser where loginCode='"+loginCode+"'";
+				List<AppUser> list=(List<AppUser>) ebi.queryByHql( hsql);
+				if(list!=null&&list.size()>0){
+					AppUser appUser=list.get(0);
+					appUser.setPwd(pwd);
+					ebi.update(appUser);
+				}else{
+					super.setNoFecCode(resultModel, "该账号不存在");
+				}
+			}
+		});
+		
 	}
 
 }

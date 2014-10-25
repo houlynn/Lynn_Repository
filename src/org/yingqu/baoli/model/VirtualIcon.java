@@ -53,7 +53,6 @@ public class VirtualIcon extends BaseEntity {
 		this.name = name;
 	}
 
-	@Column(nullable=false,unique=true)
 	public String getLinkUrl() {
 		return linkUrl;
 	}
@@ -63,7 +62,6 @@ public class VirtualIcon extends BaseEntity {
 		this.linkUrl = linkUrl;
 	}
 
-	@Column(nullable=false)
 	public String getInconUrl() {
 		return inconUrl;
 	}

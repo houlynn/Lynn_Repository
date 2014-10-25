@@ -44,7 +44,7 @@ public class AccessControllerFilter implements HandlerInterceptor {
 			flag = !endUser.getUserCode().equals("GUEST");
 			if (!flag) {
 				//"window.location.href='rbacUser/logout.action'"
-				response.getWriter().write("alert('回话过期请重新登录！')");
+				response.getWriter().write("alert('会话过期请重新登录！')");
 
 			}
 		}
