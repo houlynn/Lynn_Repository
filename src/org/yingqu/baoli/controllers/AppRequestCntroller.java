@@ -2632,6 +2632,7 @@ public class AppRequestCntroller extends AppBaseController {
 							"新闻标示无效!", resultModel, AppNews.class);
 					if (appNews != null) {
 						AppNewProd appNewProd = new AppNewProd();
+						appNewProd.setItemId(appNews.getNewid());
 						appNewProd.setTitle(appNews.getTitle());
 						appNewProd.setAddate(appNews.getAddate());
 						appNewProd.setImg(appNews.getShrinkimg());
