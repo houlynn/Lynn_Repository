@@ -19,4 +19,6 @@ public class AdvertisementController extends SimpleBaseController<Advertisement>
 		return model;
 	}
 
+	
+	
 }

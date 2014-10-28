@@ -3166,6 +3166,71 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 	
 	/**
+	 * 加载官方论坛
+	 */
+	@RequestMapping(value = "/025")
+	public void appRequest025(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "whereSql", required = false, defaultValue = " and state='1' ") String whereSql,
+			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+			@RequestParam(value = "orderSql", required = false, defaultValue = " order  by ptime desc ") String orderSql,
+			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit,
+			String type
+			) {
+		 ResultModel resultModel= initResultModel();
+		 ViewPange viewPange=new ViewPange();
+		 try{
+		whereSql += " and  type='" + type + "'";
+		if (StringUtil.isEmpty(type)) {
+			setEmptyCode(resultModel, "类型不能为空!");
+		}else{
+	StringBuffer hql = new StringBuffer(" from OfficialIteract where 1=1 ");
+	StringBuffer countHql = new StringBuffer("select count(*) from OfficialIteract   where 1=1");
+	hql.append(whereSql);
+	hql.append(parentSql);
+	hql.append(querySql);
+	countHql.append(whereSql);
+	countHql.append(querySql);
+	countHql.append(parentSql);
+	Integer count = ebi.getCount(countHql.toString()).intValue();
+	hql.append(orderSql);
+	String  limitStr=limit.equals("0") ? String.valueOf(count) : limit;
+	List<OfficialIteract> list = (List<OfficialIteract>) ebi.queryByHql(hql.toString(),
+			Integer.valueOf(start), Integer.valueOf(limit));
+	List<Map<String,String>> views=new ArrayList<Map<String,String>>();
+	views=list.parallelStream().map(item -> {
+						  Map<String,String> viewItem=new HashMap<String, String>();
+						  
+						  viewItem.put("title", item.getTitle());
+						  viewItem.put("itemid",item.getOinerid());
+						  Set<OfficialPhotograph> imgs=item.getPhotourl();
+						  if(imgs!=null&&imgs.size()>0){
+							  viewItem.put("img", imgs.iterator().next().getImgurl());
+						  }
+						return viewItem;
+					}).collect(Collectors.toList());
+	viewPange.setTotalCount(count);
+	viewPange.setItems(views);
+	resultModel.setObj(viewPange);
+	
+		}
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 setServerErrCode(resultModel);
+		 }
+		
+		 toWriterResult(response, resultModel);
+		
+		
+		
+	}
+	
+	
+	
+	/**
 	 * 重置密码
 	 */
 	@RequestMapping(value = "/A020")

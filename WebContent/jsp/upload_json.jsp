@@ -5,6 +5,7 @@
 <%@ page import="org.apache.commons.fileupload.disk.*" %>
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.json.simple.*" %>
+<%@ page import="java.net.*" %>
 <%
 
 /**
@@ -105,9 +106,12 @@ while (itr.hasNext()) {
 			return;
 		}
 
+		String url=request.getRemoteAddr();
+	    out.print(url);
+		
 		JSONObject obj = new JSONObject();
 		obj.put("error", 0);
-		obj.put("url", saveUrl + newFileName);
+		obj.put("url","http://"+this.getLocalIP()+":"+request.getServerPort()+ saveUrl + newFileName);
 		out.println(obj.toJSONString());
 	}
 }
@@ -119,4 +123,52 @@ private String getError(String message) {
 	obj.put("message", message);
 	return obj.toJSONString();
 }
+
+public String  getServerIp(){  
+	String serverIp="";
+    try {  
+        Enumeration netInterfaces = NetworkInterface.getNetworkInterfaces();  
+        InetAddress ip = null;  
+        while (netInterfaces.hasMoreElements()) {  
+            NetworkInterface ni = (NetworkInterface) netInterfaces  
+                    .nextElement();  
+            ip = (InetAddress) ni.getInetAddresses().nextElement();  
+            serverIp = ip.getHostAddress();  
+            if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress()  
+                    && ip.getHostAddress().indexOf(":") == -1) {  
+            	serverIp = ip.getHostAddress();  
+                break;  
+            } else {  
+                ip = null;  
+            }  
+        }  
+    } catch (SocketException e) {  
+        // TODO Auto-generated catch block  
+        e.printStackTrace();  
+    }  
+     
+     return serverIp;  
+   }  
+
+
+public static String getLocalIP(){     
+    InetAddress addr = null;     
+                try {  
+                    addr = InetAddress.getLocalHost();  
+                } catch (UnknownHostException e) {  
+                    // TODO Auto-generated catch block  
+                    e.printStackTrace();  
+                }     
+              
+            byte[] ipAddr = addr.getAddress();     
+            String ipAddrStr = "";     
+            for (int i = 0; i < ipAddr.length; i++) {     
+                if (i > 0) {     
+                    ipAddrStr += ".";     
+                }     
+                ipAddrStr += ipAddr[i] & 0xFF;     
+            }     
+            //System.out.println(ipAddrStr);     
+                    return ipAddrStr;     
+    }    
 %>
