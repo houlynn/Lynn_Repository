@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,8 +24,12 @@ import java.util.stream.Collectors;
 
 
 
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
 
 
 
@@ -99,6 +104,7 @@ import org.yingqu.baoli.model.po.UserAdressPo;
 import org.yingqu.baoli.model.po.ViewPange;
 import org.yingqu.baoli.model.po.VirtualIconPo;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
+import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.controllers.AppBaseController;
 import org.yingqu.framework.core.utils.AppUtils;
 import org.yingqu.framework.model.BaseEntity;
@@ -106,6 +112,8 @@ import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
+
 
 
 
@@ -814,13 +822,29 @@ public class AppRequestCntroller extends AppBaseController {
 	 * @param response
 	 */
 	@RequestMapping(value = "A006")
-	public void addAdress(UserAdress adress, HttpServletRequest request,
-			HttpServletResponse response) {
+	public void addAdress( HttpServletRequest request,
+			HttpServletResponse response,
+			 String uname,
+			 String address,
+			 String defaulted,
+			 String userid,
+			 String phone,
+			 String postcode
+			) {
 		try {
-			System.out.println("获取到URL "+AppUtils.getCurrentTimestamp());
+			//System.out.println(request.getParameter("uname"));
+			Enumeration<String> enus= request.getHeaderNames();
+			while(enus.hasMoreElements()){
+				String header=enus.nextElement();
+				System.out.println(header+"====================");
+				System.out.println(request.getHeader(header)); 
+				System.out.println(header+"====================");
+				
+			}
+			System.out.println("==================================");
 			System.out.println(request.getQueryString());
 			System.out.println(URLDecoder.decode(request.getQueryString(), "UTF-8"));
-			System.out.println("------------------------------------------");
+			System.out.println("==================================");
 			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -829,14 +853,19 @@ public class AppRequestCntroller extends AppBaseController {
 		
 		debug(AppUtils.getCurrentTime() + ":APP调用  设置addAdress---A006");
 		System.out.println("============================");
-		System.out.println(adress.getUname()+adress.getAddress());
 		super.requestMeth(
 				response,
 				resultModel -> {
-					AppUser appUser = super.checkNoFec(adress.getUserid(),
+					AppUser appUser = super.checkNoFec(userid,
 							"用户标示不能为空", "用户标示无效", resultModel, AppUser.class);
 					if (appUser != null) {
+						UserAdress adress=new UserAdress();
+						adress.setAddress(address);
 						adress.setAppUser(appUser);
+						adress.setUname(uname);
+						adress.setPhone(phone);
+						adress.setPostcode(postcode);
+						adress.setDefaulted(defaulted);
 						ebi.save(adress);
 						if ("1".equals((adress.getDefaulted()))) {
 							userebi.executeSql(adress.getUserid(), adress.getUdid());
@@ -847,6 +876,14 @@ public class AppRequestCntroller extends AppBaseController {
 				});
 	}
 
+    public static String encodeStr(String str) {  
+        try {  
+            return new String(str.getBytes("ISO-8859-1"), "UTF-8");  
+        } catch (UnsupportedEncodingException e) {  
+            e.printStackTrace();  
+            return null;  
+        }  
+    }   
 	/**
 	 * +6更新送货地址 defaulted 0 或1 1表示默认地址
 	 * 
@@ -3057,14 +3094,15 @@ public class AppRequestCntroller extends AppBaseController {
 						interactPo.setTypeCode(iteract.getType());
 						interactPo.setOfficialContent(iteract
 								.getOfficialContent());
-						Set<OfficialPhotograph> imgs = iteract.getPhotourl();
+						interactPo.setPostTime(iteract.getTitle());
+					/*	Set<OfficialPhotograph> imgs = iteract.getPhotourl();
 						if (imgs != null && imgs.size() > 0) {
 							List<String> imgList = new ArrayList<>();
 							for (OfficialPhotograph img : imgs) {
 								imgList.add(img.getImgurl());
 							}
 							interactPo.setImgList(imgList);
-						}
+						}*/
 						resultModel.setObj(interactPo);
 					}
 				});

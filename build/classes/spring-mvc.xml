@@ -53,4 +53,37 @@
 				<bean class="org.yingqu.desktop.security.AccessControllerFilter"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	
+	    <!-- <bean class = "com.sinaapp.zhangziyou.common.EncodingPostProcessor"
+        /> -->
+        <bean id="stringHttpMessageConverter"    class="org.springframework.http.converter.StringHttpMessageConverter">
+ 
+            <property name="supportedMediaTypes">
+                <list>
+                    <value>text/html;charset=UTF-8</value>
+                    <value>text/plain;charset=UTF-8</value>
+                    <value>application/json;charset=UTF-8</value>
+                </list>
+            </property>
+        </bean>
+         
+     
+         
+    <bean id="mappingJacksonHttpMessageConverter"
+        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="stringHttpMessageConverter" />
+                <ref bean="mappingJacksonHttpMessageConverter" />
+            </list>
+        </property>
+ 
+    </bean>
+	
+	
+	
+	
+	
 </beans>

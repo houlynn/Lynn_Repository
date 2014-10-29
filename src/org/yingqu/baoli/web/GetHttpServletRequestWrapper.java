@@ -36,7 +36,9 @@ public class GetHttpServletRequestWrapper  extends HttpServletRequestWrapper {
     public String convert(String target) {
        // System.out.println("编码转换之前：" + target);
         try {
-            String  str= new String(target.trim().getBytes("ISO-8859-1"), charset);
+        	String  str=new String (target.getBytes("ISO-8859-1"), "UTF-8");  
+        	System.out.println("print");
+        	System.out.println(str);
             //System.out.println(str);
             return str;
         } catch (UnsupportedEncodingException e) {

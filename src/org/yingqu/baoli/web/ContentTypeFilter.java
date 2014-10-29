@@ -30,7 +30,7 @@ public class ContentTypeFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
 
         if (req.getMethod().equalsIgnoreCase("get")) {
-        	//System.out.println("请求GET方法---------------------------------------------");
+        	System.out.println("请求GET方法---------------------------------------------");
             req = new GetHttpServletRequestWrapper(req, charset);
         }
 
