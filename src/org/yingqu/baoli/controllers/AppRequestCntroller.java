@@ -831,7 +831,10 @@ public class AppRequestCntroller extends AppBaseController {
 			 String phone,
 			 String postcode
 			) {
-		try {
+	/*	try {
+			System.out.println("uname");
+			System.out.println(uname);
+			System.out.println(address);
 			//System.out.println(request.getParameter("uname"));
 			Enumeration<String> enus= request.getHeaderNames();
 			while(enus.hasMoreElements()){
@@ -842,17 +845,17 @@ public class AppRequestCntroller extends AppBaseController {
 				
 			}
 			System.out.println("==================================");
-			System.out.println(request.getQueryString());
-			System.out.println(URLDecoder.decode(request.getQueryString(), "UTF-8"));
+			//System.out.println(request.getQueryString());
+			//System.out.println(URLDecoder.decode(request.getQueryString(), "UTF-8"));
 			System.out.println("==================================");
 			
-		} catch (UnsupportedEncodingException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		debug(AppUtils.getCurrentTime() + ":APP调用  设置addAdress---A006");
-		System.out.println("============================");
+	//	System.out.println("============================");
 		super.requestMeth(
 				response,
 				resultModel -> {
