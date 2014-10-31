@@ -22,6 +22,11 @@ public class MessagePo {
 	 * 省份
 	 */
 	private String province;
+	
+	/**
+	 * 头像
+	 */
+	private String topUrl;
 	public String getUserName() {
 		return userName;
 	}
@@ -51,6 +56,12 @@ public class MessagePo {
 	}
 	public void setProvince(String province) {
 		this.province = province;
+	}
+	public String getTopUrl() {
+		return topUrl;
+	}
+	public void setTopUrl(String topUrl) {
+		this.topUrl = topUrl;
 	}
 
 }

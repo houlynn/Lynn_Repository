@@ -26,8 +26,10 @@ import java.util.stream.Collectors;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 
 
@@ -112,6 +114,7 @@ import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
 
 
 
@@ -2947,6 +2950,19 @@ public class AppRequestCntroller extends AppBaseController {
 					view.setMesg(item.getMsgContext());
 					view.setUserName(item.getUsername());
 					view.setPsTime(item.getBacktime());
+					String userid=item.getUserid();
+					AppUser appUser;
+					try {
+						appUser = ebi.findByOId(AppUser.class, userid);
+						if(appUser!=null){
+							view.setTopUrl(appUser.getTopUrl());
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+					
 					return view;
 				}).collect(Collectors.toList());
 				resultModel.setObj(views);
