@@ -127,7 +127,6 @@ public class Merchant extends BaseEntity {
 	public void setCardid(String cardid) {
 		this.cardid = cardid;
 	}
-	@Column(nullable=true)
 	public String getUserid() {
 		return userid;
 	}

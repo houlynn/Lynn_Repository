@@ -27,8 +27,12 @@ import java.util.stream.Collectors;
 
 
 
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
 
 
 
@@ -88,6 +92,7 @@ import org.yingqu.baoli.model.po.CollectPo;
 import org.yingqu.baoli.model.po.GoodsDetail;
 import org.yingqu.baoli.model.po.GoodsPo;
 import org.yingqu.baoli.model.po.InteractListPo;
+import org.yingqu.baoli.model.po.MerChartView;
 import org.yingqu.baoli.model.po.NewTile;
 import org.yingqu.baoli.model.po.OfferInteractPo;
 import org.yingqu.baoli.model.po.MerchantPo;
@@ -114,6 +119,8 @@ import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
+
 
 
 
@@ -401,6 +408,14 @@ public class AppRequestCntroller extends AppBaseController {
 				response,
 				Village.class,
 				(list, resultModel,totalCount) -> {
+					totalCount=10;
+					list=new ArrayList<>();
+					for(int i=0;i<10;i++){
+						Village item=new Village();
+						item.setViid("00"+i);
+						item.setName("我是小区00"+i+"呵呵跳到碗里去");
+						list.add(item);
+					}
 					ViewPange viewPange=new ViewPange();
 					viewPange.setTotalCount(totalCount);
 					List<Map<String, String>> views = new ArrayList<>();
@@ -2681,6 +2696,9 @@ public class AppRequestCntroller extends AppBaseController {
 						appNewProd.setImg(appNews.getShrinkimg());
 						appNewProd.setSource(appNews.getSource());
 						appNewProd.setNewContent(appNews.getNewContent());
+						String hql=" select count(*) from Massage where inid='"+appNews.getNewid()+"'";
+						Integer count=ebi.getCount(hql);
+						appNewProd.setOnCount(count);
 						resultModel.setObj(appNewProd);
 					}
 				});
@@ -3316,5 +3334,57 @@ public class AppRequestCntroller extends AppBaseController {
 		});
 		
 	}
+	
+	
+	@RequestMapping(value = "/026")
+	public void appRequest025(String searchSt,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "whereSql", required = false, defaultValue = " and audit='1' ") String whereSql,
+			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
+			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
+			@RequestParam(value = "orderSql", required = false, defaultValue = " order  by audittiem desc ") String orderSql,
+			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
+			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit
+			){
+		if(StringUtil.isNotEmpty(searchSt)){
+			whereSql+="  and  btype='"+searchSt+"' ";
+		}
+		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
+				response, Merchant.class, (list, resultModel,totaleCount) -> {
+					ViewPange viewPange=new ViewPange();
+					viewPange.setTotalCount(totaleCount);
+					List<MerChartView> views = new ArrayList<>();
+					views = list.parallelStream().map(item -> {
+						MerChartView view = new MerChartView();
+						view.setName(item.getName());
+						view.setAddress(item.getAdress());
+						view.setIcon(item.getIcon());
+						view.setMerid(item.getMerid());
+						view.setPhone(item.getPhone());
+						view.setXponit(item.getXponit());
+						view.setYponit(item.getYponit());
+			/*			String hql=" select count(*) from UserCollection where cid='"+item.getMerid()+"' amd ctype='001'";
+						Integer count=0;
+						try {
+							count= ebi.getCount(hql);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if(count>0){
+							view.setCollect(true);
+						}*/
+						return view;
+					}).collect(Collectors.toList());
+					viewPange.setItems(views);
+					resultModel.setObj(viewPange);
+				});
+		
+		
+		
+		
+	}
+
 
 }
