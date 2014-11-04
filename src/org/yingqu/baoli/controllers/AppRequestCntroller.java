@@ -29,8 +29,10 @@ import java.util.stream.Collectors;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 
 
@@ -93,6 +95,7 @@ import org.yingqu.baoli.model.po.GoodsDetail;
 import org.yingqu.baoli.model.po.GoodsPo;
 import org.yingqu.baoli.model.po.InteractListPo;
 import org.yingqu.baoli.model.po.MerChartView;
+import org.yingqu.baoli.model.po.MerChartViewDetail;
 import org.yingqu.baoli.model.po.NewTile;
 import org.yingqu.baoli.model.po.OfferInteractPo;
 import org.yingqu.baoli.model.po.MerchantPo;
@@ -119,6 +122,7 @@ import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
 
 
 
@@ -3337,7 +3341,8 @@ public class AppRequestCntroller extends AppBaseController {
 	
 	
 	@RequestMapping(value = "/026")
-	public void appRequest025(String searchSt,
+	public void appRequest025(
+			String searchStr,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam(value = "whereSql", required = false, defaultValue = " and audit='1' ") String whereSql,
@@ -3347,8 +3352,8 @@ public class AppRequestCntroller extends AppBaseController {
 			@RequestParam(value = "start", required = false, defaultValue = "0") String start,
 			@RequestParam(value = "limit", required = false, defaultValue = "0") String limit
 			){
-		if(StringUtil.isNotEmpty(searchSt)){
-			whereSql+="  and  btype='"+searchSt+"' ";
+		if(StringUtil.isNotEmpty(searchStr)){
+			whereSql+="  and  btype='"+searchStr+"' ";
 		}
 		super.load(whereSql, parentSql, querySql, orderSql, start, limit,
 				response, Merchant.class, (list, resultModel,totaleCount) -> {
@@ -3380,11 +3385,39 @@ public class AppRequestCntroller extends AppBaseController {
 					viewPange.setItems(views);
 					resultModel.setObj(viewPange);
 				});
-		
-		
-		
-		
 	}
-
-
+	
+	@RequestMapping(value = "/027")
+	public void appRequest027(
+			   String  merid,
+			   String userid,
+				HttpServletRequest request,
+				HttpServletResponse response
+			){
+		super.requestMeth(response, resultModel->{
+			Merchant merchant=	super.checkNoFec(merid, "商品ID能为空", "商铺ID无效", resultModel, Merchant.class);
+			if(merchant!=null){
+				MerChartViewDetail view =new MerChartViewDetail();
+				view.setAddress(merchant.getAdress());
+				view.setIcon(merchant.getIcon());
+				view.setMerid(merchant.getMerid());
+				view.setPhone(merchant.getPhone());
+				view.setXponit(merchant.getXponit());
+				view.setYponit(merchant.getYponit());
+				view.setName(merchant.getName());
+				String hql=" select count(o) from UserCollection o where o.cid='"+merchant.getMerid()+"' and o.ctype='001' and o.uid='"+userid+"'";
+				Integer count=0;
+				try {
+					count= ebi.getCount(hql);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(count>0){
+					view.setCollection(true);
+				}
+				resultModel.setObj(view);
+			}
+		});
+	}
 }

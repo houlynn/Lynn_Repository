@@ -1,7 +1,7 @@
 package org.yingqu.baoli.model.po;
 
 import org.yingqu.framework.annotation.FieldInfo;
-public class MerChartView {
+public class MerChartViewDetail {
 	 private String icon;
 	 private String name;
 	 private String address;
@@ -19,9 +19,7 @@ public class MerChartView {
 		
 		
 		private String merid;
-		
-	
-
+		private boolean collection;
 
 		public String getIcon() {
 			return icon;
@@ -93,6 +91,14 @@ public class MerChartView {
 		}
 
 
+		public boolean isCollection() {
+			return collection;
+		}
+
+
+		public void setCollection(boolean collection) {
+			this.collection = collection;
+		}
 
 
 
