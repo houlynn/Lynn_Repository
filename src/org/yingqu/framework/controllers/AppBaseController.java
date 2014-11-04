@@ -5,13 +5,9 @@ import java.io.Writer;
 import java.util.List;
 
 import javax.persistence.Inheritance;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.yingqu.baoli.model.AppUser;
-import org.yingqu.baoli.model.Goods;
 import org.yingqu.framework.ebi.CommonEbi;
 import org.yingqu.framework.log.LogerManager;
 import org.yingqu.framework.model.Model;

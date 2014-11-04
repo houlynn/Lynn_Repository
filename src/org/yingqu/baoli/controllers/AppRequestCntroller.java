@@ -389,12 +389,14 @@ public class AppRequestCntroller extends AppBaseController {
 	}
 
 	/**
-	 * +获取小区列表 可分页 返回 属性 vid 小区标示 name小区名称
+	 * +获取小区列表 可分页 返回 属性 vid 小区标示 name小区名称 
+	 *  通过市加载小区
 	 */
 	@RequestMapping("A003")
 	public void appRequestA003(
 			HttpServletRequest request,
 			HttpServletResponse response,
+			@RequestParam(value = "city" ,required = false,defaultValue = "") String city , 
 			@RequestParam(value = "whereSql", required = false, defaultValue = "") String whereSql,
 			@RequestParam(value = "parentSql", required = false, defaultValue = "") String parentSql,
 			@RequestParam(value = "querySql", required = false, defaultValue = "") String querySql,
