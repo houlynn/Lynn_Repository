@@ -194,6 +194,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											}
 										},
 										itemclick : function(view,node){
+											 alert(0);
 											if (node.isLeaf()) { //判断是否是根节点
 												if(node.data.type === 'URL'){ //判断资源类型
 													var panel = Ext.create('Ext.panel.Panel',{

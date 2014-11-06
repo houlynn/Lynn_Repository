@@ -30,8 +30,14 @@ import java.util.stream.Collectors;
 
 
 
+
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+
+
 
 
 
@@ -113,6 +119,7 @@ import org.yingqu.baoli.model.po.SellOferPoDetail;
 import org.yingqu.baoli.model.po.UserAdressPo;
 import org.yingqu.baoli.model.po.ViewPange;
 import org.yingqu.baoli.model.po.VirtualIconPo;
+import org.yingqu.desktop.model.DictionaryItem;
 import org.yingqu.desktop.utils.ProcessFieldsUploadUtil;
 import org.yingqu.framework.annotation.FieldInfo;
 import org.yingqu.framework.controllers.AppBaseController;
@@ -122,6 +129,9 @@ import org.yingqu.framework.model.Model;
 import org.yingqu.framework.model.vo.PModel;
 import org.yingqu.framework.model.vo.ResultModel;
 import org.yingqu.framework.utils.StringUtil;
+
+
+
 
 
 
@@ -182,6 +192,27 @@ public class AppRequestCntroller extends AppBaseController {
 		this.userebi = userebi;
 	}
 
+	
+ public String getDDItemName(String code,String itemCode){
+	 
+	  String hsql=" from  DictionaryItem where itemCode='"+itemCode+"'" +" and dictionary.ddCode='"+code+"'";
+	   try {
+		List<DictionaryItem> list= (List<DictionaryItem>) ebi.queryByHql(hsql);
+		if(list!=null&&list.size()>0){
+			return  list.get(0).getItemName();
+		}
+		
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	   return null;
+	 
+ }
+	
+	
+	
+	
 	// ////////////////////////////////////////////////我的模块接口////////////////////////////////////////////////////////////////////////////
 	/**
 	 * + 验证码发送接口
@@ -1566,7 +1597,39 @@ public class AppRequestCntroller extends AppBaseController {
 							view.setPrice(rental.getPrice());
 							view.setPtime(rental.getPtime());
 							view.setSource(rental.getSource());
-							view.setRentalContent(rental.getRentalContent());
+							view.setContent(rental.getRentalContent());
+							
+							String houseType=this.getDDItemName("HOUSETYPE", rental.getHouseType());
+							/**
+							 * 户型
+							 */
+							view.setHouseType(houseType);
+							
+							String style=this.getDDItemName("HOUSESTYLE", rental.getHouseType());
+							/**
+							 * 类型
+							 */
+							view.setStyle(style);
+							/**
+							 * 楼层
+							 */
+							view.setFloor(rental.getFloor());
+						
+							/**
+							 * 支付
+							 */
+							view.setPayRemark(rental.getPayRemark());
+							/**
+							 * 装修
+							 */
+							view.setDecorate(rental.getDecorate());
+							/**
+							 * 设施
+							 */
+							view.setFacilities(rental.getFacilities());
+							
+							
+							view.setCollection(true);
 							Set<RentalImg> imgs = rental.getImgs();
 							if (imgs != null && imgs.size() > 0) {
 								List<String> imgList = new ArrayList<>();
@@ -1590,7 +1653,38 @@ public class AppRequestCntroller extends AppBaseController {
 							view.setPrice(sellOfer.getPrice());
 							view.setPtime(sellOfer.getPtime());
 							view.setSource(sellOfer.getSource());
-							view.setSellContent(sellOfer.getSellContent());
+							view.setContent(sellOfer.getSellContent());
+							
+							String houseType=this.getDDItemName("HOUSETYPE", sellOfer.getHouseType());
+							/**
+							 * 户型
+							 */
+							view.setHouseType(houseType);
+							
+							String style=this.getDDItemName("HOUSESTYLE", sellOfer.getHouseType());
+							/**
+							 * 类型
+							 */
+							view.setStyle(style);
+							/**
+							 * 楼层
+							 */
+							view.setFloor(sellOfer.getFloor());
+						
+							/**
+							 * 支付
+							 */
+							view.setPayRemark(sellOfer.getPayRemark());
+							/**
+							 * 装修
+							 */
+							view.setDecorate(sellOfer.getDecorate());
+							/**
+							 * 设施
+							 */
+							view.setFacilities(sellOfer.getFacilities());
+							
+							view.setCollection(true);
 							Set<SellOferImg> imgs = sellOfer.getImgs();
 							if (imgs != null && imgs.size() > 0) {
 								List<String> imgList = new ArrayList<>();
@@ -3160,7 +3254,7 @@ public class AppRequestCntroller extends AppBaseController {
 	 */
 	@RequestMapping(value = "/023")
 	public void appRequest023(HttpServletRequest request,
-			HttpServletResponse response, String rid) {
+			HttpServletResponse response, String rid,String userid) {
 		super.requestMeth(
 				response,
 				(resultModel) -> {
@@ -3173,7 +3267,50 @@ public class AppRequestCntroller extends AppBaseController {
 						view.setPrice(rental.getPrice());
 						view.setPtime(rental.getPtime());
 						view.setSource(rental.getSource());
-						view.setRentalContent(rental.getRentalContent());
+						view.setContent(rental.getRentalContent());
+						
+						String houseType=this.getDDItemName("HOUSETYPE", rental.getHouseType());
+						/**
+						 * 户型
+						 */
+						view.setHouseType(houseType);
+						
+						String style=this.getDDItemName("HOUSESTYLE", rental.getHouseType());
+						/**
+						 * 类型
+						 */
+						view.setStyle(style);
+						/**
+						 * 楼层
+						 */
+						view.setFloor(rental.getFloor());
+					
+						/**
+						 * 支付
+						 */
+						view.setPayRemark(rental.getPayRemark());
+						/**
+						 * 装修
+						 */
+						view.setDecorate(rental.getDecorate());
+						/**
+						 * 设施
+						 */
+						view.setFacilities(rental.getFacilities());
+						
+						
+						String hql=" select count(o) from UserCollection o where o.cid='"+rental.getRid()+"' and o.ctype='005' and o.uid='"+userid+"'";
+						
+						Integer count=0;
+						try {
+							count= ebi.getCount(hql);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if(count>0){
+							view.setCollection(true);
+						}
 						Set<RentalImg> imgs = rental.getImgs();
 						if (imgs != null && imgs.size() > 0) {
 							List<String> imgList = new ArrayList<>();
@@ -3198,7 +3335,7 @@ public class AppRequestCntroller extends AppBaseController {
 	 */
 	@RequestMapping(value = "/024")
 	public void appRequest024(HttpServletRequest request,
-			HttpServletResponse response, String rid) {
+			HttpServletResponse response, String rid,String userid) {
 		super.requestMeth(
 				response,
 				(resultModel) -> {
@@ -3211,7 +3348,51 @@ public class AppRequestCntroller extends AppBaseController {
 						view.setPrice(sellOfer.getPrice());
 						view.setPtime(sellOfer.getPtime());
 						view.setSource(sellOfer.getSource());
-						view.setSellContent(sellOfer.getSellContent());
+						view.setContent(sellOfer.getSellContent());
+						
+						String houseType=this.getDDItemName("HOUSETYPE", sellOfer.getHouseType());
+						/**
+						 * 户型
+						 */
+						view.setHouseType(houseType);
+						
+						String style=this.getDDItemName("HOUSESTYLE", sellOfer.getHouseType());
+						/**
+						 * 类型
+						 */
+						view.setStyle(style);
+						/**
+						 * 楼层
+						 */
+						view.setFloor(sellOfer.getFloor());
+					
+						/**
+						 * 支付
+						 */
+						view.setPayRemark(sellOfer.getPayRemark());
+						/**
+						 * 装修
+						 */
+						view.setDecorate(sellOfer.getDecorate());
+						/**
+						 * 设施
+						 */
+						view.setFacilities(view.getFacilities());
+						
+						
+						String hql=" select count(o) from UserCollection o where o.cid='"+sellOfer.getRid()+"' and o.ctype='006' and o.uid='"+userid+"'";
+						
+						Integer count=0;
+						try {
+							count= ebi.getCount(hql);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if(count>0){
+							view.setCollection(true);
+						}
+						
 						Set<SellOferImg> imgs = sellOfer.getImgs();
 						if (imgs != null && imgs.size() > 0) {
 							List<String> imgList = new ArrayList<>();

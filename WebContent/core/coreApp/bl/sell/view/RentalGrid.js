@@ -34,28 +34,6 @@ Ext.define("core.bl.sell.view.RentalGrid", {
 		text : "主键",
 		dataIndex : "rid",
 		hidden : true
-	}, {
-		text : "出租信息",
-		dataIndex : "title",
-		width : 490,
-		columnType : "textfield",
-	}, {
-		text : "面积",
-		dataIndex : "area",
-		width : 120,
-		decimalPrecision:3,
-		columnType : "numberfield",
-		renderer : function(value, data, record) {
-			return "<span>"+value+" m2</span>";
-		}
-	}, {
-		text : "价格",
-		dataIndex : "price",
-		width : 120,
-		columnType : "numberfield",
-	   renderer : function(value, data, record) {
-	  return "<span style=' color:#BB5500; font-weight:bold'>"+value+"万元</span>";
-		}
 	},
 	{
 		text : "发布状态",
@@ -75,17 +53,113 @@ Ext.define("core.bl.sell.view.RentalGrid", {
 		}
        
 	},
+	
+	{
+		text : "出租信息",
+		dataIndex : "title",
+		width : 490,
+		columnType : "textfield",
+		field:{
+			 xtype:"textfield"
+		}
+	}, {
+		text : "面积",
+		dataIndex : "area",
+		width : 120,
+		decimalPrecision:3,
+		columnType : "numberfield",
+		renderer : function(value, data, record) {
+			return "<span>"+value+" m2</span>";
+		},
+		field:{
+			 xtype:"numberfield"
+		}
+	}, {
+		text : "价格",
+		dataIndex : "price",
+		width : 120,
+		columnType : "numberfield",
+	   renderer : function(value, data, record) {
+	  return "<span style=' color:#BB5500; font-weight:bold'>"+value+"万元</span>";
+		},
+		field:{
+			 xtype:"numberfield",
+		    decimalPrecision:3,
+		    beforeLabelTextTpl : comm.get('required'),
+		   allowBlank : false,
+		},
+	
+	},
+	{
+		text : "户型",
+		dataIndex : "houseType",
+		width : 100,
+		columnType : "basecombobox",
+		ddCode : "HOUSETYPE",
+		field:{
+			 xtype:"basecombobox",
+		      ddCode : "HOUSETYPE",
+		     beforeLabelTextTpl : comm.get('required'),
+		    allowBlank : false,
+		},
+	},
+	{
+		text : "类型",
+		dataIndex : "style",
+		width : 100,
+		columnType : "basecombobox",
+		ddCode : "HOUSESTYLE",
+		field:{
+			 xtype:"basecombobox",
+		      ddCode : "HOUSESTYLE",
+		    beforeLabelTextTpl : comm.get('required'),
+		   allowBlank : false,
+		},
+	},
+	{
+		text : "楼层",
+		dataIndex : "floor",
+		width : 80,
+		columnType : "textfield",	
+		field:{
+			 xtype:"textfield",
+			 emptyText :'13/23',
+		},
+	},
+	{
+		text : "支付备注",
+		dataIndex : "payRemark",
+		width : 490,
+		columnType : "textfield",	
+		field:{
+			 xtype:"textfield",
+			 emptyText :'压1付3',
+		}
+	},{
+		text : "装修情况",
+		dataIndex : "decorate",
+		width : 490,
+		columnType : "textfield",	
+		field:{
+			 xtype:"textfield",
+			 emptyText :'豪华装修',
+		}
+	},{
+		text : "设备描述",
+		dataIndex : "facilities",
+		width : 490,
+		columnType : "textfield",	
+		field:{
+			 xtype:"textfield",
+			 emptyText :'床，电视，洗衣机,空调',
+		}
+	},
+
 	{
 		text : "发布时间",
 		dataIndex : "ptime",
 		width : 120,
 		columnType : "textfield"
-	}, {
-		text : "来源",
-		dataIndex : "source",
-		width : 80,
-		columnType : "basecombobox",
-		ddCode : "SOURCEF",
 	},
 	{
 		text : "发布人",

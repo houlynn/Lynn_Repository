@@ -52,6 +52,30 @@ public class SellOfer extends BaseEntity {
 	private String username;
 	
 	private String sellContent;
+	
+	/**
+	 * 户型
+	 */
+	private String houseType;
+	/**
+	 * 类型
+	 */
+	private String style;
+	private String floor ;
+	/**
+	 * 支付
+	 */
+	private String payRemark;
+	/**
+	 * 装修
+	 */
+	private String decorate;
+	/**
+	 * 设施
+	 */
+	private String facilities;
+	
+	
 	@Column(name="content", columnDefinition="MEDIUMTEXT")
 	public String getSellContent() {
 		return sellContent;
@@ -144,6 +168,54 @@ public class SellOfer extends BaseEntity {
 	public String getDescription() {
 		// TODO Auto-generated method stub
 		return "出售";
+	}
+
+	public String getHouseType() {
+		return houseType;
+	}
+
+	public void setHouseType(String houseType) {
+		this.houseType = houseType;
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getPayRemark() {
+		return payRemark;
+	}
+
+	public void setPayRemark(String payRemark) {
+		this.payRemark = payRemark;
+	}
+
+	public String getDecorate() {
+		return decorate;
+	}
+
+	public void setDecorate(String decorate) {
+		this.decorate = decorate;
+	}
+
+	public String getFacilities() {
+		return facilities;
+	}
+
+	public void setFacilities(String facilities) {
+		this.facilities = facilities;
 	}
 
 }

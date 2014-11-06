@@ -30,7 +30,35 @@ public class RentalPoDetail {
 	/**
 	 * 详细信息
 	 */
-	private String rentalContent;
+	private String content;
+	
+	/**
+	 * 户型
+	 */
+	private String houseType;
+	/**
+	 * 类型
+	 */
+	private String style;
+	private String floor ;
+	/**
+	 * 支付
+	 */
+	private String payRemark;
+	/**
+	 * 装修
+	 */
+	private String decorate;
+	/**
+	 * 设施
+	 */
+	private String facilities;
+	
+	
+	/**
+	 * 是否已经收藏
+	 */
+	private boolean collection;
 	/**
 	 * 图片集合
 	 */
@@ -71,17 +99,59 @@ public class RentalPoDetail {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	public String getRentalContent() {
-		return rentalContent;
-	}
-	public void setRentalContent(String rentalContent) {
-		this.rentalContent = rentalContent;
-	}
 	public List<String> getImgs() {
 		return imgs;
 	}
 	public void setImgs(List<String> imgs) {
 		this.imgs = imgs;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getHouseType() {
+		return houseType;
+	}
+	public void setHouseType(String houseType) {
+		this.houseType = houseType;
+	}
+	public String getStyle() {
+		return style;
+	}
+	public void setStyle(String style) {
+		this.style = style;
+	}
+	public String getFloor() {
+		return floor;
+	}
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+	public String getPayRemark() {
+		return payRemark;
+	}
+	public void setPayRemark(String payRemark) {
+		this.payRemark = payRemark;
+	}
+	public String getDecorate() {
+		return decorate;
+	}
+	public void setDecorate(String decorate) {
+		this.decorate = decorate;
+	}
+	public String getFacilities() {
+		return facilities;
+	}
+	public void setFacilities(String facilities) {
+		this.facilities = facilities;
+	}
+	public boolean isCollection() {
+		return collection;
+	}
+	public void setCollection(boolean collection) {
+		this.collection = collection;
 	}
 	
 	 

@@ -21,7 +21,44 @@ public class SellOferPoDetail {
 	private String ptime;
 	@FieldInfo(name = "来源", visible = true, nullAble = false)
 	private String source;
-	private String sellContent;
+	private String content;
+	
+	/**
+	 * 户型
+	 */
+	private String houseType;
+	/**
+	 * 类型
+	 */
+	private String style;
+	private String floor ;
+	/**
+	 * 支付
+	 */
+	private String payRemark;
+	/**
+	 * 装修
+	 */
+	private String decorate;
+	/**
+	 * 设施
+	 */
+	private String facilities;
+	
+	
+	/**
+	 * 是否已经收藏
+	 */
+	private boolean collection;
+	
+	
+	
+	public boolean isCollection() {
+		return collection;
+	}
+	public void setCollection(boolean collection) {
+		this.collection = collection;
+	}
 	private List<String> imgs=new ArrayList<String>();
 	public String getRid() {
 		return rid;
@@ -59,17 +96,53 @@ public class SellOferPoDetail {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	public String getSellContent() {
-		return sellContent;
-	}
-	public void setSellContent(String sellContent) {
-		this.sellContent = sellContent;
-	}
 	public List<String> getImgs() {
 		return imgs;
 	}
 	public void setImgs(List<String> imgs) {
 		this.imgs = imgs;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getHouseType() {
+		return houseType;
+	}
+	public void setHouseType(String houseType) {
+		this.houseType = houseType;
+	}
+	public String getStyle() {
+		return style;
+	}
+	public void setStyle(String style) {
+		this.style = style;
+	}
+	public String getFloor() {
+		return floor;
+	}
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+	public String getPayRemark() {
+		return payRemark;
+	}
+	public void setPayRemark(String payRemark) {
+		this.payRemark = payRemark;
+	}
+	public String getDecorate() {
+		return decorate;
+	}
+	public void setDecorate(String decorate) {
+		this.decorate = decorate;
+	}
+	public String getFacilities() {
+		return facilities;
+	}
+	public void setFacilities(String facilities) {
+		this.facilities = facilities;
 	}
 
 	

@@ -46,13 +46,40 @@ public class Rental  extends BaseEntity{
 	@FieldInfo(name = "来源", visible = true, nullAble = false)
 	private String source;
 	private String  username;
-	
 	@Dictionary("ISPOST")
 	@SearchProperty(index=2)
 	@FieldInfo(name="发布状态")
 	private String  state;
-	
 	private String rentalContent;
+	
+	/**
+	 * 户型
+	 */
+	private String houseType;
+	/**
+	 * 类型
+	 */
+	private String style;
+	private String floor ;
+	/**
+	 * 支付
+	 */
+	private String payRemark;
+	/**
+	 * 装修
+	 */
+	private String decorate;
+	/**
+	 * 设施
+	 */
+	private String facilities;
+	
+	
+	
+	
+	
+	
+	
 	
 	private Set<RentalImg> imgs=new HashSet<RentalImg>();
 	
@@ -130,6 +157,42 @@ public class Rental  extends BaseEntity{
 	public String getDescription() {
 		// TODO Auto-generated method stub
 		return " 出租";
+	}
+	public String getHouseType() {
+		return houseType;
+	}
+	public void setHouseType(String houseType) {
+		this.houseType = houseType;
+	}
+	public String getStyle() {
+		return style;
+	}
+	public void setStyle(String style) {
+		this.style = style;
+	}
+	public String getFloor() {
+		return floor;
+	}
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+	public String getPayRemark() {
+		return payRemark;
+	}
+	public void setPayRemark(String payRemark) {
+		this.payRemark = payRemark;
+	}
+	public String getDecorate() {
+		return decorate;
+	}
+	public void setDecorate(String decorate) {
+		this.decorate = decorate;
+	}
+	public String getFacilities() {
+		return facilities;
+	}
+	public void setFacilities(String facilities) {
+		this.facilities = facilities;
 	}
 	
 
