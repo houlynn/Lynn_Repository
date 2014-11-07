@@ -419,6 +419,22 @@ public class AppRequestCntroller extends AppBaseController {
 
 	}
 
+	
+	
+	
+	
+	
+	/**
+	 * 1 ID name address
+	 * 
+	 * 2小区收藏类表
+	 *  ID name address   是否选中 
+	 * 
+	 * 
+	 */
+	
+	
+	
 	/**
 	 * +获取小区列表 可分页 返回 属性 vid 小区标示 name小区名称 
 	 *  通过市加载小区
