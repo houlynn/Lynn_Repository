@@ -1,0 +1,13 @@
+E:\source\asp\vs2013\DataHleper\DataHleper\bin\Debug\DataHleper.exe.config
+E:\source\asp\vs2013\DataHleper\DataHleper\bin\Debug\DataHleper.exe
+E:\source\asp\vs2013\DataHleper\DataHleper\bin\Debug\DataHleper.pdb
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\DataHleper.csprojResolveAssemblyReference.cache
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\MainWindow.baml
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\MainWindow.g.cs
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\App.g.cs
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\DataHleper_MarkupCompile.cache
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\DataHleper.g.resources
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\DataHleper.Properties.Resources.resources
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\DataHleper.csproj.GenerateResource.Cache
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\DataHleper.exe
+E:\source\asp\vs2013\DataHleper\DataHleper\obj\Debug\DataHleper.pdb

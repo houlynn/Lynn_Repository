@@ -1,0 +1,7 @@
+E:\source\asp\vs2013\Mysql2EF\DALL\bin\Debug\DALL.dll
+E:\source\asp\vs2013\Mysql2EF\DALL\bin\Debug\DALL.pdb
+E:\source\asp\vs2013\Mysql2EF\DALL\bin\Debug\Model.dll
+E:\source\asp\vs2013\Mysql2EF\DALL\bin\Debug\Model.pdb
+E:\source\asp\vs2013\Mysql2EF\DALL\obj\Debug\DALL.csprojResolveAssemblyReference.cache
+E:\source\asp\vs2013\Mysql2EF\DALL\obj\Debug\DALL.dll
+E:\source\asp\vs2013\Mysql2EF\DALL\obj\Debug\DALL.pdb
