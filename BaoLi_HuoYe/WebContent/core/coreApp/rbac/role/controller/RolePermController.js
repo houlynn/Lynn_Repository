@@ -10,8 +10,9 @@ Ext.define("core.rbac.role.controller.RolePermController",{
 	},
 	init:function(){
 		var self=this;
-		self.setPerm=function(tree,records,roleId){
+		self.setPerm=function(tree,records,roleId,win){
 			var oldSelection=tree.oldSelection;
+			console.log(oldSelection);
 							//需要 添加的权限
 				var addIds=new Array();
 				var delIds=new Array();
@@ -21,7 +22,9 @@ Ext.define("core.rbac.role.controller.RolePermController",{
 					var old=oldSelection[i];
 					if(old.get("id")==id){
 						//暂时设置不操作的主键值
-						old.set("id","STATUS");
+						//old.set("id","STATUS");
+						old.id="STATUS";
+						//old.set("id","STATUS");
 							break;
 					}
 					//如果从初始的选中没有找到则代表需要添加这条权限
@@ -35,13 +38,17 @@ Ext.define("core.rbac.role.controller.RolePermController",{
 				});
 				//放到外边。考虑到如果当前选中为空但是也需要删除权限
 				Ext.each(oldSelection,function(old){
-					if(old.get("id")!="STATUS"){
-						delIds.push(old.get("id"));									
+					if(old.id!="STATUS"){
+					//if(old.get("id")!="STATUS"){
+						delIds.push(old.get("id"));	
 					}
 				});
 			var resObj=self.ajax({url:"/rbacPermission/updatePerm.action",params:{roleId:roleId,addIds:addIds.join(","),delIds:delIds.join(",")}});
 			if(resObj.success){
 				self.msgbox("授权成功");
+				var store= tree.getStore();
+				store.load();
+				
 			}else{
 				 Ext.MessageBox.alert("提示",resObj.obj);
 			}
@@ -94,6 +101,7 @@ Ext.define("core.rbac.role.controller.RolePermController",{
 			},
 			"panel[xtype=role.roleform] button[ref=submit]":{
 				click:function(btn){
+					alert("add!!")
 					var deptForm=btn.up("panel[xtype=role.roleform]");
 					var formObj=deptForm.getForm();
 					var params=self.getFormValue(formObj);
@@ -267,6 +275,7 @@ Ext.define("core.rbac.role.controller.RolePermController",{
 			 */
 			"panel[xtype=role.moduletree] button[ref=setPerm]":{
 				click:function(btn){
+					alert(0);
 					var mainLayout=btn.up("panel[xtype=role.mainlayout]");
 					var roleTree=mainLayout.down("panel[xtype=role.roletree]");
 					var selRoles=roleTree.getSelectionModel().getSelection();

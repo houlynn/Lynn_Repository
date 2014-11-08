@@ -2,6 +2,7 @@ package com.ufo.framework.system.ebo;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +103,16 @@ public class PermissionEbo extends SimpleEbo<Permission> implements PermissionEb
 			throw new Exception("角色未找到");
 		}
 		String[] addIdsArray=addIds.split(StringVeriable.STR_SPLIT);
+		/**删除权限的操作*/
+		String[] delIdsArray=delIds.split(StringVeriable.STR_SPLIT);
+         System.out.println("打印===============================需要增加的权限============================================");
+         Arrays.asList(addIdsArray).parallelStream().forEach(item->System.out.println(item));
+         System.out.println("打印===============================需要删除的权限============================================");
+         Arrays.asList(delIdsArray).parallelStream().forEach(item->System.out.println(item));
+         System.out.println("打印===========================================================================");
+         
+		
+		
 		
 		/**增加权限的操作*/
 		for(String addId:addIdsArray){
@@ -125,8 +136,7 @@ public class PermissionEbo extends SimpleEbo<Permission> implements PermissionEb
 				
 			}
 		}
-		/**删除权限的操作*/
-		String[] delIdsArray=delIds.split(StringVeriable.STR_SPLIT);
+	
 		for(String delId:delIdsArray){
 			if(StringUtil.isEmpty(delId)){
 				continue;
